@@ -1,383 +1,194 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
-  <title>开发自己的composer包 | shiwenyuan&#39;blog</title>
-  <meta name="keywords" content=" php , composer ">
-  <meta name="description" content="开发自己的composer包 | shiwenyuan&#39;blog">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="description" content="生于忧患，死于安乐。 多思考多沉淀，避免虚度光阴。">
-<meta name="keywords" content="ss">
-<meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="https://shiwenyuan.github.io/about/index.html">
-<meta property="og:site_name" content="shiwenyuan&#39;blog">
-<meta property="og:description" content="生于忧患，死于安乐。 多思考多沉淀，避免虚度光阴。">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-07T03:29:57.056Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="about">
-<meta name="twitter:description" content="生于忧患，死于安乐。 多思考多沉淀，避免虚度光阴。">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="helloword">
 
 
-<link rel="icon" href="/img/avatar.jpg">
+    <meta name="keywords" content="ss">
 
-<link href="/css/style.css?v=1.0.1" rel="stylesheet">
 
-<link href="/css/hl_theme/atom-light.css?v=1.0.1" rel="stylesheet">
-
-<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
-<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
-<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
-<script src="/js/jquery.autocomplete.min.js?v=1.0.1"></script>
-
-<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<script>
-    hljs.initHighlightingOnLoad();
-</script>
-
-<script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+<title>开发自己的composer包 | shiwenyuan&#39;blog</title>
 
 
 
-<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <link rel="icon" href="/favicon.ico">
 
-<script src="/js/iconfont.js?v=1.0.1"></script>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
 
 </head>
-<div style="display: none">
-  <input class="theme_disqus_on" value="false">
-  <input class="theme_preload_comment" value="true">
-  <input class="theme_blog_path" value>
-</div>
-
 <body>
-<aside class="nav">
-    <div class="nav-left">
-        <a href="/" class="avatar_target">
-    <img class="avatar" src="/img/avatar.jpg" />
-</a>
-<div class="author">
-    <span>shiwenyuan</span>
-</div>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">shiwenyuan&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
 
-<div class="icon">
-    
-        
-        <a title="rss" href="/atom.xml" target="_blank">
-            
-                <svg class="iconfont-svg" aria-hidden="true">
-                    <use xlink:href="#icon-rss"></use>
-                </svg>
-            
-        </a>
-        
-    
-        
-        <a title="github" href="https://github.com/yelog" target="_blank">
-            
-                <svg class="iconfont-svg" aria-hidden="true">
-                    <use xlink:href="#icon-github"></use>
-                </svg>
-            
-        </a>
-        
-    
-        
-        <a title="facebook" href="https://www.facebook.com/faker.tops" target="_blank">
-            
-                <svg class="iconfont-svg" aria-hidden="true">
-                    <use xlink:href="#icon-facebook"></use>
-                </svg>
-            
-        </a>
-        
-    
-        
-    
-        
-    
-        
-        <a title="instagram" href="https://www.facebook.com/faker.tops" target="_blank">
-            
-                <svg class="iconfont-svg" aria-hidden="true">
-                    <use xlink:href="#icon-instagram"></use>
-                </svg>
-            
-        </a>
-        
-    
-        
-        <a title="reddit" href="https://www.reddit.com/user/yelog/" target="_blank">
-            
-                <svg class="iconfont-svg" aria-hidden="true">
-                    <use xlink:href="#icon-reddit"></use>
-                </svg>
-            
-        </a>
-        
-    
-        
-        <a title="weibo" href="http://weibo.com/u/2307534817" target="_blank">
-            
-                <svg class="iconfont-svg" aria-hidden="true">
-                    <use xlink:href="#icon-weibo"></use>
-                </svg>
-            
-        </a>
-        
-    
-        
-        <a title="jianshu" href="https://www.jianshu.com/u/ff56736de7cf" target="_blank">
-            
-                <svg class="iconfont-svg" aria-hidden="true">
-                    <use xlink:href="#icon-jianshu"></use>
-                </svg>
-            
-        </a>
-        
-    
-        
-        <a title="zhihu" href="https://www.zhihu.com/people/jaytp/activities" target="_blank">
-            
-                <svg class="iconfont-svg" aria-hidden="true">
-                    <use xlink:href="#icon-zhihu"></use>
-                </svg>
-            
-        </a>
-        
-    
-        
-    
-        
-        <a title="oschina" href="https://my.oschina.net/yelog" target="_blank">
-            
-                <svg class="iconfont-svg" aria-hidden="true">
-                    <use xlink:href="#icon-oschina"></use>
-                </svg>
-            
-        </a>
-        
-    
-        
-    
-        
-        <a title="email" href="mailto:jaytp@qq.com" target="_blank">
-            
-                <svg class="iconfont-svg" aria-hidden="true">
-                    <use xlink:href="#icon-email"></use>
-                </svg>
-            
-        </a>
-        
-    
-        
-        <a title="qq" href="http://wpa.qq.com/msgrd?v=3&uin=872336115&site=qq&menu=yes" target="_blank">
-            
-                <svg class="iconfont-svg" aria-hidden="true">
-                    <use xlink:href="#icon-qq"></use>
-                </svg>
-            
-        </a>
-        
-    
-        
-        <a title="kugou" href="https://www.kugou.com/" target="_blank">
-            
-                <svg class="iconfont-svg" aria-hidden="true">
-                    <use xlink:href="#icon-kugou"></use>
-                </svg>
-            
-        </a>
-        
-    
-        
-        <a title="neteasemusic" href="https://music.163.com/#/user/home?id=88151013" target="_blank">
-            
-                <svg class="iconfont-svg" aria-hidden="true">
-                    <use xlink:href="#icon-neteasemusic"></use>
-                </svg>
-            
-        </a>
-        
-    
-</div>
-
-
-
-
-<ul>
-    <li><div class="all active">全部文章<small>(3)</small></div></li>
-    
-</ul>
-<div class="left-bottom">
-    <div class="menus">
-    
-    
-    
-    
-    </div>
-    <div><a style="border-right: 1px solid #fff; width: 49%"  class="about site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
-</div>
-<input type="hidden" id="yelog_site_posts_number" value="3">
-
-<div style="display: none">
-    <span id="busuanzi_value_site_uv"></span>
-    <span id="busuanzi_value_site_pv"></span>
-</div>
-
-    </div>
-    <div class="nav-right">
-        <div class="friends-area">
-    <div class="friends-title">
-        友情链接
-        <i class="back-title-list"></i>
-    </div>
-    <div class="friends-content">
-        <ul>
-            
-            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
-            
-        </ul>
-    </div>
-</div>
-        <div class="title-list">
-    <form onkeydown="if(event.keyCode==13){return false;}">
-        <input class="search" type="text" placeholder="Search..." autocomplete="off"id="local-search-input" >
-        <i class="cross"></i>
-        <span>
-            <label for="tagswitch">Tags:</label>
-            <input id="tagswitch" type="checkbox" style="display: none" />
-            <i id="tagsWitchIcon"></i>
-        </span>
-    </form>
-    <div class="tags-list">
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" class="color5">系统工具</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" class="color4">php</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" class="color4">composer</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" class="color1">nginx</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" class="color1">linux</a>
-    </li>
-    
-    <li class="article-tag-list-item">
-        <a href="javascript:" class="color1">https</a>
-    </li>
-    
-    <div class="clearfix"></div>
-</div>
-
-    
-    <nav id="title-list-nav">
-        
-        <a  class=""
-           href="/posts/cjz0tl52r0000rws6j8egs1na.html"
-           data-tag="系统工具"
-           data-author="" >
-            <span class="post-title" title="科学上网">科学上网</span>
-            <span class="post-date" title="2019-08-07 10:25:13">2019/08/07</span>
-        </a>
-        
-        <a  class=""
-           href="/posts/cjz0tl52y0002rws6od4n3jur.html"
-           data-tag="php,composer"
-           data-author="" >
-            <span class="post-title" title="开发自己的composer包">开发自己的composer包</span>
-            <span class="post-date" title="2019-08-06 11:38:17">2019/08/06</span>
-        </a>
-        
-        <a  class=""
-           href="/posts/cjz0tl53n0009rws6hsu20x50.html"
-           data-tag="nginx,linux,https"
-           data-author="" >
-            <span class="post-title" title="nginx配置https">nginx配置https</span>
-            <span class="post-date" title="2019-08-06 11:38:32">2019/08/06</span>
-        </a>
-        
-    </nav>
-</div>
-    </div>
-    <div class="hide-list">
-        <div class="semicircle">
-            <div class="brackets first"><</div>
-            <div class="brackets">&gt;</div>
         </div>
-    </div>
-</aside>
-<div class="post">
-    <div class="pjax">
-        <article id="post-开发自己的composer包" class="article article-type-post" itemscope itemprop="blogPost">
+    </nav>
+
     
-        <h1 class="article-title">开发自己的composer包</h1>
-    
-    <div class="article-meta">
-        
-        
-        
-        
-        <span class="tag">
-            
-            <a href="javascript:" class="color4">php</a>
-            
-            <a href="javascript:" class="color4">composer</a>
-            
-        </span>
-        
-    </div>
-    <div class="article-meta">
-        
-        创建时间:<time class="date" title='更新时间: 2019-08-06 11:41:47'>2019-08-06 11:38</time>
-        
-    </div>
-    <div class="article-meta">
-        
-        
-        <span id="busuanzi_container_page_pv">
-            阅读:<span id="busuanzi_value_page_pv">
-                <span class="count-comment">
-                    <span class="spinner">
-                      <div class="cube1"></div>
-                      <div class="cube2"></div>
-                    </span>
-                </span>
-            </span>
-        </span>
-        
-        
-    </div>
-    
-    <div class="toc-ref">
-    
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#composer简介"><span class="toc-text">composer简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#准备工作"><span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-首先在github上创建一个项目"><span class="toc-text">1.首先在github上创建一个项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-把项目克隆到本地"><span class="toc-text">2.把项目克隆到本地</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-进入项目根目录初始化项目"><span class="toc-text">3.进入项目根目录初始化项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-编写自己的composer包"><span class="toc-text">4.编写自己的composer包</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-此处我创建了一个src目录并实现了SayHello类"><span class="toc-text">4.1 此处我创建了一个src目录并实现了SayHello类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-修改composer-json"><span class="toc-text">4.2 修改composer.json</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-自动加载src目录"><span class="toc-text">4.3 自动加载src目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-测试结果"><span class="toc-text">4.4 测试结果</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-忽略vendor、composer-json文件"><span class="toc-text">4.5 忽略vendor、composer.json文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6提交代码到-github"><span class="toc-text">4.6提交代码到 github</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Packagist配置"><span class="toc-text">5. Packagist配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-github关联到Packagist"><span class="toc-text">5.1 github关联到Packagist</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-配置自动同步"><span class="toc-text">5.2 配置自动同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-打tag测试"><span class="toc-text">5.3 打tag测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#引用包"><span class="toc-text">引用包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意事项"><span class="toc-text">注意事项</span></a></li></ol></li></ol>
-    
-<style>
-    .left-col .switch-btn,
-    .left-col .switch-area {
-        display: none;
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">shiwenyuan&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
     }
-    .toc-level-3 i,
-    .toc-level-3 ol {
-        display: none !important;
-    }
-</style>
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
 </div>
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="composer简介"><a href="#composer简介" class="headerlink" title="composer简介"></a>composer简介</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Composer 是 PHP 的一个依赖管理工具。它允许你申明项目所依赖的代码库，它会在你的项目中为你安装他们。</span><br></pre></td></tr></table></figure>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">开发自己的composer包</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">shiwenyuan</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 6, 2019&nbsp;&nbsp;11:38:17</a>
+                        </span>
+                    
+                    
+                    
+                        <span id="busuanzi_container_page_pv">
+                          View:<a href="#"><span id="busuanzi_value_page_pv"></span>次</a>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="composer简介"><a href="#composer简介" class="headerlink" title="composer简介"></a>composer简介</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Composer 是 PHP 的一个依赖管理工具。它允许你申明项目所依赖的代码库，它会在你的项目中为你安装他们。</span><br></pre></td></tr></table></figure>
 
 <hr>
 <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p> 1.一个github账号</p>
@@ -434,255 +245,106 @@
 <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">如果下载不下来到话就换一下镜像</span><br><span class="line">composer config -g repo.packagist composer https://packagist.laravel-china.org</span><br><span class="line">刚发布上去可能会下载不到，没有同步过来-- 可以等一会在试试看</span><br></pre></td></tr></table></figure>
 
 
-      
-       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 jaytp@qq.com </span>
-    </div>
-</article>
-
-
-<p>
-    <a href="javascript:void(0)" class="dashang" onclick="dashangToggle()">赏</a>
-</p>
-
-
-<div class="article_copyright">
-    <p><span class="copy-title">文章标题:</span>开发自己的composer包</p>
-    
-    <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="shiwenyuan">shiwenyuan</a></p>
-    <p><span class="copy-title">发布时间:</span>2019-08-06, 11:38:17</p>
-    <p><span class="copy-title">最后更新:</span>2019-08-06, 11:41:47</p>
-    <span class="copy-title">原始链接:</span><a class="post-url" href="/posts/cjz0tl52y0002rws6od4n3jur.html" title="开发自己的composer包">https://shiwenyuan.github.io/posts/cjz0tl52y0002rws6od4n3jur.html</a>
-    <p>
-        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
-    </p>
-</div>
-
-
-
-
-
-    
-
-
-
-
-    </div>
-    <div class="copyright">
-        <p class="footer-entry">©2016-2019 Yelog</p>
-<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
-
-    </div>
-    <div class="full-toc">
-        <button class="full"><span class="min "></span></button>
-<button class="post-toc-menu"><span class="post-toc-menu-icons"></span></button>
-<div class="post-toc"><span class="post-toc-title">目录</span>
-    <div class="post-toc-content">
-
-    </div>
-</div>
-<a class="" id="rocket" href="javascript:void(0)"></a>
-    </div>
-</div>
-<div class="acParent"></div>
-
-<div class="hide_box" onclick="dashangToggle()"></div>
-<div class="shang_box">
-    <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
-    <div class="shang_tit">
-        <p>喜欢就点赞,疼爱就打赏</p>
-    </div>
-    <div class="shang_payimg">
-        <div class="pay_img">
-            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
-            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
         </div>
-    </div>
-    <div class="shang_payselect">
-        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
-    </div>
-</div>
 
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>shiwenyuan</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://shiwenyuan.github.io/posts/cjz0tl52y0002rws6od4n3jur.html">https://shiwenyuan.github.io/posts/cjz0tl52y0002rws6od4n3jur.html</a></span>
+                    </p>
+                
+                
+                
 
-</body>
-<script src="//cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/php/"># php</a>
+                    
+                        <a href="/tags/composer/"># composer</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/posts/cjz0tl53n0009rws6hsu20x50.html">nginx配置https</a>
+            
+            
+        </section>
 
-<script src="/js/script.js?v=1.0.1" ></script>
-<script>
-    var img_resize = 'default';
-    /*作者、标签的自动补全*/
-    $(function () {
-        $('.search').AutoComplete({
-            'data': ['#系统工具','#php','#composer','#nginx','#linux','#https',],
-            'itemHeight': 20,
-            'width': 418
-        }).AutoComplete('show');
+        
+
+        
+        
+        <div id="gitalk-container"></div>
+        <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '263d7818e05fdcb69c3b',
+        clientSecret: 'ae29812d6bdbdad5546a0c9ea9c262d1b88b3b25',
+        repo: 'shiwenyuan.github.io',
+        owner: 'shiwenyuan',
+        admin: ["shiwenyuan"],
+        id: location.pathname,
+        labels: ["gitalk"],
+        perPage: 15,
+        pagerDirection: 'last',
+        createIssueManually: true,
+        distractionFreeMode: false
     })
-    function initArticle() {
-        /*渲染对应的表格样式*/
-        
-            $(".post .pjax table").addClass("green_title");
-        
 
-        /*渲染打赏样式*/
-        
-        $("input[name=pay]").on("click", function () {
-            if($("input[name=pay]:checked").val()=="weixin"){
-                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
-            } else {
-                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
-            }
-        })
-        
-
-        /*高亮代码块行号*/
-        
-        $('pre code').each(function(){
-            var lines = $(this).text().split('\n').length - 1, widther='';
-            if (lines>99) {
-                widther = 'widther'
-            }
-            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
-            $(this).addClass('has-numbering ' + widther)
-                    .parent()
-                    .append($numbering);
-            for(var i=1;i<=lines;i++){
-                $numbering.append($('<li/>').text(i));
-            }
-        });
-        
-
-        /*访问数量*/
-        
-        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
-        
-
-        /*代码高亮，行号对齐*/
-        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
-
-        
-    }
-
-    /*打赏页面隐藏与展示*/
-    
-    function dashangToggle() {
-        $(".shang_box").fadeToggle();
-        $(".hide_box").fadeToggle();
-    }
-    
-
+    gitalk.render('gitalk-container')
 </script>
 
-<!--加入行号的高亮代码块样式-->
+        
+    </article>
 
-<style>
-    pre{
-        position: relative;
-        margin-bottom: 24px;
-        border-radius: 10px;
-        border: 1px solid #e2dede;
-        background: #FFF;
-        overflow: hidden;
-    }
-    code.has-numbering{
-        margin-left: 30px;
-    }
-    code.has-numbering.widther{
-        margin-left: 35px;
-    }
-    .pre-numbering{
-        margin: 0px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 20px;
-        padding: 0.5em 3px 0.7em 5px;
-        border-right: 1px solid #C3CCD0;
-        text-align: right;
-        color: #AAA;
-        background-color: #fafafa;
-    }
-    .pre-numbering.widther {
-        width: 35px;
-    }
-</style>
+</div>
 
-<!--自定义样式设置-->
-<style>
-    
-    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
-        color: #383636;
-    }
-    
-    
-    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
-        color: #5e5e5f;
-    }
-    
-    
-    .nav-right nav a.hover, #local-search-result a.hover{
-        background-color: #e2e0e0;
-    }
-    
-    
-
-    /*列表样式*/
-    
-    .post .pjax article .article-entry>ol, .post .pjax article .article-entry>ul, .post .pjax article>ol, .post .pjax article>ul{
-        border: #e2dede solid 1px;
-        border-radius: 10px;
-        padding: 10px 32px 10px 56px;
-    }
-    .post .pjax article .article-entry li>ol, .post .pjax article .article-entry li>ul,.post .pjax article li>ol, .post .pjax article li>ul{
-        padding-top: 5px;
-        padding-bottom: 5px;
-    }
-    .post .pjax article .article-entry>ol>li, .post .pjax article .article-entry>ul>li,.post .pjax article>ol>li, .post .pjax article>ul>li{
-        margin-bottom: auto;
-        margin-left: auto;
-    }
-    .post .pjax article .article-entry li>ol>li, .post .pjax article .article-entry li>ul>li,.post .pjax article li>ol>li, .post .pjax article li>ul>li{
-        margin-bottom: auto;
-        margin-left: auto;
-    }
-    
-
-    /* 背景图样式 */
-    
-    
+        </div>
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?c9e5c503c1b3025f3963370029f30aa6";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
 
 
-    /*引用块样式*/
-    
-
-    /*文章列表背景图*/
-    
-    .nav-right:before {
-        content: ' ';
-        display: block;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        opacity: 0.3;
-        background: url("https://i.loli.net/2019/07/22/5d3521411f3f169375.png");
-        background-repeat: no-repeat;
-        background-position: 50% 0;
-        -ms-background-size: cover;
-        -o-background-size: cover;
-        -moz-background-size: cover;
-        -webkit-background-size: cover;
-        background-size: cover;
-    }
-    
-
-    
-</style>
+<footer id="footer" class="footer">
+    <div class="copyright">
+        <span id="busuanzi_container_site_pv">本站总访问量<a href="#"><span id="busuanzi_value_site_pv"></span>次</a></span>
+        <span id="busuanzi_container_site_uv">本站访客数<a href="#"><span id="busuanzi_value_site_uv"></span>人次</a></span>
+    </div>
+</footer>
 
 
-
-
-
-
-
+    </div>
+</body>
 </html>
