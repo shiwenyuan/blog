@@ -11,7 +11,7 @@
     <meta name="keywords" content="ss">
 
 
-<title>PHP-面向对象设计的五个基准原则 | shiwenyuan&#39;blog</title>
+<title>PHP 面试踩过的坑 | shiwenyuan&#39;blog</title>
 
 
 
@@ -103,73 +103,11 @@
             <div class="container">
     
     
-        <div class="post-toc">
-    <div class="tocbot-list">
-    </div>
-    <div class="tocbot-list-menu">
-        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
-        <a onclick="go_top()">Back to top</a>
-        <a onclick="go_bottom()">Go to bottom</a>
-    </div>
-</div>
-
-<script>
-    document.ready(
-        function () {
-            tocbot.init({
-                tocSelector: '.tocbot-list',
-                contentSelector: '.post-content',
-                headingSelector: 'h1, h2, h3, h4, h5',
-                collapseDepth: 1,
-                orderedList: false,
-                scrollSmooth: true,
-            })
-        }
-    )
-
-    function expand_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 6,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "collapse_toc()");
-        b.innerHTML = "Collapse all"
-    }
-
-    function collapse_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 1,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "expand_toc()");
-        b.innerHTML = "Expand all"
-    }
-
-    function go_top() {
-        window.scrollTo(0, 0);
-    }
-
-    function go_bottom() {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-
-</script>
-    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">PHP-面向对象设计的五个基准原则</h1>
+            <h1 class="post-title">PHP 面试踩过的坑</h1>
             
                 <div class="post-meta">
                     
@@ -178,7 +116,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">八月 7, 2019&nbsp;&nbsp;17:34:58</a>
+                        Date: <a href="#">八月 7, 2019&nbsp;&nbsp;17:26:34</a>
                         </span>
                     
                     
@@ -192,18 +130,9 @@
         </header>
 
         <div class="post-content">
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>S.O.L.I.D 是 首个 5 个面向对象设计 (OOD) 准则的首字母缩写<br>这些准则使得开发出易扩展、可维护的软件变得更容易。也使得代码更精简、易于重构。同样也是敏捷开发和自适应软件开发的一部分。</p>
-<h1 id="S-O-L-I-D"><a href="#S-O-L-I-D" class="headerlink" title="S.O.L.I.D"></a>S.O.L.I.D</h1><blockquote>
-<p>S.O.L.I.D 意思是</p>
-<blockquote>
-<p>S - 单一功能原则<br>O - 开闭原则<br>L - 里氏替换原则<br>I - 接口隔离原则<br>D - 依赖反转原则</p>
+            <blockquote>
+<p>本文偶然间在laravel-china上看到过，还不错拿出来和大家分享下，原文请移步 <a href="https://learnku.com/articles/28758" target="_blank" rel="noopener">https://learnku.com/articles/28758</a></p>
 </blockquote>
-</blockquote>
-<h2 id="单一职责原则"><a href="#单一职责原则" class="headerlink" title="单一职责原则"></a>单一职责原则</h2><p>一个类有且只能有一个因素使其改变，意思是一个类只应该有单一职责．</p>
-<h2 id="开闭原则"><a href="#开闭原则" class="headerlink" title="开闭原则"></a>开闭原则</h2><p>对象和实体应该对扩展开放，但是对修改关闭．</p>
-<h2 id="里氏替换原则"><a href="#里氏替换原则" class="headerlink" title="里氏替换原则"></a>里氏替换原则</h2><p>如果对每一个类型为 T1 的对象 o1，都有类型为 T2 的对象 o2，使得以 T1 定义的所有程序 P 在所有的对象 o1 都代换成 o2 时，程序 P 的行为没有发生变化，那么类型 T2 是类型 T1 的子类型。</p>
-<h2 id="接口隔离原则"><a href="#接口隔离原则" class="headerlink" title="接口隔离原则"></a>接口隔离原则</h2><p>使用方（client）不应该依赖强制实现不使用的接口，或不应该依赖不使用的方法。</p>
-<h2 id="依赖倒置原则"><a href="#依赖倒置原则" class="headerlink" title="依赖倒置原则"></a>依赖倒置原则</h2><p>实体必须依赖抽象而不是具体的实现．即高等级模块不应该依赖低等级模块，他们都应该依赖抽象．</p>
 
         </div>
 
@@ -218,7 +147,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://shiwenyuan.github.io/posts/cjz12mn3m0005pts6kyhsg6d9.html">https://shiwenyuan.github.io/posts/cjz12mn3m0005pts6kyhsg6d9.html</a></span>
+                        <span><a href="https://shiwenyuan.github.io/posts/cjz11swx7000zwrs6b4utknbq.html">https://shiwenyuan.github.io/posts/cjz11swx7000zwrs6b4utknbq.html</a></span>
                     </p>
                 
                 
@@ -237,7 +166,9 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/设计模式/"># 设计模式</a>
+                        <a href="/tags/面试/"># 面试</a>
+                    
+                        <a href="/tags/PHP/"># PHP</a>
                     
                         
                 </span>
@@ -250,10 +181,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/posts/cjz12mn3f0002pts69rvo6c4u.html">PHP-面向对象设计的三大特性</a>
+                <a class="prev" rel="prev" href="/posts/cjz11w9df0013wrs6r9n7j46u.html">腾讯面试</a>
             
             
-            <a class="next" rel="next" href="/posts/cjz12mn43000fpts6kgf8hygk.html">腾讯面试</a>
+            <a class="next" rel="next" href="/posts/cjz11fplk000twrs6t19hudi1.html">Redis “缓存穿透”、“缓存击穿”、“缓存雪崩”</a>
             
         </section>
 
