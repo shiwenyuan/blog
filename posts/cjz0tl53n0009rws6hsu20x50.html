@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <title>nginx配置https | shiwenyuan&#39;blog</title>
+  <meta name="keywords" content=" nginx , linux , https ">
+  <meta name="description" content="nginx配置https | shiwenyuan&#39;blog">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="description" content="生于忧患，死于安乐。 多思考多沉淀，避免虚度光阴。">
+<meta name="keywords" content="ss">
+<meta property="og:type" content="website">
+<meta property="og:title" content="about">
+<meta property="og:url" content="https://shiwenyuan.github.io/about/index.html">
+<meta property="og:site_name" content="shiwenyuan&#39;blog">
+<meta property="og:description" content="生于忧患，死于安乐。 多思考多沉淀，避免虚度光阴。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-07T03:29:57.056Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="about">
+<meta name="twitter:description" content="生于忧患，死于安乐。 多思考多沉淀，避免虚度光阴。">
+
+
+<link rel="icon" href="/img/avatar.jpg">
+
+<link href="/css/style.css?v=1.0.1" rel="stylesheet">
+
+<link href="/css/hl_theme/atom-light.css?v=1.0.1" rel="stylesheet">
+
+<link href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="/js/jquery.autocomplete.min.js?v=1.0.1"></script>
+
+<script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script>
+    hljs.initHighlightingOnLoad();
+</script>
+
+<script src="//cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<script src="/js/iconfont.js?v=1.0.1"></script>
+
+</head>
+<div style="display: none">
+  <input class="theme_disqus_on" value="false">
+  <input class="theme_preload_comment" value="true">
+  <input class="theme_blog_path" value>
+</div>
+
+<body>
+<aside class="nav">
+    <div class="nav-left">
+        <a href="/" class="avatar_target">
+    <img class="avatar" src="/img/avatar.jpg" />
+</a>
+<div class="author">
+    <span>shiwenyuan</span>
+</div>
+
+<div class="icon">
+    
+        
+        <a title="rss" href="/atom.xml" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-rss"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="github" href="https://github.com/yelog" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-github"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="facebook" href="https://www.facebook.com/faker.tops" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-facebook"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+    
+        
+        <a title="instagram" href="https://www.facebook.com/faker.tops" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-instagram"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="reddit" href="https://www.reddit.com/user/yelog/" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-reddit"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="weibo" href="http://weibo.com/u/2307534817" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-weibo"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="jianshu" href="https://www.jianshu.com/u/ff56736de7cf" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-jianshu"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="zhihu" href="https://www.zhihu.com/people/jaytp/activities" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-zhihu"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+        <a title="oschina" href="https://my.oschina.net/yelog" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-oschina"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+    
+        
+        <a title="email" href="mailto:jaytp@qq.com" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-email"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="qq" href="http://wpa.qq.com/msgrd?v=3&uin=872336115&site=qq&menu=yes" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-qq"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="kugou" href="https://www.kugou.com/" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-kugou"></use>
+                </svg>
+            
+        </a>
+        
+    
+        
+        <a title="neteasemusic" href="https://music.163.com/#/user/home?id=88151013" target="_blank">
+            
+                <svg class="iconfont-svg" aria-hidden="true">
+                    <use xlink:href="#icon-neteasemusic"></use>
+                </svg>
+            
+        </a>
+        
+    
+</div>
+
+
+
+
+<ul>
+    <li><div class="all active">全部文章<small>(3)</small></div></li>
+    
+</ul>
+<div class="left-bottom">
+    <div class="menus">
+    
+    
+    
+    
+    </div>
+    <div><a style="border-right: 1px solid #fff; width: 49%"  class="about site_url"  href="/about">关于</a><a style="width: 50%"  class="friends">友链</a></div>
+</div>
+<input type="hidden" id="yelog_site_posts_number" value="3">
+
+<div style="display: none">
+    <span id="busuanzi_value_site_uv"></span>
+    <span id="busuanzi_value_site_pv"></span>
+</div>
+
+    </div>
+    <div class="nav-right">
+        <div class="friends-area">
+    <div class="friends-title">
+        友情链接
+        <i class="back-title-list"></i>
+    </div>
+    <div class="friends-content">
+        <ul>
+            
+            <li><a target="_blank" href="http://yelog.org/">叶落阁</a></li>
+            
+        </ul>
+    </div>
+</div>
+        <div class="title-list">
+    <form onkeydown="if(event.keyCode==13){return false;}">
+        <input class="search" type="text" placeholder="Search..." autocomplete="off"id="local-search-input" >
+        <i class="cross"></i>
+        <span>
+            <label for="tagswitch">Tags:</label>
+            <input id="tagswitch" type="checkbox" style="display: none" />
+            <i id="tagsWitchIcon"></i>
+        </span>
+    </form>
+    <div class="tags-list">
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color5">系统工具</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">php</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color4">composer</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">nginx</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">linux</a>
+    </li>
+    
+    <li class="article-tag-list-item">
+        <a href="javascript:" class="color1">https</a>
+    </li>
+    
+    <div class="clearfix"></div>
+</div>
+
+    
+    <nav id="title-list-nav">
+        
+        <a  class=""
+           href="/posts/cjz0tl52r0000rws6j8egs1na.html"
+           data-tag="系统工具"
+           data-author="" >
+            <span class="post-title" title="科学上网">科学上网</span>
+            <span class="post-date" title="2019-08-07 10:25:13">2019/08/07</span>
+        </a>
+        
+        <a  class=""
+           href="/posts/cjz0tl52y0002rws6od4n3jur.html"
+           data-tag="php,composer"
+           data-author="" >
+            <span class="post-title" title="开发自己的composer包">开发自己的composer包</span>
+            <span class="post-date" title="2019-08-06 11:38:17">2019/08/06</span>
+        </a>
+        
+        <a  class=""
+           href="/posts/cjz0tl53n0009rws6hsu20x50.html"
+           data-tag="nginx,linux,https"
+           data-author="" >
+            <span class="post-title" title="nginx配置https">nginx配置https</span>
+            <span class="post-date" title="2019-08-06 11:38:32">2019/08/06</span>
+        </a>
+        
+    </nav>
+</div>
+    </div>
+    <div class="hide-list">
+        <div class="semicircle">
+            <div class="brackets first"><</div>
+            <div class="brackets">&gt;</div>
+        </div>
+    </div>
+</aside>
+<div class="post">
+    <div class="pjax">
+        <article id="post-nginx配置https" class="article article-type-post" itemscope itemprop="blogPost">
+    
+        <h1 class="article-title">nginx配置https</h1>
+    
+    <div class="article-meta">
+        
+        
+        
+        
+        <span class="tag">
+            
+            <a href="javascript:" class="color1">nginx</a>
+            
+            <a href="javascript:" class="color1">linux</a>
+            
+            <a href="javascript:" class="color1">https</a>
+            
+        </span>
+        
+    </div>
+    <div class="article-meta">
+        
+        创建时间:<time class="date" title='更新时间: 2019-08-06 11:41:47'>2019-08-06 11:38</time>
+        
+    </div>
+    <div class="article-meta">
+        
+        
+        <span id="busuanzi_container_page_pv">
+            阅读:<span id="busuanzi_value_page_pv">
+                <span class="count-comment">
+                    <span class="spinner">
+                      <div class="cube1"></div>
+                      <div class="cube2"></div>
+                    </span>
+                </span>
+            </span>
+        </span>
+        
+        
+    </div>
+    
+    <div class="toc-ref">
+    
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#网站https"><span class="toc-text">网站https</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Let’s-Encrypt"><span class="toc-text">Let’s Encrypt</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置验证服务"><span class="toc-text">配置验证服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置前提"><span class="toc-text">配置前提</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#通过web访问check域名权限"><span class="toc-text">通过web访问check域名权限</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤1（建立目录或者nginx访问规则）"><span class="toc-text">步骤1（建立目录或者nginx访问规则）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CA认证"><span class="toc-text">CA认证</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤二-生成证书"><span class="toc-text">步骤二 生成证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤三-cp证书到指定位置"><span class="toc-text">步骤三 cp证书到指定位置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤四-配置nginx"><span class="toc-text">步骤四 配置nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤五-重启nginx查看"><span class="toc-text">步骤五 重启nginx查看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#证书自动更新"><span class="toc-text">证书自动更新</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#通过dns配置check权限"><span class="toc-text">通过dns配置check权限</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#手动配置"><span class="toc-text">手动配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤1"><span class="toc-text">步骤1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#末文"><span class="toc-text">末文</span></a></li></ol>
+    
+<style>
+    .left-col .switch-btn,
+    .left-col .switch-area {
+        display: none;
+    }
+    .toc-level-3 i,
+    .toc-level-3 ol {
+        display: none !important;
+    }
+</style>
+</div>
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="网站https"><a href="#网站https" class="headerlink" title="网站https"></a>网站https</h1><p>网站https化已是大势所趋，个人blog也都可以把https玩儿起来！</p>
+<h1 id="Let’s-Encrypt"><a href="#Let’s-Encrypt" class="headerlink" title="Let’s Encrypt"></a>Let’s Encrypt</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">这个免费、自动化、开放的证书签发服务。它由 ISRG（Internet Security Research Group，互联网安全研究小组）提供服务，而 ISRG 是来自于美国加利福尼亚州的一个公益组织。Let&apos;s Encrypt 得到了 Mozilla、Cisco、Akamai、Electronic Frontier Foundation 和 Chrome 等众多公司和机构的支持，发展十分迅猛。</span><br><span class="line">申请 Let&apos;s Encrypt 证书不但免费，还非常简单，虽然每次只有 90 天的有效期，但可以通过脚本定期更新，配好之后一劳永逸。经过一段时间的观望，我也正式启用 Let&apos;s Encrypt 证书了，本文记录本站申请过程和遇到的问题。</span><br><span class="line">我没有使用 Let&apos;s Encrypt 官网提供的工具来申请证书，而是用了 [acme.sh](http://https://github.com/Neilpang/acme.sh &quot;acme.sh&quot;) 这个更为小巧的开源工具。以下内容基本按照 acme的说明文档写的，省略了一些我不需要的步骤。</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="配置验证服务"><a href="#配置验证服务" class="headerlink" title="配置验证服务"></a>配置验证服务</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">传统 CA 的验证方式一般是往 admin@youremail.com 发验证邮件，而 Let&apos;s Encrypt 是在你的服务器上生成一个随机验证文件，再通过创建 CSR 时指定的域名访问，如果可以访问则表明你对这个域名有控制权。</span><br></pre></td></tr></table></figure>
+
+<h1 id="配置前提"><a href="#配置前提" class="headerlink" title="配置前提"></a>配置前提</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">1. nginx安装了https模块</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="通过web访问check域名权限"><a href="#通过web访问check域名权限" class="headerlink" title="通过web访问check域名权限"></a>通过web访问check域名权限</h1><h2 id="步骤1（建立目录或者nginx访问规则）"><a href="#步骤1（建立目录或者nginx访问规则）" class="headerlink" title="步骤1（建立目录或者nginx访问规则）"></a>步骤1（建立目录或者nginx访问规则）</h2><h1 id="CA认证"><a href="#CA认证" class="headerlink" title="CA认证"></a>CA认证</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">location ^~ /.well-known/acme-challenge/ &#123;</span><br><span class="line">    # 注：这里的$challenges_dir请替换成你自己的真实目录，如：/home/work/www/challenges/</span><br><span class="line">    alias $challenges_dir;</span><br><span class="line">    try_files $uri =404;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>or</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">在项目根目录添加.well-known/acme-challenge</span><br><span class="line">Let&apos;s Encrypt 用来校验网站权限</span><br></pre></td></tr></table></figure>
+
+<h2 id="步骤二-生成证书"><a href="#步骤二-生成证书" class="headerlink" title="步骤二 生成证书"></a>步骤二 生成证书</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./acme.sh --issue -d diancan.xiaochengxu.phpblog.com.cn --webroot /home/www/xiaochengxu/diancan</span><br></pre></td></tr></table></figure>
+
+<h2 id="步骤三-cp证书到指定位置"><a href="#步骤三-cp证书到指定位置" class="headerlink" title="步骤三 cp证书到指定位置"></a>步骤三 cp证书到指定位置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">acme.sh --installcert -d www.your-app.com \</span><br><span class="line">               --keypath       /usr/local/nginx/ssl/diancan.xiaochengxu.phpblog.com.cn.key  \</span><br><span class="line">               --fullchainpath /usr/local/nginx/ssl/diancan.xiaochengxu.phpblog.com.cn.key.pem \</span><br><span class="line">               --reloadcmd     &quot; /usr/local/nginx/sbin/nginx -s reload&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="步骤四-配置nginx"><a href="#步骤四-配置nginx" class="headerlink" title="步骤四 配置nginx"></a>步骤四 配置nginx</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  diancan.xiaochengxu.phpblog.com.cn;</span><br><span class="line">        location / &#123;</span><br><span class="line">            rewrite ^/(.*)$ https://diancan.xiaochengxu.phpblog.com.cn;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">    listen    443 ssl;</span><br><span class="line">    server_name diancan.xiaochengxu.phpblog.com.cn;</span><br><span class="line">    include  /usr/local/nginx/ssl/ssl_params;</span><br><span class="line">    ssl_certificate    /usr/local/nginx/ssl/diancan.xiaochengxu.phpblog.com.cn/diancan.xiaochengxu.phpblog.com.cn.cer;</span><br><span class="line">    ssl_certificate_key    /usr/local/nginx/ssl/diancan.xiaochengxu.phpblog.com.cn/diancan.xiaochengxu.phpblog.com.cn.key;</span><br><span class="line">    root /home/www/diancan/xiaochengxu; # 该项要修改为你准备存放相关网页的路径</span><br><span class="line">    include /usr/local/nginx/ssl/ssl_headers;</span><br><span class="line">    </span><br><span class="line">   location / &#123;</span><br><span class="line">         try_files $uri $uri/ /index.php?$query_string;</span><br><span class="line">         index  index.php index.html index.htm;</span><br><span class="line">    &#125;</span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        include /usr/local/nginx/conf/fastcgi.conf;</span><br><span class="line">        fastcgi_intercept_errors on;</span><br><span class="line">        fastcgi_pass  127.0.0.1:9000;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># out  /usr/local/nginx/ssl/ssl_headers</span><br><span class="line">add_header Strict-Transport-Security &quot;max-age=15768000; includeSubDomains; preload&quot; always;</span><br><span class="line"># out  /usr/local/nginx/ssl/ssl_params</span><br><span class="line">ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">ssl_dhparam /usr/local/nginx/ssl/dhparam.pem; # See https://weakdh.org/sysadmin.html for more details</span><br><span class="line">ssl_session_cache shared:SSL:1m;</span><br><span class="line">ssl_session_timeout 5m;</span><br><span class="line">ssl_prefer_server_ciphers   on;</span><br><span class="line">ssl_ciphers &quot;ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA&quot;;</span><br><span class="line"></span><br><span class="line">dhparam.pem这个文件是我之前就生成好的，生成命令</span><br><span class="line">openssl dhparam -out /usr/local/nginx/ssl/dhparam.pem 2048</span><br></pre></td></tr></table></figure>
+
+<h2 id="步骤五-重启nginx查看"><a href="#步骤五-重启nginx查看" class="headerlink" title="步骤五 重启nginx查看"></a>步骤五 重启nginx查看</h2><h2 id><a href="#" class="headerlink" title></a><img src="https://upload-images.jianshu.io/upload_images/11264231-e8f27e6771e82889.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="https配置成功后web访问界面" title="https配置成功后web访问界面"></h2><h1 id="证书自动更新"><a href="#证书自动更新" class="headerlink" title="证书自动更新"></a>证书自动更新</h1><p>申请下来的证书有效期只有90天</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">在crontab 中添加一条命令</span><br><span class="line">0 0 * * *  /home/work/opbin/ssl/acme.sh-master/acme.sh --cron --home /home/work/opbin/ssl/acme.sh-master/acme.sh</span><br><span class="line">此处就是每天凌晨检查证书  证书会在60天的时候更新 因为acme会记住之前执行的installcert，所以更新完证书之后他会自动重启一下nginx 如果之前运行installcert的时候没有输入reloadcmd,则需要更新之后自己手动重启(这样就没有自动更新的意义了)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="通过dns配置check权限"><a href="#通过dns配置check权限" class="headerlink" title="通过dns配置check权限"></a>通过dns配置check权限</h1><h2 id="手动配置"><a href="#手动配置" class="headerlink" title="手动配置"></a>手动配置</h2><h3 id="步骤1"><a href="#步骤1" class="headerlink" title="步骤1"></a>步骤1</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">[work@iZ25ndyf9bxZ acme.sh-master]$ !1019</span><br><span class="line">./acme.sh --issue --dns -d *.test.com -d test.com --yes-I-know-dns-manual-mode-enough-go-ahead-please</span><br><span class="line">[Tue Sep 11 21:24:56 CST 2018] Creating domain key</span><br><span class="line">[Tue Sep 11 21:24:56 CST 2018] The domain key is here: /home/work/.acme.sh/*.test.com/*.test.com.key</span><br><span class="line">[Tue Sep 11 21:24:56 CST 2018] Multi domain=&apos;DNS:*.test.com,test.com&apos;</span><br><span class="line">[Tue Sep 11 21:24:56 CST 2018] Getting domain auth token for each domain</span><br><span class="line">[Tue Sep 11 21:24:59 CST 2018] Getting webroot for domain=&apos;*.test.com&apos;</span><br><span class="line">[Tue Sep 11 21:25:00 CST 2018] Getting webroot for domain=&apos;test.com&apos;</span><br><span class="line">[Tue Sep 11 21:25:00 CST 2018] Add the following TXT record:</span><br><span class="line">[Tue Sep 11 21:25:00 CST 2018] Domain: &apos;_acme-challenge.test.com&apos;</span><br><span class="line">[Tue Sep 11 21:25:00 CST 2018] TXT value: &apos;Oe0iBXj3QvUErZOpROldRLx5jpyXbazsX36lkI46C_Y&apos;</span><br><span class="line">[Tue Sep 11 21:25:00 CST 2018] Please be aware that you prepend _acme-challenge. before your domain</span><br><span class="line">[Tue Sep 11 21:25:00 CST 2018] so the resulting subdomain will be: _acme-challenge.test.com</span><br><span class="line">[Tue Sep 11 21:25:00 CST 2018] Add the following TXT record:</span><br><span class="line">[Tue Sep 11 21:25:00 CST 2018] Domain: &apos;_acme-challenge.test.com&apos;</span><br><span class="line">[Tue Sep 11 21:25:00 CST 2018] TXT value: &apos;qVFtVzCnBsj1omQcdU1m8180rUBO8V5AHDczFUHqsMY&apos;</span><br><span class="line">[Tue Sep 11 21:25:00 CST 2018] Please be aware that you prepend _acme-challenge. before your domain</span><br><span class="line">[Tue Sep 11 21:25:00 CST 2018] so the resulting subdomain will be: _acme-challenge.test.com</span><br><span class="line">[Tue Sep 11 21:25:00 CST 2018] Please add the TXT records to the domains, and re-run with --renew.</span><br><span class="line">[Tue Sep 11 21:25:00 CST 2018] Please check log file for more details: /home/work/.acme.sh/acme.sh.log</span><br><span class="line">[work@iZ25ndyf9bxZ acme.sh-master]$ ./acme.sh --renew --dns -d *.test.com -d test.com --yes-I-know-dns-manual-mode-enough-go-ahead-please</span><br><span class="line">[Tue Sep 11 21:31:18 CST 2018] Renew: &apos;*.test.com&apos;</span><br><span class="line">[Tue Sep 11 21:31:19 CST 2018] Multi domain=&apos;DNS:*.test.com,test.com&apos;</span><br><span class="line">[Tue Sep 11 21:31:19 CST 2018] Getting domain auth token for each domain</span><br><span class="line">[Tue Sep 11 21:31:19 CST 2018] Verifying:*.test.com</span><br><span class="line">[Tue Sep 11 21:31:24 CST 2018] Success</span><br><span class="line">[Tue Sep 11 21:31:24 CST 2018] Verifying:test.com</span><br><span class="line">[Tue Sep 11 21:31:27 CST 2018] Success</span><br><span class="line">[Tue Sep 11 21:31:27 CST 2018] Verify finished, start to sign.</span><br><span class="line">[Tue Sep 11 21:31:30 CST 2018] Cert success.</span><br><span class="line">这个上面说的是需要在dns中添加</span><br><span class="line">Domain: &apos;_acme-challenge.test.com&apos;</span><br><span class="line">TXT value: &apos;Oe0iBXj3QvUErZOpROldRLx5jpyXbazsX36lkI46C_Y&apos;</span><br><span class="line">与</span><br><span class="line"> Domain: &apos;_acme-challenge.test.com&apos;</span><br><span class="line">TXT value: &apos;qVFtVzCnBsj1omQcdU1m8180rUBO8V5AHDczFUHqsMY&apos;</span><br></pre></td></tr></table></figure>
+
+<p>生效后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">[work@iZ25ndyf9bxZ acme.sh-master]$ ./acme.sh --renew --dns -d *.test.com -d test.com --yes-I-know-dns-manual-mode-enough-go-ahead-please</span><br><span class="line">[Tue Sep 11 21:31:18 CST 2018] Renew: &apos;*.test.com&apos;</span><br><span class="line">[Tue Sep 11 21:31:19 CST 2018] Multi domain=&apos;DNS:*.test.com,DNS:test.com&apos;</span><br><span class="line">[Tue Sep 11 21:31:19 CST 2018] Getting domain auth token for each domain</span><br><span class="line">[Tue Sep 11 21:31:19 CST 2018] Verifying:*.test.com</span><br><span class="line">[Tue Sep 11 21:31:24 CST 2018] Success</span><br><span class="line">[Tue Sep 11 21:31:24 CST 2018] Verifying:test.com</span><br><span class="line">[Tue Sep 11 21:31:27 CST 2018] Success</span><br><span class="line">[Tue Sep 11 21:31:27 CST 2018] Verify finished, start to sign.</span><br><span class="line">[Tue Sep 11 21:31:30 CST 2018] Cert success.</span><br><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">MIIGGDCCBQCgAwIBAgISA/ZIZ/p9WiVXaWSVytreKZWhMA0GCSqGSIb3DQEBCwUA</span><br><span class="line">MEoxCzAJBgNVBAYTAlVTMRYwFAYDVQQKEw1MZXQncyBFbmNyeXB0MSMwIQYDVQQD</span><br><span class="line">ExpMZXQncyBFbmNyeXB0IEF1dGhvcml0eSBYMzAeFw0xODA5MTExMjMxMjNaFw0x</span><br><span class="line">ODEyMTAxMjMxMjNaMBoxGDAWBgNVBAMMDyoueG1hbmxlZ2FsLmNvbTCCASIwDQYJ</span><br><span class="line">KoZIhvcNAQEBBQADggEPADCCAQoCggEBANnH033ObKrmxX9eLIKqt3kKxcIrcfab</span><br><span class="line">qnLJ0nGnjLRaOXco7B3q865OHx4PTKNT89RSAzfJQ5ZSXBY8QqbZAKv8kAzPA7yE</span><br><span class="line">0wliJ3rYCesVfAR1CgnOc+jQkTjlZp0q138/GDthgplvaziJUTaGL31Dj338oFU3</span><br><span class="line">xmyMxp2JmzUUjD4KkoHPZql5xkQ3pLzxRInWGMfal7f4oHaZQJr1Xwyu5BR/m9G1</span><br><span class="line">+PBlmqGsTka75n5i8uchjIFPAuH48c9fEJXLB0TSUfvAdi9HDpVxXsglmiw4eL5J</span><br><span class="line">F5ORYIKajAXObt/vl2uNbUHYV5Mr74jr7U/YqAA48X/x9jeHaVNSS/sCAwEAAaOC</span><br><span class="line">AyYwggMiMA4GA1UdDwEB/wQEAwIFoDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYB</span><br><span class="line">BQUHAwIwDAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUhLPM1+fVbGsgfc1CFAsRyu96</span><br><span class="line">DUMwHwYDVR0jBBgwFoAUqEpqYwR93brm0Tm3pkVl7/Oo7KEwbwYIKwYBBQUHAQEE</span><br><span class="line">YzBhMC4GCCsGAQUFBzABhiJodHRwOi8vb2NzcC5pbnQteDMubGV0c2VuY3J5cHQu</span><br><span class="line">b3JnMC8GCCsGAQUFBzAChiNodHRwOi8vY2VydC5pbnQteDMubGV0c2VuY3J5cHQu</span><br><span class="line">b3JnLzApBgNVHREEIjAggg8qLnhtYW5sZWdhbC5jb22CDXhtYW5sZWdhbC5jb20w</span><br><span class="line">gf4GA1UdIASB9jCB8zAIBgZngQwBAgEwgeYGCysGAQQBgt8TAQEBMIHWMCYGCCsG</span><br><span class="line">AQUFBwIBFhpodHRwOi8vY3BzLmxldHNlbmNyeXB0Lm9yZzCBqwYIKwYBBQUHAgIw</span><br><span class="line">gZ4MgZtUaGlzIENlcnRpZmljYXRlIG1heSBvbmx5IGJlIHJlbGllZCB1cG9uIGJ5</span><br><span class="line">IFJlbHlpbmcgUGFydGllcyBhbmQgb25seSBpbiBhY2NvcmRhbmNlIHdpdGggdGhl</span><br><span class="line">IENlcnRpZmljYXRlIFBvbGljeSBmb3VuZCBhdCBodHRwczovL2xldHNlbmNyeXB0</span><br><span class="line">Lm9yZy9yZXBvc2l0b3J5LzCCAQQGCisGAQQB1nkCBAIEgfUEgfIA8AB2AMEWSuCn</span><br><span class="line">ctLUOS3ICsEHcNTwxJvemRpIQMH6B1Fk9jNgAAABZcjUVQgAAAQDAEcwRQIhALEw</span><br><span class="line">fEJJ6OS6IiWZNXZEO/ymIAgZGpD812KCt484URUHAiAW6FCC+6rYa1AFUdT/vFcC</span><br><span class="line">3nc4MC9IGHLPOKyiyC8pEAB2AKRQEmkFWhVUXmIRqze8ED9irlV2pF5LFxRFPhsi</span><br><span class="line">EGolAAABZcjUVQoAAAQDAEcwRQIgETcbXZ/E5QEB/oRR3xr4B3dZELF4TfnTJJgH</span><br><span class="line">7J8YF9gCIQCKq4jXNwJjCAJDz0K81MaoAZ23CImUYJIHCVJTitzphzANBgkqhkiG</span><br><span class="line">9w0BAQsFAAOCAQEAPWWEp4v4cvU3c+fgt2a0mQXI5q0gmYQAYaxyXubs3HfxFsFX</span><br><span class="line">zroAPH6wvLk/Cw1EciBInnXtvQ+DDfi4FsyhWn598czJ/YEIGiV7ZCi1Ah8NVniS</span><br><span class="line">T+R3nVIBqhSDCGOpmHdvtfCRCoZErAVFvv0ABsQUSQHkEYmiPwEddhU5srOENzcV</span><br><span class="line">4qel/9/bzK3hGlPWB8jLvWQ8uHtSHibGAJsnEG0rMYkFs6pqnzM2EFdRNfm3axDK</span><br><span class="line">D8Gai7V5Ezu31iwvgZXjLmhl6xtH3CzkqmPaDarxJtnZLet8SLaEY0inmbhvupOG</span><br><span class="line">LUuO+EnAXlxk40z8V1/GtWuyYMz38OwCWcB5fA==</span><br><span class="line">-----END CERTIFICATE-----</span><br><span class="line">[Tue Sep 11 21:31:30 CST 2018] Your cert is in  /home/work/.acme.sh/*.test.com/*.test.com.cer </span><br><span class="line">[Tue Sep 11 21:31:30 CST 2018] Your cert key is in  /home/work/.acme.sh/*.test.com/*.test.com.key </span><br><span class="line">[Tue Sep 11 21:31:30 CST 2018] The intermediate CA cert is in  /home/work/.acme.sh/*.test.com/ca.cer </span><br><span class="line">[Tue Sep 11 21:31:30 CST 2018] And the full chain certs is there:  /home/work/.acme.sh/*.test.com/fullchain.cer </span><br><span class="line">[Tue Sep 11 21:31:30 CST 2018] It seems that you are using dns manual mode. please take care: The dns manual mode can not renew automatically, you must issue it again manually. You&apos;d better use the other modes instead.</span><br><span class="line">[Tue Sep 11 21:31:30 CST 2018] Call hook error.</span><br></pre></td></tr></table></figure>
+
+<p>生成成功后配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[work@iZ25ndyf9bxZ acme.sh-master]$ ./acme.sh  --installcert  -d *.xmanlegal.com \</span><br><span class="line">&gt; --key-file /mnt/usr/ssl/xmanlegal.com/xmanlegal.com.key \</span><br><span class="line">&gt; --fullchain-file /mnt/usr/ssl/xmanlegal.com/xmanlegal.com.key.cer \</span><br><span class="line">&gt; --reloadcmd &quot;echo &quot;Asdf1234&quot; sudo -S /mnt/usr/sbin/nginx -s reload&quot;</span><br><span class="line">[Tue Sep 11 21:36:31 CST 2018] Installing key to:/mnt/usr/ssl/xmanlegal.com/xmanlegal.com.key</span><br><span class="line">[Tue Sep 11 21:36:31 CST 2018] Installing full chain to:/mnt/usr/ssl/xmanlegal.com/xmanlegal.com.key.cer</span><br><span class="line">[Tue Sep 11 21:36:31 CST 2018] Run reload cmd: echo Asdf1234 sudo -S /mnt/usr/sbin/nginx -s reload</span><br><span class="line">Asdf1234 sudo -S /mnt/usr/sbin/nginx -s reload</span><br><span class="line">[Tue Sep 11 21:36:31 CST 2018] Reload success</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="末文"><a href="#末文" class="headerlink" title="末文"></a>末文</h1><p><a href="https://www.ssllabs.com/ssltest/index.html" title="证书级别测试" target="_blank" rel="noopener">证书级别测试</a><br><a href="https://github.com/Neilpang/acme.sh/wiki/Blogs-and-tutorials" title="相关技术博客" target="_blank" rel="noopener">相关技术博客</a></p>
+
+      
+       <hr><span style="font-style: italic;color: gray;"> 转载请注明来源，欢迎对文章中的引用来源进行考证，欢迎指出任何有错误或不够清晰的表达。可以在下面评论区评论，也可以邮件至 jaytp@qq.com </span>
+    </div>
+</article>
+
+
+<p>
+    <a href="javascript:void(0)" class="dashang" onclick="dashangToggle()">赏</a>
+</p>
+
+
+<div class="article_copyright">
+    <p><span class="copy-title">文章标题:</span>nginx配置https</p>
+    
+    <p><span class="copy-title">本文作者:</span><a href="javascript:void(0)" title="shiwenyuan">shiwenyuan</a></p>
+    <p><span class="copy-title">发布时间:</span>2019-08-06, 11:38:32</p>
+    <p><span class="copy-title">最后更新:</span>2019-08-06, 11:41:47</p>
+    <span class="copy-title">原始链接:</span><a class="post-url" href="/posts/cjz0tl53n0009rws6hsu20x50.html" title="nginx配置https">https://shiwenyuan.github.io/posts/cjz0tl53n0009rws6hsu20x50.html</a>
+    <p>
+        <span class="copy-title">版权声明:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" title="CC BY-NC-SA 4.0 International" target = "_blank">"署名-非商用-相同方式共享 4.0"</a> 转载请保留原文链接及作者。
+    </p>
+</div>
+
+
+
+
+
+    
+
+
+
+
+    </div>
+    <div class="copyright">
+        <p class="footer-entry">©2016-2019 Yelog</p>
+<p class="footer-entry">Built with <a href="https://hexo.io/" target="_blank">Hexo</a> and <a href="https://github.com/yelog/hexo-theme-3-hexo" target="_blank">3-hexo</a> theme</p>
+
+    </div>
+    <div class="full-toc">
+        <button class="full"><span class="min "></span></button>
+<button class="post-toc-menu"><span class="post-toc-menu-icons"></span></button>
+<div class="post-toc"><span class="post-toc-title">目录</span>
+    <div class="post-toc-content">
+
+    </div>
+</div>
+<a class="" id="rocket" href="javascript:void(0)"></a>
+    </div>
+</div>
+<div class="acParent"></div>
+
+<div class="hide_box" onclick="dashangToggle()"></div>
+<div class="shang_box">
+    <a class="shang_close" href="javascript:void(0)" onclick="dashangToggle()">×</a>
+    <div class="shang_tit">
+        <p>喜欢就点赞,疼爱就打赏</p>
+    </div>
+    <div class="shang_payimg">
+        <div class="pay_img">
+            <img src="/img/alipay.jpg" class="alipay" title="扫码支持">
+            <img src="/img/weixin.jpg" class="weixin" title="扫码支持">
+        </div>
+    </div>
+    <div class="shang_payselect">
+        <span><label><input type="radio" name="pay" checked value="alipay">支付宝</label></span><span><label><input type="radio" name="pay" value="weixin">微信</label></span>
+    </div>
+</div>
+
+
+</body>
+<script src="//cdn.bootcss.com/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
+
+<script src="/js/script.js?v=1.0.1" ></script>
+<script>
+    var img_resize = 'default';
+    /*作者、标签的自动补全*/
+    $(function () {
+        $('.search').AutoComplete({
+            'data': ['#系统工具','#php','#composer','#nginx','#linux','#https',],
+            'itemHeight': 20,
+            'width': 418
+        }).AutoComplete('show');
+    })
+    function initArticle() {
+        /*渲染对应的表格样式*/
+        
+            $(".post .pjax table").addClass("green_title");
+        
+
+        /*渲染打赏样式*/
+        
+        $("input[name=pay]").on("click", function () {
+            if($("input[name=pay]:checked").val()=="weixin"){
+                $(".shang_box .shang_payimg .pay_img").addClass("weixin_img");
+            } else {
+                $(".shang_box .shang_payimg .pay_img").removeClass("weixin_img");
+            }
+        })
+        
+
+        /*高亮代码块行号*/
+        
+        $('pre code').each(function(){
+            var lines = $(this).text().split('\n').length - 1, widther='';
+            if (lines>99) {
+                widther = 'widther'
+            }
+            var $numbering = $('<ul/>').addClass('pre-numbering ' + widther).attr("unselectable","on");
+            $(this).addClass('has-numbering ' + widther)
+                    .parent()
+                    .append($numbering);
+            for(var i=1;i<=lines;i++){
+                $numbering.append($('<li/>').text(i));
+            }
+        });
+        
+
+        /*访问数量*/
+        
+        $.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");
+        
+
+        /*代码高亮，行号对齐*/
+        $('.pre-numbering').css('line-height',$('.has-numbering').css('line-height'));
+
+        
+    }
+
+    /*打赏页面隐藏与展示*/
+    
+    function dashangToggle() {
+        $(".shang_box").fadeToggle();
+        $(".hide_box").fadeToggle();
+    }
+    
+
+</script>
+
+<!--加入行号的高亮代码块样式-->
+
+<style>
+    pre{
+        position: relative;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: 1px solid #e2dede;
+        background: #FFF;
+        overflow: hidden;
+    }
+    code.has-numbering{
+        margin-left: 30px;
+    }
+    code.has-numbering.widther{
+        margin-left: 35px;
+    }
+    .pre-numbering{
+        margin: 0px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        padding: 0.5em 3px 0.7em 5px;
+        border-right: 1px solid #C3CCD0;
+        text-align: right;
+        color: #AAA;
+        background-color: #fafafa;
+    }
+    .pre-numbering.widther {
+        width: 35px;
+    }
+</style>
+
+<!--自定义样式设置-->
+<style>
+    
+    .nav-right .title-list nav a .post-title, .nav-right .title-list #local-search-result a .post-title {
+        color: #383636;
+    }
+    
+    
+    .nav-right .title-list nav a .post-date, .nav-right .title-list #local-search-result a .post-date {
+        color: #5e5e5f;
+    }
+    
+    
+    .nav-right nav a.hover, #local-search-result a.hover{
+        background-color: #e2e0e0;
+    }
+    
+    
+
+    /*列表样式*/
+    
+    .post .pjax article .article-entry>ol, .post .pjax article .article-entry>ul, .post .pjax article>ol, .post .pjax article>ul{
+        border: #e2dede solid 1px;
+        border-radius: 10px;
+        padding: 10px 32px 10px 56px;
+    }
+    .post .pjax article .article-entry li>ol, .post .pjax article .article-entry li>ul,.post .pjax article li>ol, .post .pjax article li>ul{
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .post .pjax article .article-entry>ol>li, .post .pjax article .article-entry>ul>li,.post .pjax article>ol>li, .post .pjax article>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    .post .pjax article .article-entry li>ol>li, .post .pjax article .article-entry li>ul>li,.post .pjax article li>ol>li, .post .pjax article li>ul>li{
+        margin-bottom: auto;
+        margin-left: auto;
+    }
+    
+
+    /* 背景图样式 */
+    
+    
+
+
+    /*引用块样式*/
+    
+
+    /*文章列表背景图*/
+    
+    .nav-right:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.3;
+        background: url("https://i.loli.net/2019/07/22/5d3521411f3f169375.png");
+        background-repeat: no-repeat;
+        background-position: 50% 0;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+        background-size: cover;
+    }
+    
+
+    
+</style>
+
+
+
+
+
+
+
+</html>
