@@ -18,13 +18,13 @@
   
   
   <title>PhpStorm集成PlantUML | shiwenyuan&#39;blog</title>
-  <meta name="description" content="前言工作到现在也已经4年多了，之前也是一直在一味的去学习、去工作、去coding，从而忽略了对自己对技能的总结。近来工作比较清闲，所以就准备把自己的作为程序员的技能栈好好梳理一下，就先从设计模式开始了！！！ 设计模式相关文章内容构想 该设计模式的应用场景 该设计模式的uml图 该设计模式的代码实现   相关代码届时会放到github提到了uml、市面上可以画uml图的工具有很多，诸如starUML">
+  <meta name="description" content="前言工作到现在一直在一味的去学习、去工作、去coding，从而忽略了对自己对技能的总结。近来工作比较清闲，所以就准备把自己的作为程序员的技能栈好好梳理一下，就先从设计模式开始了！！！ 设计模式相关文章内容构想 该设计模式的应用场景 该设计模式的uml图 该设计模式的代码实现   相关代码届时会放到github提到了uml、市面上可以画uml图的工具有很多，诸如starUML、plantuml… 但">
 <meta name="keywords" content="开发工具">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PhpStorm集成PlantUML">
 <meta property="og:url" content="https://shiwenyuan.github.io/posts/cjztbqx1b000ak8s68uxr3ic6.html">
 <meta property="og:site_name" content="shiwenyuan&#39;blog">
-<meta property="og:description" content="前言工作到现在也已经4年多了，之前也是一直在一味的去学习、去工作、去coding，从而忽略了对自己对技能的总结。近来工作比较清闲，所以就准备把自己的作为程序员的技能栈好好梳理一下，就先从设计模式开始了！！！ 设计模式相关文章内容构想 该设计模式的应用场景 该设计模式的uml图 该设计模式的代码实现   相关代码届时会放到github提到了uml、市面上可以画uml图的工具有很多，诸如starUML">
+<meta property="og:description" content="前言工作到现在一直在一味的去学习、去工作、去coding，从而忽略了对自己对技能的总结。近来工作比较清闲，所以就准备把自己的作为程序员的技能栈好好梳理一下，就先从设计模式开始了！！！ 设计模式相关文章内容构想 该设计模式的应用场景 该设计模式的uml图 该设计模式的代码实现   相关代码届时会放到github提到了uml、市面上可以画uml图的工具有很多，诸如starUML、plantuml… 但">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006y8mN6ly1g69i3tgekqj30u20jm0y3.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006y8mN6ly1g69kvw45h0j30k60hiwgc.jpg">
@@ -33,10 +33,10 @@
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006y8mN6ly1g69l3fkrsdj31h20dwwh7.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/large/006y8mN6ly1g69l5wfzr9j30sh0jedh8.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006y8mN6ly1g69l7k5mvvj31hc0u0tix.jpg">
-<meta property="og:updated_time" content="2019-08-23T06:22:14.200Z">
+<meta property="og:updated_time" content="2019-08-27T04:36:33.165Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PhpStorm集成PlantUML">
-<meta name="twitter:description" content="前言工作到现在也已经4年多了，之前也是一直在一味的去学习、去工作、去coding，从而忽略了对自己对技能的总结。近来工作比较清闲，所以就准备把自己的作为程序员的技能栈好好梳理一下，就先从设计模式开始了！！！ 设计模式相关文章内容构想 该设计模式的应用场景 该设计模式的uml图 该设计模式的代码实现   相关代码届时会放到github提到了uml、市面上可以画uml图的工具有很多，诸如starUML">
+<meta name="twitter:description" content="前言工作到现在一直在一味的去学习、去工作、去coding，从而忽略了对自己对技能的总结。近来工作比较清闲，所以就准备把自己的作为程序员的技能栈好好梳理一下，就先从设计模式开始了！！！ 设计模式相关文章内容构想 该设计模式的应用场景 该设计模式的uml图 该设计模式的代码实现   相关代码届时会放到github提到了uml、市面上可以画uml图的工具有很多，诸如starUML、plantuml… 但">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006y8mN6ly1g69i3tgekqj30u20jm0y3.jpg">
   <!-- Canonical links -->
   <link rel="canonical" href="https://shiwenyuan.github.io/posts/cjztbqx1b000ak8s68uxr3ic6.html">
@@ -384,7 +384,7 @@
         <span class="post-comment"><i class="icon icon-comment"></i> <a href="/posts/cjztbqx1b000ak8s68uxr3ic6.html#comments" class="article-comment-link">评论</a></span>
         
 	
-		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 392(字)</span>
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 381(字)</span>
 	
 	
 		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
@@ -394,7 +394,7 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>工作到现在也已经4年多了，之前也是一直在一味的去学习、去工作、去coding，从而忽略了对自己对技能的总结。近来工作比较清闲，所以就准备把自己的作为程序员的技能栈好好梳理一下，就先从设计模式开始了！！！</p>
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>工作到现在一直在一味的去学习、去工作、去coding，从而忽略了对自己对技能的总结。近来工作比较清闲，所以就准备把自己的作为程序员的技能栈好好梳理一下，就先从设计模式开始了！！！</p>
 <h1 id="设计模式相关文章内容构想"><a href="#设计模式相关文章内容构想" class="headerlink" title="设计模式相关文章内容构想"></a>设计模式相关文章内容构想</h1><ul>
 <li><code>该设计模式的应用场景</code></li>
 <li><code>该设计模式的uml图</code></li>
