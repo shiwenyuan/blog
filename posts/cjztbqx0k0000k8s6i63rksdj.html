@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>PHP-多进程之孤儿和僵尸简单讲解 | shiwenyuan&#39;blog</title>
+  <meta name="description" content="PHP 多进程之孤儿 / 僵尸whatinit 进程普通用户运行但有超级权限的进程 孤儿进程父进程在子进程处理完前退出， 子进程就会变成孤儿进程；并由 init 进程进行处理 僵尸进程 「z+」标记 父进程 fork 子进程后， 没有调用 wait 来维护子进程，导致子进程无人管理  why总是不断 fork， 不管维护。系统资源有限 – 就会出现僵尸进程 how相比孤儿进程，僵尸进程危害更大，毕">
+<meta name="keywords" content="php,linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP-多进程之孤儿和僵尸简单讲解">
+<meta property="og:url" content="https://shiwenyuan.github.io/posts/cjztbqx0k0000k8s6i63rksdj.html">
+<meta property="og:site_name" content="shiwenyuan&#39;blog">
+<meta property="og:description" content="PHP 多进程之孤儿 / 僵尸whatinit 进程普通用户运行但有超级权限的进程 孤儿进程父进程在子进程处理完前退出， 子进程就会变成孤儿进程；并由 init 进程进行处理 僵尸进程 「z+」标记 父进程 fork 子进程后， 没有调用 wait 来维护子进程，导致子进程无人管理  why总是不断 fork， 不管维护。系统资源有限 – 就会出现僵尸进程 how相比孤儿进程，僵尸进程危害更大，毕">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-08-08T10:08:12.169Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PHP-多进程之孤儿和僵尸简单讲解">
+<meta name="twitter:description" content="PHP 多进程之孤儿 / 僵尸whatinit 进程普通用户运行但有超级权限的进程 孤儿进程父进程在子进程处理完前退出， 子进程就会变成孤儿进程；并由 init 进程进行处理 僵尸进程 「z+」标记 父进程 fork 子进程后， 没有调用 wait 来维护子进程，导致子进程无人管理  why总是不断 fork， 不管维护。系统资源有限 – 就会出现僵尸进程 how相比孤儿进程，僵尸进程危害更大，毕">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://shiwenyuan.github.io/posts/cjztbqx0k0000k8s6i63rksdj.html">
+  
+    <link rel="alternate" href="/atom.xml" title="shiwenyuan&#39;blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/shiwenyuan" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">北行</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">phper</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> beijing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/shiwenyuan" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/about" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/db/">db</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/db/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/db/redis/">redis</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux/">linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/php/">php</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/">工具</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/工具/开发工具/">开发工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/系统工具/">系统工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/工具/编程工具/">编程工具</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/面试/">面试</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/面试/php/">php</a><span class="category-list-count">1</span></li></ul></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/composer/">composer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/db/">db</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/https/">https</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/">redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/优化/">优化</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发工具/">开发工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/注释/">注释</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/系统工具/">系统工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a><span class="tag-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/composer/" style="font-size: 13px;">composer</a> <a href="/tags/db/" style="font-size: 13.25px;">db</a> <a href="/tags/https/" style="font-size: 13px;">https</a> <a href="/tags/linux/" style="font-size: 13.25px;">linux</a> <a href="/tags/mysql/" style="font-size: 13px;">mysql</a> <a href="/tags/nginx/" style="font-size: 13px;">nginx</a> <a href="/tags/php/" style="font-size: 14px;">php</a> <a href="/tags/redis/" style="font-size: 13px;">redis</a> <a href="/tags/优化/" style="font-size: 13px;">优化</a> <a href="/tags/开发工具/" style="font-size: 13px;">开发工具</a> <a href="/tags/注释/" style="font-size: 13px;">注释</a> <a href="/tags/系统工具/" style="font-size: 13px;">系统工具</a> <a href="/tags/设计模式/" style="font-size: 13.5px;">设计模式</a> <a href="/tags/面试/" style="font-size: 13.75px;">面试</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">14</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/php/">php</a>
+              </p>
+              <p class="item-title">
+                <a href="/posts/cjztbqx1w000kk8s6762hbuv0.html" class="title">每个 PHPer 都应当掌握的注释标记</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-27T04:21:24.000Z" itemprop="datePublished">2019-08-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/工具/">工具</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/工具/开发工具/">开发工具</a>
+              </p>
+              <p class="item-title">
+                <a href="/posts/cjztbqx1b000ak8s68uxr3ic6.html" class="title">PhpStorm集成PlantUML</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-23T04:01:16.000Z" itemprop="datePublished">2019-08-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/linux/">linux</a>
+              </p>
+              <p class="item-title">
+                <a href="/posts/cjztbqx0k0000k8s6i63rksdj.html" class="title">PHP-多进程之孤儿和僵尸简单讲解</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-07T09:42:13.000Z" itemprop="datePublished">2019-08-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/php/">php</a>
+              </p>
+              <p class="item-title">
+                <a href="/posts/cjztbqx4t002ok8s6lmlu2y7b.html" class="title">PHP-代码整洁之道</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-07T09:42:13.000Z" itemprop="datePublished">2019-08-07</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/设计模式/">设计模式</a>
+              </p>
+              <p class="item-title">
+                <a href="/posts/cjztbqx0w0002k8s6zzbmx0eo.html" class="title">PHP-面向对象设计的三大特性</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-07T09:40:52.000Z" itemprop="datePublished">2019-08-07</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-PHP-多进程之孤儿和僵尸简单讲解" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      PHP-多进程之孤儿和僵尸简单讲解
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/posts/cjztbqx0k0000k8s6i63rksdj.html" class="article-date">
+	  <time datetime="2019-08-07T09:42:13.000Z" itemprop="datePublished">2019-08-07</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/linux/">linux</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/linux/">linux</a>, <a class="article-tag-link" href="/tags/php/">php</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/posts/cjztbqx0k0000k8s6i63rksdj.html#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 654(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="PHP-多进程之孤儿-僵尸"><a href="#PHP-多进程之孤儿-僵尸" class="headerlink" title="PHP 多进程之孤儿 / 僵尸"></a>PHP 多进程之孤儿 / 僵尸</h1><h1 id="what"><a href="#what" class="headerlink" title="what"></a>what</h1><h2 id="init-进程"><a href="#init-进程" class="headerlink" title="init 进程"></a>init 进程</h2><p>普通用户运行但有超级权限的进程</p>
+<h2 id="孤儿进程"><a href="#孤儿进程" class="headerlink" title="孤儿进程"></a>孤儿进程</h2><p>父进程在子进程处理完前退出， 子进程就会变成孤儿进程；并由 init 进程进行处理</p>
+<h2 id="僵尸进程"><a href="#僵尸进程" class="headerlink" title="僵尸进程"></a>僵尸进程</h2><ul>
+<li>「z+」标记</li>
+<li>父进程 fork 子进程后， 没有调用 wait 来维护子进程，导致子进程无人管理</li>
+</ul>
+<h1 id="why"><a href="#why" class="headerlink" title="why"></a>why</h1><p>总是不断 fork， 不管维护。系统资源有限 – 就会出现僵尸进程</p>
+<h1 id="how"><a href="#how" class="headerlink" title="how"></a>how</h1><p>相比孤儿进程，僵尸进程危害更大，毕竟孤儿还有 init 妈妈来抚养，僵尸就只能独自游荡！</p>
+<p>pcntl_wait<br>pcntl_waitpid</p>
+<p>等待或返回 fork 的子进程状态</p>
+<p>相同<br>pcntl_wait($status, $option) == pcntl_waitpid(-1, $status, $option)<br>pcntl_waitpid($pid, $status, $option)</p>
+<h2 id="pid"><a href="#pid" class="headerlink" title="pid"></a>pid</h2><p>&lt;-1: 等待任意进程组 ID 等于参数 pid 给定值的绝对值的进程<br>-1: 等待任意子进程；与 pcntl_wait 函数行为一致<br>0: 等待任意与调用进程组 ID 相同的子进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">0: 等待进程号等于参数 pid 值的子进程</span><br></pre></td></tr></table></figure>
+
+<h2 id="option"><a href="#option" class="headerlink" title="option"></a>option</h2><p>WNOHANG: 如果没有子进程退出立刻返回<br>WUNTRACED: 子进程已经退出并且其状态未报告时返回</p>
+<h2 id="孤儿进程-1"><a href="#孤儿进程-1" class="headerlink" title="孤儿进程"></a>孤儿进程</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">$pid = pcntl_fork();</span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span>($pid) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">        <span class="comment">// 子进程</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"I am son  parent's pid="</span>.posix_getppid().<span class="string">"\n"</span>;</span><br><span class="line">        <span class="keyword">for</span>( $i = <span class="number">1</span>; $i &lt;= <span class="number">10</span>; $i++ )&#123;</span><br><span class="line">                sleep( <span class="number">1</span> );</span><br><span class="line">                <span class="comment">// posix_getppid()函数的作用就是获取当前进程的父进程进程ID</span></span><br><span class="line">                <span class="keyword">echo</span> <span class="string">"parent's pid ="</span> posix_getppid().PHP_EOL;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> <span class="number">-1</span>:</span><br><span class="line">        <span class="comment">// fork error</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"I am err\n"</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">        <span class="comment">// 父进程</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"I am parent pid="</span>.posix_getpid().<span class="string">"\n"</span>;</span><br><span class="line">        sleep(<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 第三秒后 由init进程收养</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="僵尸进程-1"><a href="#僵尸进程-1" class="headerlink" title="僵尸进程"></a>僵尸进程</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$pid = pcntl_fork();</span><br><span class="line"><span class="keyword">switch</span>($pid) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">        <span class="comment">// 子进程</span></span><br><span class="line">        cli_set_process_title(<span class="string">"son process php"</span>);</span><br><span class="line">        sleep(<span class="number">5</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> <span class="number">-1</span>:</span><br><span class="line">        <span class="comment">// fork error</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">        <span class="comment">// 父进程</span></span><br><span class="line">        cli_set_process_title(<span class="string">"parent process php"</span>);</span><br><span class="line">        sleep(<span class="number">30</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 子进程执行后父进程未取管理导致</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">switch</span>($pid) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">        <span class="comment">// 子进程</span></span><br><span class="line">        cli_set_process_title(<span class="string">"son process php"</span>);</span><br><span class="line">        sleep(<span class="number">10</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> <span class="number">-1</span>:</span><br><span class="line">        <span class="comment">// fork error</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">        <span class="comment">// 父进程</span></span><br><span class="line">        cli_set_process_title(<span class="string">"parent process php"</span>);</span><br><span class="line">        $iid = pcntl_wait($status); <span class="comment">// 等待子进程的状态处理</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 监控子进程状态处理后才能输出</span></span><br><span class="line">        <span class="comment">// 只要未触发pcntl_wait，此后的逻辑一直不会处理</span></span><br><span class="line">        <span class="keyword">echo</span> $iid.<span class="string">"-----\n"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//sleep(60);</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">===</span><br><span class="line"><span class="comment">// 增加pcntl_wait</span></span><br><span class="line"><span class="comment">// pcntl_wait($status); // 只要子进程不退出， 父进程就会阻塞再这个地方</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="更优解决"><a href="#更优解决" class="headerlink" title="更优解决"></a>更优解决</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$pid = pcntl_fork();</span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span>($pid) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">        <span class="comment">// 子进程</span></span><br><span class="line">        cli_set_process_title(<span class="string">"son process php"</span>);</span><br><span class="line">        sleep(<span class="number">10</span>);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">case</span> <span class="number">-1</span>:</span><br><span class="line">        <span class="comment">// fork error</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">        <span class="comment">// 父进程</span></span><br><span class="line">        cli_set_process_title(<span class="string">"parent process php"</span>);</span><br><span class="line">        pcntl_waitpid($pid, $status, WNOHANG);      <span class="comment">// 监控$pid， 如果没有子进程退出立刻返回</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"I am parent\n"</span>;</span><br><span class="line">        <span class="comment">//sleep(60);</span></span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">===</span><br><span class="line"><span class="comment">// pcntl_wait改写pcntl_waitpid</span></span><br><span class="line"><span class="comment">// pcntl_waitpid($pid, $status, WNOHANG); </span></span><br><span class="line"><span class="comment">// 如果再pcntl_waitpid后续增加sleep， 还是会僵尸进程</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="更更优解决"><a href="#更更优解决" class="headerlink" title="更更优解决"></a>更更优解决</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">信号</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://shiwenyuan.github.io/posts/cjztbqx0k0000k8s6i63rksdj.html" title="PHP-多进程之孤儿和僵尸简单讲解" target="_blank" rel="external">https://shiwenyuan.github.io/posts/cjztbqx0k0000k8s6i63rksdj.html</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用许可协议<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="external">CC-BY-NC-SA4.0</a> 。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/shiwenyuan" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/shiwenyuan" target="_blank"><span class="text-dark">北行</span><small class="ml-1x">phper</small></a></h3>
+        <div>多思考多沉淀，避免虚度光阴。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/posts/cjztbqx1b000ak8s68uxr3ic6.html" title="PhpStorm集成PlantUML"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/posts/cjztbqx4t002ok8s6lmlu2y7b.html" title="PHP-代码整洁之道"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/AliPay.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/WechatIPay.jpeg" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/shiwenyuan" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/about" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2019 shiwenyuan
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '263d7818e05fdcb69c3b',
+    clientSecret: 'ae29812d6bdbdad5546a0c9ea9c262d1b88b3b25',
+    repo: 'shiwenyuan.github.io',
+    owner: 'shiwenyuan',
+    admin: ['shiwenyuan'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>
