@@ -17,20 +17,28 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>about | shiwenyuan&#39;blog</title>
-  <meta name="description" content="email:&amp;#x73;&amp;#116;&amp;#x6f;&amp;#110;&amp;#x65;&amp;#119;&amp;#101;&amp;#x6e;&amp;#121;&amp;#x75;&amp;#x61;&amp;#x6e;&amp;#64;&amp;#x67;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#108;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;">
-<meta property="og:type" content="website">
-<meta property="og:title" content="about">
-<meta property="og:url" content="http://shiwenyuan.github.io/about/index.html">
+  <title>Nginx配置移动端和电脑端自动双向跳转 | shiwenyuan&#39;blog</title>
+  <meta name="description" content="场景   端 域名 描述    pc端 www.phpblog.com.cn 用于pc端访问官网   移动端 m.phpblog.com.cn 用于移动端访问   需求1在移动端访问www.phpblog.com.cn和m.phpblog.com.cn都跳转到m.phpblog.com.cn  实现方案12判断客户端的设备类型要想让网站适配PC和手机设备，首先要能做出准确的判断。HTTP请求的He">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx配置移动端和电脑端自动双向跳转">
+<meta property="og:url" content="http://shiwenyuan.github.io/post/ck05d728k0000fys6pin2i1eu.html">
 <meta property="og:site_name" content="shiwenyuan&#39;blog">
-<meta property="og:description" content="email:&amp;#x73;&amp;#116;&amp;#x6f;&amp;#110;&amp;#x65;&amp;#119;&amp;#101;&amp;#x6e;&amp;#121;&amp;#x75;&amp;#x61;&amp;#x6e;&amp;#64;&amp;#x67;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#108;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;">
+<meta property="og:description" content="场景   端 域名 描述    pc端 www.phpblog.com.cn 用于pc端访问官网   移动端 m.phpblog.com.cn 用于移动端访问   需求1在移动端访问www.phpblog.com.cn和m.phpblog.com.cn都跳转到m.phpblog.com.cn  实现方案12判断客户端的设备类型要想让网站适配PC和手机设备，首先要能做出准确的判断。HTTP请求的He">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-08-28T02:57:19.732Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20190904192816.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20190904192740.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20190904193613.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20190904194050.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20190904194641.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20190904194334.png">
+<meta property="og:updated_time" content="2019-09-04T14:36:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="about">
-<meta name="twitter:description" content="email:&amp;#x73;&amp;#116;&amp;#x6f;&amp;#110;&amp;#x65;&amp;#119;&amp;#101;&amp;#x6e;&amp;#121;&amp;#x75;&amp;#x61;&amp;#x6e;&amp;#64;&amp;#x67;&amp;#x6d;&amp;#x61;&amp;#x69;&amp;#108;&amp;#46;&amp;#99;&amp;#x6f;&amp;#x6d;">
+<meta name="twitter:title" content="Nginx配置移动端和电脑端自动双向跳转">
+<meta name="twitter:description" content="场景   端 域名 描述    pc端 www.phpblog.com.cn 用于pc端访问官网   移动端 m.phpblog.com.cn 用于移动端访问   需求1在移动端访问www.phpblog.com.cn和m.phpblog.com.cn都跳转到m.phpblog.com.cn  实现方案12判断客户端的设备类型要想让网站适配PC和手机设备，首先要能做出准确的判断。HTTP请求的He">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20190904192816.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://shiwenyuan.github.io/about/index.html">
+  <link rel="canonical" href="http://shiwenyuan.github.io/post/ck05d728k0000fys6pin2i1eu.html">
   
     <link rel="alternate" href="/atom.xml" title="shiwenyuan&#39;blog" type="application/atom+xml">
   
@@ -330,120 +338,178 @@
 </aside>
 
   
-  <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
-  <div class="slimContent">
-    
-    <div class="widget">
-      <h3 class="widget-title">个人链接</h3>
-      <div class="widget-body">
-        <ul class="link-list lh-2x">
-          
-          <li>
-            <a href="https://github.com/shiwenyuan" target="_blank">Github</a>
-          </li>
-          
-          <li>
-            <a href="https://www.jianshu.com/u/9baec0bb4710" target="_blank">简书</a>
-          </li>
-          
-          <li>
-            <a href="https://juejin.im/user/5c46dbb1518825246b0ffa81" target="_blank">掘金</a>
-          </li>
-          
-          <li>
-            <a href="https://learnku.com/blog/ayuana" target="_blank">Laravel-china</a>
-          </li>
-          
-        </ul>
-      </div>
-    </div>
-    
-    
-    <div class="widget">
-      <h3 class="widget-title">技能</h3>
-      <div class="widget-body">
-        <ul class="skill-list lh-2x">
-          
-          <li class="clearfix">
-            <span>PHP</span>
-            <span class="pull-right">★★★★★</span>
-          </li>
-          
-          <li class="clearfix">
-            <span>Laravel</span>
-            <span class="pull-right">★★★★☆</span>
-          </li>
-          
-          <li class="clearfix">
-            <span>Swoole</span>
-            <span class="pull-right">★★★☆☆</span>
-          </li>
-          
-          <li class="clearfix">
-            <span>数据结构算法</span>
-            <span class="pull-right">★★★☆☆</span>
-          </li>
-          
-          <li class="clearfix">
-            <span>Node</span>
-            <span class="pull-right">★★★☆☆</span>
-          </li>
-          
-          <li class="clearfix">
-            <span>Python</span>
-            <span class="pull-right">★★★☆☆</span>
-          </li>
-          
-        </ul>
-      </div>
-    </div>
-    
-    
-    <div class="widget">
-      <h3 class="widget-title">个人标签</h3>
-      <div class="widget-body">
-        
-        <span class="label label-default mb">后端</span>
-        
-        <span class="label label-default mb">后端开发</span>
-        
-        <span class="label label-default mb">后端重构</span>
-        
-        <span class="label label-default mb">公众号开发</span>
-        
-        <span class="label label-default mb">小程序开发</span>
-        
-        <span class="label label-default mb">爬虫</span>
-        
-      </div>
-    </div>
-    
-    
-    
-  </div>
-</aside>
-
-<main class="main" role="main">
-  <article class="article archives-about article-type-normal" itemscope="">
-  <header class="article-header">
-    <h1 itemprop="title">about</h1>
-    
-    <p class="text-muted">多思考多沉淀，避免虚度光阴。</p>
-    
-  </header>
-  <div class="article-body">
-    <p><code>email</code>:<a href="mailto:&#x73;&#116;&#x6f;&#110;&#x65;&#119;&#101;&#x6e;&#121;&#x75;&#x61;&#x6e;&#64;&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#99;&#x6f;&#x6d;" target="_blank" rel="noopener">&#x73;&#116;&#x6f;&#110;&#x65;&#119;&#101;&#x6e;&#121;&#x75;&#x61;&#x6e;&#64;&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#99;&#x6f;&#x6d;</a></p>
-
-  </div>
-</article>
-
   
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Nginx配置移动端和电脑端自动双向跳转" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Nginx配置移动端和电脑端自动双向跳转
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/post/ck05d728k0000fys6pin2i1eu.html" class="article-date">
+	  <time datetime="2019-09-04T08:12:15.000Z" itemprop="datePublished">2019-09-04</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/nginx/">nginx</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/nginx/">nginx</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/post/ck05d728k0000fys6pin2i1eu.html#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h1><table>
+<thead>
+<tr>
+<th>端</th>
+<th>域名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>pc端</td>
+<td><a href="http://www.phpblog.com.cn" target="_blank" rel="noopener">www.phpblog.com.cn</a></td>
+<td>用于pc端访问官网</td>
+</tr>
+<tr>
+<td>移动端</td>
+<td>m.phpblog.com.cn</td>
+<td>用于移动端访问</td>
+</tr>
+</tbody></table>
+<h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在移动端访问www.phpblog.com.cn和m.phpblog.com.cn都跳转到m.phpblog.com.cn</span><br></pre></td></tr></table></figure>
+
+<h1 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">判断客户端的设备类型</span><br><span class="line">要想让网站适配PC和手机设备，首先要能做出准确的判断。HTTP请求的Header中的User-Agent可以区分客户端的浏览器类型，可以通过User-Agent来判断客户端的设备。</span><br></pre></td></tr></table></figure>
+
+<h2 id="nginx原始配置"><a href="#nginx原始配置" class="headerlink" title="nginx原始配置"></a>nginx原始配置</h2><h3 id="pc配置"><a href="#pc配置" class="headerlink" title="pc配置"></a>pc配置</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">	<span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">	<span class="attribute">server_name</span>  www.phpblog.com.cn;</span><br><span class="line">	<span class="attribute">location</span> / &#123;</span><br><span class="line">		<span class="attribute">root</span>   www;</span><br><span class="line">		<span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="移动端配置"><a href="#移动端配置" class="headerlink" title="移动端配置"></a>移动端配置</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">	<span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">	<span class="attribute">server_name</span>  m.phpblog.com.cn;</span><br><span class="line">	<span class="attribute">location</span> / &#123;</span><br><span class="line">		<span class="attribute">root</span>   m;</span><br><span class="line">		<span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="m-index-html"><a href="#m-index-html" class="headerlink" title="m/index.html"></a>m/index.html</h3><p><img src="https://raw.githubusercontent.com/shiwenyuan/pic/master/20190904192816.png" alt></p>
+<h3 id="www-index-html"><a href="#www-index-html" class="headerlink" title="www/index.html"></a>www/index.html</h3><p><img src="https://raw.githubusercontent.com/shiwenyuan/pic/master/20190904192740.png" alt></p>
+<h2 id="nginx修改后配置"><a href="#nginx修改后配置" class="headerlink" title="nginx修改后配置"></a>nginx修改后配置</h2><h3 id="pc配置-1"><a href="#pc配置-1" class="headerlink" title="pc配置"></a>pc配置</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">	<span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">	<span class="attribute">server_name</span>  www.phpblog.com.cn;</span><br><span class="line">	<span class="attribute">if</span> (<span class="variable">$http_user_agent</span> <span class="regexp">~* (mobile|nokia|iphone|ipad|android|samsung|htc|blackberry))</span> &#123;</span><br><span class="line">      		<span class="attribute">rewrite</span> <span class="regexp"> ^(.*)</span>    http://m.phpblog.com.cn<span class="variable">$1</span> <span class="literal">permanent</span>;</span><br><span class="line">     	&#125;</span><br><span class="line">	<span class="attribute">location</span> / &#123;</span><br><span class="line">		<span class="attribute">root</span>   www;</span><br><span class="line">		<span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="移动端配置-1"><a href="#移动端配置-1" class="headerlink" title="移动端配置"></a>移动端配置</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">	<span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">	<span class="attribute">server_name</span>  m.phpblog.com.cn;</span><br><span class="line">	<span class="attribute">if</span> (<span class="variable">$http_user_agent</span> !<span class="regexp">~* (mobile|nokia|iphone|ipad|android|samsung|htc|blackberry))</span> &#123;</span><br><span class="line">      		<span class="attribute">rewrite</span> <span class="regexp"> ^(.*)</span>    http://www.phpblog.com.cn<span class="variable">$1</span> <span class="literal">permanent</span>;</span><br><span class="line">     	&#125;</span><br><span class="line">	<span class="attribute">location</span> / &#123;</span><br><span class="line">		<span class="attribute">root</span>   m;</span><br><span class="line">		<span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>此时在pc访问m.phpblog.com.cn<br><img src="https://raw.githubusercontent.com/shiwenyuan/pic/master/20190904193613.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">可以看到有两次http请求第一次请求m.phpblog.com.cn发生了一次重定向 ，重定向到到了www.phpblog.com.cn</span><br></pre></td></tr></table></figure>
+
+<p>此时在pc访问<a href="http://www.phpblog.com.cn" target="_blank" rel="noopener">www.phpblog.com.cn</a><br><img src="https://raw.githubusercontent.com/shiwenyuan/pic/master/20190904194050.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">可以看到有一次http请求第一次请求</span><br></pre></td></tr></table></figure>
+
+<p>此时在移动端访问m.phpblog.com.cn<br><img src="https://raw.githubusercontent.com/shiwenyuan/pic/master/20190904194641.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">可以看到有一次http请求第一次请求</span><br></pre></td></tr></table></figure>
+
+<p>此时在移动端访问<a href="http://www.phpblog.com.cn" target="_blank" rel="noopener">www.phpblog.com.cn</a><br><img src="https://raw.githubusercontent.com/shiwenyuan/pic/master/20190904194334.png" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">可以看到有两次http请求第一次请求www.phpblog.com.cn发生了一次重定向,，重定向到到了 m.phpblog.com.cn</span><br></pre></td></tr></table></figure>
+
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx 利用每次http请求过来的浏览器ua来区分是移动端还是pc，然后做相应的跳转</span><br></pre></td></tr></table></figure>
+
+<h1 id="相关文档"><a href="#相关文档" class="headerlink" title="相关文档"></a>相关文档</h1><p><a href="https://ziyuan.baidu.com/college/courseinfo?id=156" target="_blank" rel="noopener">百度的官方建议</a><br><a href="http://detectmobilebrowsers.com/" target="_blank" rel="noopener">国外开源的通过User-Agent区分PC和手机的解决方案</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://shiwenyuan.github.io/post/ck05d728k0000fys6pin2i1eu.html" title="Nginx配置移动端和电脑端自动双向跳转" target="_blank" rel="external">http://shiwenyuan.github.io/post/ck05d728k0000fys6pin2i1eu.html</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/shiwenyuan" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/shiwenyuan" target="_blank"><span class="text-dark">阿远</span><small class="ml-1x">phper</small></a></h3>
+        <div>多思考多沉淀，避免虚度光阴。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
   <section id="comments">
   	
            
     
   </section>
 
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/post/ck05d72970008fys6t7hxj0ak.html" title="分享一款图床工具PicGo"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
 
 
 </main>
@@ -501,6 +567,12 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
     });
 })(jQuery);
 </script>
+
+
+
+
+   
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
 
 
