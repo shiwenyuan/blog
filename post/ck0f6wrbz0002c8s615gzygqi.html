@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>Nginx配置移动端和电脑端自动双向跳转 | shiwenyuan&#39;s blog</title>
+  <meta name="description" content="场景   端 域名 描述    pc端 www.phpblog.com.cn 用于pc端访问官网   移动端 m.phpblog.com.cn 用于移动端访问   需求1在移动端访问www.phpblog.com.cn和m.phpblog.com.cn都跳转到m.phpblog.com.cn  实现方案12判断客户端的设备类型要想让网站适配PC和手机设备，首先要能做出准确的判断。HTTP请求的He">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx配置移动端和电脑端自动双向跳转">
+<meta property="og:url" content="http://shiwenyuan.github.io/post/ck0f6wrbz0002c8s615gzygqi.html">
+<meta property="og:site_name" content="shiwenyuan&#39;blog">
+<meta property="og:description" content="场景   端 域名 描述    pc端 www.phpblog.com.cn 用于pc端访问官网   移动端 m.phpblog.com.cn 用于移动端访问   需求1在移动端访问www.phpblog.com.cn和m.phpblog.com.cn都跳转到m.phpblog.com.cn  实现方案12判断客户端的设备类型要想让网站适配PC和手机设备，首先要能做出准确的判断。HTTP请求的He">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb5e7e4a1e9b?w=2880&h=1800&f=png&s=205558">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb69f473591e?w=2880&h=1800&f=png&s=209791">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb5eb0f74e2d?w=2880&h=1800&f=png&s=303016">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb5ec00b5ee6?w=2880&h=1800&f=png&s=299142">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb5ee105304e?w=2880&h=1800&f=png&s=303040">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb6a394f8d12?w=2880&h=1800&f=png&s=318660">
+<meta property="og:updated_time" content="2019-09-10T08:55:18.190Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx配置移动端和电脑端自动双向跳转">
+<meta name="twitter:description" content="场景   端 域名 描述    pc端 www.phpblog.com.cn 用于pc端访问官网   移动端 m.phpblog.com.cn 用于移动端访问   需求1在移动端访问www.phpblog.com.cn和m.phpblog.com.cn都跳转到m.phpblog.com.cn  实现方案12判断客户端的设备类型要想让网站适配PC和手机设备，首先要能做出准确的判断。HTTP请求的He">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb5e7e4a1e9b?w=2880&h=1800&f=png&s=205558">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://shiwenyuan.github.io/post/ck0f6wrbz0002c8s615gzygqi.html">
+  
+    <link rel="alternate" href="/atom.xml" title="shiwenyuan&#39;blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/shiwenyuan" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">阿远</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">phper</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/shiwenyuan" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/composer/">composer</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码片段/">代码片段</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码规范/">代码规范</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统工具/">系统工具</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/系统工具/mac/">mac</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/编程ide/">编程ide</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/composer/">composer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码片段/">代码片段</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码规范/">代码规范</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/系统工具/">系统工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程ide/">编程ide</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/composer/" style="font-size: 13px;">composer</a> <a href="/tags/nginx/" style="font-size: 14px;">nginx</a> <a href="/tags/php/" style="font-size: 14px;">php</a> <a href="/tags/代码片段/" style="font-size: 13px;">代码片段</a> <a href="/tags/代码规范/" style="font-size: 14px;">代码规范</a> <a href="/tags/系统工具/" style="font-size: 13px;">系统工具</a> <a href="/tags/编程ide/" style="font-size: 13px;">编程ide</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/代码片段/">代码片段</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck0f6wrbs0000c8s6w1gb5ceg.html" class="title">Php-将变量输出成array结构</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-11T11:26:15.000Z" itemprop="datePublished">2019-09-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/nginx/">nginx</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck0f6wrbz0002c8s615gzygqi.html" class="title">Nginx配置移动端和电脑端自动双向跳转</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-04T08:49:04.000Z" itemprop="datePublished">2019-09-04</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/系统工具/">系统工具</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/系统工具/mac/">mac</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck0f6wrcb0007c8s6xhc46nqm.html" class="title">分享一款图床工具PicGo</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-28T08:48:56.000Z" itemprop="datePublished">2019-08-28</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/代码规范/">代码规范</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck0f6wrcg000cc8s6ccj3ye46.html" class="title">每个 PHPer 都应当掌握的注释标记</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-27T08:48:48.000Z" itemprop="datePublished">2019-08-27</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/编程ide/">编程ide</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck0f6wrc90006c8s6aiie0d5p.html" class="title">PhpStorm集成PlantUML</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-08-23T08:48:36.000Z" itemprop="datePublished">2019-08-23</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Nginx配置移动端和电脑端自动双向跳转" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Nginx配置移动端和电脑端自动双向跳转
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/post/ck0f6wrbz0002c8s615gzygqi.html" class="article-date">
+	  <time datetime="2019-09-04T08:49:04.000Z" itemprop="datePublished">2019-09-04</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/nginx/">nginx</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/nginx/">nginx</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/post/ck0f6wrbz0002c8s615gzygqi.html#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 487(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 2(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h1><table>
+<thead>
+<tr>
+<th>端</th>
+<th>域名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>pc端</td>
+<td><a href="http://www.phpblog.com.cn" target="_blank" rel="noopener">www.phpblog.com.cn</a></td>
+<td>用于pc端访问官网</td>
+</tr>
+<tr>
+<td>移动端</td>
+<td>m.phpblog.com.cn</td>
+<td>用于移动端访问</td>
+</tr>
+</tbody></table>
+<h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在移动端访问www.phpblog.com.cn和m.phpblog.com.cn都跳转到m.phpblog.com.cn</span><br></pre></td></tr></table></figure>
+
+<h1 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">判断客户端的设备类型</span><br><span class="line">要想让网站适配PC和手机设备，首先要能做出准确的判断。HTTP请求的Header中的User-Agent可以区分客户端的浏览器类型，可以通过User-Agent来判断客户端的设备。</span><br></pre></td></tr></table></figure>
+
+<h2 id="nginx原始配置"><a href="#nginx原始配置" class="headerlink" title="nginx原始配置"></a>nginx原始配置</h2><h3 id="pc配置"><a href="#pc配置" class="headerlink" title="pc配置"></a>pc配置</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">	<span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">	<span class="attribute">server_name</span>  www.phpblog.com.cn;</span><br><span class="line">	<span class="attribute">location</span> / &#123;</span><br><span class="line">		<span class="attribute">root</span>   www;</span><br><span class="line">		<span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="移动端配置"><a href="#移动端配置" class="headerlink" title="移动端配置"></a>移动端配置</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">	<span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">	<span class="attribute">server_name</span>  m.phpblog.com.cn;</span><br><span class="line">	<span class="attribute">location</span> / &#123;</span><br><span class="line">		<span class="attribute">root</span>   m;</span><br><span class="line">		<span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="m-index-html"><a href="#m-index-html" class="headerlink" title="m/index.html"></a>m/index.html</h3><p><img src="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb5e7e4a1e9b?w=2880&h=1800&f=png&s=205558" alt></p>
+<h3 id="www-index-html"><a href="#www-index-html" class="headerlink" title="www/index.html"></a>www/index.html</h3><p><img src="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb69f473591e?w=2880&h=1800&f=png&s=209791" alt></p>
+<h2 id="nginx修改后配置"><a href="#nginx修改后配置" class="headerlink" title="nginx修改后配置"></a>nginx修改后配置</h2><h3 id="pc配置-1"><a href="#pc配置-1" class="headerlink" title="pc配置"></a>pc配置</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">	<span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">	<span class="attribute">server_name</span>  www.phpblog.com.cn;</span><br><span class="line">	<span class="attribute">if</span> (<span class="variable">$http_user_agent</span> <span class="regexp">~* (mobile|nokia|iphone|ipad|android|samsung|htc|blackberry))</span> &#123;</span><br><span class="line">      		<span class="attribute">rewrite</span> <span class="regexp"> ^(.*)</span>    http://m.phpblog.com.cn<span class="variable">$1</span> <span class="literal">permanent</span>;</span><br><span class="line">     	&#125;</span><br><span class="line">	<span class="attribute">location</span> / &#123;</span><br><span class="line">		<span class="attribute">root</span>   www;</span><br><span class="line">		<span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="移动端配置-1"><a href="#移动端配置-1" class="headerlink" title="移动端配置"></a>移动端配置</h3><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">	<span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">	<span class="attribute">server_name</span>  m.phpblog.com.cn;</span><br><span class="line">	<span class="attribute">if</span> (<span class="variable">$http_user_agent</span> !<span class="regexp">~* (mobile|nokia|iphone|ipad|android|samsung|htc|blackberry))</span> &#123;</span><br><span class="line">      		<span class="attribute">rewrite</span> <span class="regexp"> ^(.*)</span>    http://www.phpblog.com.cn<span class="variable">$1</span> <span class="literal">permanent</span>;</span><br><span class="line">     	&#125;</span><br><span class="line">	<span class="attribute">location</span> / &#123;</span><br><span class="line">		<span class="attribute">root</span>   m;</span><br><span class="line">		<span class="attribute">index</span>  index.html index.htm;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>此时在pc访问m.phpblog.com.cn<br><img src="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb5eb0f74e2d?w=2880&h=1800&f=png&s=303016" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">可以看到有两次http请求第一次请求m.phpblog.com.cn发生了一次重定向 ，重定向到到了www.phpblog.com.cn</span><br></pre></td></tr></table></figure>
+
+<p>此时在pc访问<a href="http://www.phpblog.com.cn" target="_blank" rel="noopener">www.phpblog.com.cn</a><br><img src="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb5ec00b5ee6?w=2880&h=1800&f=png&s=299142" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">可以看到有一次http请求第一次请求</span><br></pre></td></tr></table></figure>
+
+<p>此时在移动端访问m.phpblog.com.cn<br><img src="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb5ee105304e?w=2880&h=1800&f=png&s=303040" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">可以看到有一次http请求第一次请求</span><br></pre></td></tr></table></figure>
+
+<p>此时在移动端访问<a href="http://www.phpblog.com.cn" target="_blank" rel="noopener">www.phpblog.com.cn</a><br><img src="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb6a394f8d12?w=2880&h=1800&f=png&s=318660" alt></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">可以看到有两次http请求第一次请求www.phpblog.com.cn发生了一次重定向,，重定向到到了 m.phpblog.com.cn</span><br></pre></td></tr></table></figure>
+
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx 利用每次http请求过来的浏览器ua来区分是移动端还是pc，然后做相应的跳转</span><br></pre></td></tr></table></figure>
+
+<h1 id="相关文档"><a href="#相关文档" class="headerlink" title="相关文档"></a>相关文档</h1><p><a href="https://ziyuan.baidu.com/college/courseinfo?id=156" target="_blank" rel="noopener">百度的官方建议</a><br><a href="http://detectmobilebrowsers.com/" target="_blank" rel="noopener">国外开源的通过User-Agent区分PC和手机的解决方案</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://shiwenyuan.github.io/post/ck0f6wrbz0002c8s615gzygqi.html" title="Nginx配置移动端和电脑端自动双向跳转" target="_blank" rel="external">http://shiwenyuan.github.io/post/ck0f6wrbz0002c8s615gzygqi.html</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/shiwenyuan" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/shiwenyuan" target="_blank"><span class="text-dark">阿远</span><small class="ml-1x">phper</small></a></h3>
+        <div>多思考，多总结，避免虚度光阴</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/post/ck0f6wrbs0000c8s6w1gb5ceg.html" title="Php-将变量输出成array结构"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/post/ck0f6wrcb0007c8s6xhc46nqm.html" title="分享一款图床工具PicGo"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/shiwenyuan" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2019 阿远
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '306b25d9a02928618153',
+    clientSecret: '3014d44d16dc429ec6d0c91ca13783eab237fbb0',
+    repo: 'shiwenyuan.github.io',
+    owner: 'shiwenyuan',
+    admin: ['shiwenyuan'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>
