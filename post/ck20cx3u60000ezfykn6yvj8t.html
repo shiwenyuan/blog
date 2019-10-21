@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>Laravel-job简单使用 | shiwenyuan&#39;s blog</title>
+  <meta name="description" content="前言1看之前需要明白队列生产者消费者基础概念，如果不了解的话可以去文章尾部的参考文档中查看  job1Laravel 队列为不同的后台队列服务提供统一的 API，例如 Beanstalk，Amazon SQS，Redis，甚至其他基于关系型数据库的队列。队列的目的是将耗时的任务延时处理，比如发送邮件，从而大幅度缩短 Web 请求和响应的时间。  队列配置1234567891011121314151">
+<meta name="keywords" content="laravel,php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Laravel-job简单使用">
+<meta property="og:url" content="http://shiwenyuan.github.io/post/ck20cx3u60000ezfykn6yvj8t.html">
+<meta property="og:site_name" content="shiwenyuan&#39;blog">
+<meta property="og:description" content="前言1看之前需要明白队列生产者消费者基础概念，如果不了解的话可以去文章尾部的参考文档中查看  job1Laravel 队列为不同的后台队列服务提供统一的 API，例如 Beanstalk，Amazon SQS，Redis，甚至其他基于关系型数据库的队列。队列的目的是将耗时的任务延时处理，比如发送邮件，从而大幅度缩短 Web 请求和响应的时间。  队列配置1234567891011121314151">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-10-09T04:17:31.045Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Laravel-job简单使用">
+<meta name="twitter:description" content="前言1看之前需要明白队列生产者消费者基础概念，如果不了解的话可以去文章尾部的参考文档中查看  job1Laravel 队列为不同的后台队列服务提供统一的 API，例如 Beanstalk，Amazon SQS，Redis，甚至其他基于关系型数据库的队列。队列的目的是将耗时的任务延时处理，比如发送邮件，从而大幅度缩短 Web 请求和响应的时间。  队列配置1234567891011121314151">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://shiwenyuan.github.io/post/ck20cx3u60000ezfykn6yvj8t.html">
+  
+    <link rel="alternate" href="/atom.xml" title="shiwenyuan&#39;blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/shiwenyuan" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">阿远</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">phper</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/shiwenyuan" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/composer/">composer</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/laravel/">laravel</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/php/">php</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/php/laravel/">laravel</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码片段/">代码片段</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码规范/">代码规范</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统工具/">系统工具</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/系统工具/mac/">mac</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/编程ide/">编程ide</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/composer/">composer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/laravel/">laravel</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码片段/">代码片段</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码规范/">代码规范</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/系统工具/">系统工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程ide/">编程ide</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/composer/" style="font-size: 13px;">composer</a> <a href="/tags/laravel/" style="font-size: 13.67px;">laravel</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/php/" style="font-size: 14px;">php</a> <a href="/tags/代码片段/" style="font-size: 13px;">代码片段</a> <a href="/tags/代码规范/" style="font-size: 13.33px;">代码规范</a> <a href="/tags/系统工具/" style="font-size: 13px;">系统工具</a> <a href="/tags/编程ide/" style="font-size: 13.33px;">编程ide</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/laravel/">laravel</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck20cx3v9000fezfyuxaekkbr.html" class="title">Phpstorm开启Laravel代码提示</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-21T11:32:14.000Z" itemprop="datePublished">2019-10-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/php/">php</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/php/laravel/">laravel</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck20cx3ur0008ezfy9uk7ojs6.html" class="title">Laravelapi自定义response格式</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-09T03:35:47.000Z" itemprop="datePublished">2019-10-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/php/">php</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/php/laravel/">laravel</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck20cx3uu000aezfyfrg42xt3.html" class="title">Laravel常用命令</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-09T03:34:24.000Z" itemprop="datePublished">2019-10-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/php/">php</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/php/laravel/">laravel</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck20cx3ug0002ezfyjox2ztsj.html" class="title">Laravel-event简单使用</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-26T04:19:55.000Z" itemprop="datePublished">2019-09-26</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/php/">php</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/php/laravel/">laravel</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck20cx3u60000ezfykn6yvj8t.html" class="title">Laravel-job简单使用</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-26T04:19:45.000Z" itemprop="datePublished">2019-09-26</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Laravel-job简单使用" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Laravel-job简单使用
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/post/ck20cx3u60000ezfykn6yvj8t.html" class="article-date">
+	  <time datetime="2019-09-26T04:19:45.000Z" itemprop="datePublished">2019-09-26</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/php/">php</a>►<a class="article-category-link" href="/categories/php/laravel/">laravel</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/laravel/">laravel</a>, <a class="article-tag-link" href="/tags/php/">php</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/post/ck20cx3u60000ezfykn6yvj8t.html#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 950(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 5(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">看之前需要明白队列生产者消费者基础概念，如果不了解的话可以去文章尾部的参考文档中查看</span><br></pre></td></tr></table></figure>
+
+<h1 id="job"><a href="#job" class="headerlink" title="job"></a>job</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Laravel 队列为不同的后台队列服务提供统一的 API，例如 Beanstalk，Amazon SQS，Redis，甚至其他基于关系型数据库的队列。队列的目的是将耗时的任务延时处理，比如发送邮件，从而大幅度缩短 Web 请求和响应的时间。</span><br></pre></td></tr></table></figure>
+
+<h2 id="队列配置"><a href="#队列配置" class="headerlink" title="队列配置"></a>队列配置</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在你的`config/queue.php` 配置文件里，有一个`connections`配置选项，此处以redis举例</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">return</span> [</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    |--------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">    | Default Queue Connection Name</span></span><br><span class="line"><span class="comment">    |--------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">    |</span></span><br><span class="line"><span class="comment">    | Laravel's queue API supports an assortment of back-ends via a single</span></span><br><span class="line"><span class="comment">    | API, giving you convenient access to each back-end using the same</span></span><br><span class="line"><span class="comment">    | syntax for every one. Here you may define a default connection.</span></span><br><span class="line"><span class="comment">    |</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">    <span class="string">'default'</span> =&gt; env(<span class="string">'QUEUE_CONNECTION'</span>, <span class="string">'sync'</span>),</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    |--------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">    | Queue Connections</span></span><br><span class="line"><span class="comment">    |--------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">    |</span></span><br><span class="line"><span class="comment">    | Here you may configure the connection information for each server that</span></span><br><span class="line"><span class="comment">    | is used by your application. A default configuration has been added</span></span><br><span class="line"><span class="comment">    | for each back-end shipped with Laravel. You are free to add more.</span></span><br><span class="line"><span class="comment">    |</span></span><br><span class="line"><span class="comment">    | Drivers: "sync", "database", "beanstalkd", "sqs", "redis", "null"</span></span><br><span class="line"><span class="comment">    |</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">    <span class="string">'connections'</span> =&gt; [</span><br><span class="line"></span><br><span class="line">        <span class="string">'sync'</span> =&gt; [</span><br><span class="line">            <span class="string">'driver'</span> =&gt; <span class="string">'sync'</span>,</span><br><span class="line">        ],</span><br><span class="line"></span><br><span class="line">        <span class="string">'database'</span> =&gt; [</span><br><span class="line">            <span class="string">'driver'</span> =&gt; <span class="string">'database'</span>,</span><br><span class="line">            <span class="string">'table'</span> =&gt; <span class="string">'jobs'</span>,</span><br><span class="line">            <span class="string">'queue'</span> =&gt; <span class="string">'default'</span>,</span><br><span class="line">            <span class="string">'retry_after'</span> =&gt; <span class="number">90</span>,</span><br><span class="line">        ],</span><br><span class="line"></span><br><span class="line">        <span class="string">'beanstalkd'</span> =&gt; [</span><br><span class="line">            <span class="string">'driver'</span> =&gt; <span class="string">'beanstalkd'</span>,</span><br><span class="line">            <span class="string">'host'</span> =&gt; <span class="string">'localhost'</span>,</span><br><span class="line">            <span class="string">'queue'</span> =&gt; <span class="string">'default'</span>,</span><br><span class="line">            <span class="string">'retry_after'</span> =&gt; <span class="number">90</span>,</span><br><span class="line">            <span class="string">'block_for'</span> =&gt; <span class="number">0</span>,</span><br><span class="line">        ],</span><br><span class="line"></span><br><span class="line">        <span class="string">'sqs'</span> =&gt; [</span><br><span class="line">            <span class="string">'driver'</span> =&gt; <span class="string">'sqs'</span>,</span><br><span class="line">            <span class="string">'key'</span> =&gt; env(<span class="string">'AWS_ACCESS_KEY_ID'</span>),</span><br><span class="line">            <span class="string">'secret'</span> =&gt; env(<span class="string">'AWS_SECRET_ACCESS_KEY'</span>),</span><br><span class="line">            <span class="string">'prefix'</span> =&gt; env(<span class="string">'SQS_PREFIX'</span>, <span class="string">'https://sqs.us-east-1.amazonaws.com/your-account-id'</span>),</span><br><span class="line">            <span class="string">'queue'</span> =&gt; env(<span class="string">'SQS_QUEUE'</span>, <span class="string">'your-queue-name'</span>),</span><br><span class="line">            <span class="string">'region'</span> =&gt; env(<span class="string">'AWS_DEFAULT_REGION'</span>, <span class="string">'us-east-1'</span>),</span><br><span class="line">        ],</span><br><span class="line"></span><br><span class="line">        <span class="string">'redis'</span> =&gt; [</span><br><span class="line">            <span class="string">'driver'</span> =&gt; <span class="string">'redis'</span>,</span><br><span class="line">            <span class="string">'connection'</span> =&gt; <span class="string">'default'</span>,</span><br><span class="line">            <span class="string">'queue'</span> =&gt; env(<span class="string">'REDIS_QUEUE'</span>, <span class="string">'default'</span>),</span><br><span class="line">            <span class="string">'retry_after'</span> =&gt; <span class="number">90</span>,</span><br><span class="line">            <span class="string">'block_for'</span> =&gt; <span class="keyword">null</span>,</span><br><span class="line">        ],</span><br><span class="line"></span><br><span class="line">    ],</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    |--------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">    | Failed Queue Jobs</span></span><br><span class="line"><span class="comment">    |--------------------------------------------------------------------------</span></span><br><span class="line"><span class="comment">    |</span></span><br><span class="line"><span class="comment">    | These options configure the behavior of failed queue job logging so you</span></span><br><span class="line"><span class="comment">    | can control which database and table are used to store the jobs that</span></span><br><span class="line"><span class="comment">    | have failed. You may change them to any database / table you wish.</span></span><br><span class="line"><span class="comment">    |</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">    <span class="string">'failed'</span> =&gt; [</span><br><span class="line">        <span class="string">'driver'</span> =&gt; env(<span class="string">'QUEUE_FAILED_DRIVER'</span>, <span class="string">'database'</span>),</span><br><span class="line">        <span class="string">'database'</span> =&gt; env(<span class="string">'DB_CONNECTION'</span>, <span class="string">'mysql'</span>),</span><br><span class="line">        <span class="string">'table'</span> =&gt; <span class="string">'failed_jobs'</span>,</span><br><span class="line">    ],</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成job文件"><a href="#生成job文件" class="headerlink" title="生成job文件"></a>生成job文件</h2><p>php artisan make:job JobMonitorOrder<br>此条命令会在生成如下文件</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">➜ cat app/Jobs/JobMonitorOrder.php</span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>\<span class="title">Jobs</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Bus</span>\<span class="title">Queueable</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Queue</span>\<span class="title">SerializesModels</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Queue</span>\<span class="title">InteractsWithQueue</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Contracts</span>\<span class="title">Queue</span>\<span class="title">ShouldQueue</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Foundation</span>\<span class="title">Bus</span>\<span class="title">Dispatchable</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Class JobMonitorOrder</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@package</span> App\Jobs</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JobMonitorOrder</span> <span class="keyword">implements</span> <span class="title">ShouldQueue</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">Dispatchable</span>, <span class="title">InteractsWithQueue</span>, <span class="title">Queueable</span>, <span class="title">SerializesModels</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Create a new job instance.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> void</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">handle</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改实现"><a href="#修改实现" class="headerlink" title="修改实现"></a>修改实现</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>\<span class="title">Jobs</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Bus</span>\<span class="title">Queueable</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Queue</span>\<span class="title">SerializesModels</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Queue</span>\<span class="title">InteractsWithQueue</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Contracts</span>\<span class="title">Queue</span>\<span class="title">ShouldQueue</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Foundation</span>\<span class="title">Bus</span>\<span class="title">Dispatchable</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Class JobMonitorOrder</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@package</span> App\Jobs</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">JobMonitorOrder</span> <span class="keyword">implements</span> <span class="title">ShouldQueue</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">use</span> <span class="title">Dispatchable</span>, <span class="title">InteractsWithQueue</span>, <span class="title">Queueable</span>, <span class="title">SerializesModels</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@var</span> null</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> $order_id = <span class="keyword">null</span>;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Create a new job instance.</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> $order_id</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">($order_id)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;order_id = $order_id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> bool</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">handle</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        info(<span class="string">'shiwenyuan test order_id:'</span>.<span class="keyword">$this</span>-&gt;order_id);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h3><h4 id="调用方式"><a href="#调用方式" class="headerlink" title="调用方式"></a>调用方式</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\App\Jobs\JobMonitorOrder::dispatch(<span class="string">'123131231231'</span>)-&gt;allOnConnection(<span class="string">'redis'</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="执行结果"><a href="#执行结果" class="headerlink" title="执行结果"></a>执行结果</h4><p>执行后会插入到队列中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">➜  fundta-monitor git:(feature_01_order_monitor) ✗ redis-cli</span><br><span class="line">127.0.0.1:6379&gt; keys *</span><br><span class="line">1) &quot;laravel_database_queues:default&quot;</span><br><span class="line">2) &quot;laravel_database_queues:default:notify&quot;</span><br><span class="line">127.0.0.1:6379&gt; type laravel_database_queues:default:notify</span><br><span class="line">list</span><br><span class="line">127.0.0.1:6379&gt; LRANGE laravel_database_queues:default:notify 0 -1</span><br><span class="line">1) &quot;1&quot;</span><br><span class="line">127.0.0.1:6379&gt; LRANGE laravel_database_queues:default 0 -1</span><br><span class="line">1) &quot;&#123;\&quot;displayName\&quot;:\&quot;App\\\\Jobs\\\\JobMonitorOrder\&quot;,\&quot;job\&quot;:\&quot;Illuminate\\\\Queue\\\\CallQueuedHandler@call\&quot;,\&quot;maxTries\&quot;:null,\&quot;delay\&quot;:null,\&quot;timeout\&quot;:null,\&quot;timeoutAt\&quot;:null,\&quot;data\&quot;:&#123;\&quot;commandName\&quot;:\&quot;App\\\\Jobs\\\\JobMonitorOrder\&quot;,\&quot;command\&quot;:\&quot;O:24:\\\&quot;App\\\\Jobs\\\\JobMonitorOrder\\\&quot;:9:&#123;s:8:\\\&quot;order_id\\\&quot;;s:12:\\\&quot;123131231231\\\&quot;;s:6:\\\&quot;\\u0000*\\u0000job\\\&quot;;N;s:10:\\\&quot;connection\\\&quot;;s:5:\\\&quot;redis\\\&quot;;s:5:\\\&quot;queue\\\&quot;;N;s:15:\\\&quot;chainConnection\\\&quot;;s:5:\\\&quot;redis\\\&quot;;s:10:\\\&quot;chainQueue\\\&quot;;N;s:5:\\\&quot;delay\\\&quot;;N;s:10:\\\&quot;middleware\\\&quot;;a:0:&#123;&#125;s:7:\\\&quot;chained\\\&quot;;a:0:&#123;&#125;&#125;\&quot;&#125;,\&quot;id\&quot;:\&quot;f8srlRRzDN4CLjw1WS96p8xTo4z4jGcr\&quot;,\&quot;attempts\&quot;:0&#125;&quot;</span><br><span class="line">127.0.0.1:6379&gt; LRANGE laravel_database_queues:default:notify 0 -1</span><br></pre></td></tr></table></figure>
+
+<h3 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h3><h4 id="调用方式-1"><a href="#调用方式-1" class="headerlink" title="调用方式"></a>调用方式</h4><p>另启动一个cli进程开启消费者，此时看到消费者在从队列里消费投递的任务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  fundta-monitor git:(feature_01_order_monitor) ✗ php artisan queue:work redis</span><br><span class="line">[2019-09-26 05:53:10][f8srlRRzDN4CLjw1WS96p8xTo4z4jGcr] Processing: App\Jobs\JobMonitorOrder</span><br><span class="line">[2019-09-26 05:53:10][f8srlRRzDN4CLjw1WS96p8xTo4z4jGcr] Processed:  App\Jobs\JobMonitorOrder</span><br></pre></td></tr></table></figure>
+
+<h4 id="执行结果-1"><a href="#执行结果-1" class="headerlink" title="执行结果"></a>执行结果</h4><p>刚刚那个job是往日志文件中插入一条记录，此时打开日志去查看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[2019-09-26 05:53:10] local.INFO: shiwenyuan test order_id:123131231231</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h1><p><a href="https://learnku.com/docs/laravel/6.x/queues/5168" target="_blank" rel="noopener">队列《laravel6》</a><br><a href="http://techblog.ppdai.com/2018/07/17/20180717/" target="_blank" rel="noopener">队列生产者消费者基础概念</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://shiwenyuan.github.io/post/ck20cx3u60000ezfykn6yvj8t.html" title="Laravel-job简单使用" target="_blank" rel="external">http://shiwenyuan.github.io/post/ck20cx3u60000ezfykn6yvj8t.html</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/shiwenyuan" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/shiwenyuan" target="_blank"><span class="text-dark">阿远</span><small class="ml-1x">phper</small></a></h3>
+        <div>多思考，多总结，避免虚度光阴</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/post/ck20cx3ug0002ezfyjox2ztsj.html" title="Laravel-event简单使用"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/post/ck20cx3vg000iezfy9bzz7ne9.html" title="Php-将变量输出成array结构"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/shiwenyuan" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2019 阿远
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '306b25d9a02928618153',
+    clientSecret: '3014d44d16dc429ec6d0c91ca13783eab237fbb0',
+    repo: 'shiwenyuan.github.io',
+    owner: 'shiwenyuan',
+    admin: ['shiwenyuan'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>
