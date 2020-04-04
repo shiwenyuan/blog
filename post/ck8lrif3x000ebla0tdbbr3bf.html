@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>Phpstorm开启Laravel代码提示 | shiwenyuan&#39;s blog</title>
+  <meta name="description" content="前言今天在写项目的时候，感觉没有代码提示特别不爽，而且也容易出错，耗时耗力。遂找了一波关于laravel代码提示及补全工具，发现网上的文章都是通过barryvdh/laravel-ide-helper这个包生成的，我就自己配置了一下 ，感觉舒服了不少。但是还是有一个问题，就是每个项目里都得引用一下这个包，然后通过php artisan去生成提示文件，虽然可以通过.gitignore去让提交的时候忽">
+<meta name="keywords" content="laravel,编程ide">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Phpstorm开启Laravel代码提示">
+<meta property="og:url" content="http://shiwenyuan.github.io/post/ck8lrif3x000ebla0tdbbr3bf.html">
+<meta property="og:site_name" content="shiwenyuan&#39;blog">
+<meta property="og:description" content="前言今天在写项目的时候，感觉没有代码提示特别不爽，而且也容易出错，耗时耗力。遂找了一波关于laravel代码提示及补全工具，发现网上的文章都是通过barryvdh/laravel-ide-helper这个包生成的，我就自己配置了一下 ，感觉舒服了不少。但是还是有一个问题，就是每个项目里都得引用一下这个包，然后通过php artisan去生成提示文件，虽然可以通过.gitignore去让提交的时候忽">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20191021200932.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20191021201134.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20191021201256.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20191021201539.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20191021225349.png">
+<meta property="og:updated_time" content="2019-10-21T14:57:51.267Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Phpstorm开启Laravel代码提示">
+<meta name="twitter:description" content="前言今天在写项目的时候，感觉没有代码提示特别不爽，而且也容易出错，耗时耗力。遂找了一波关于laravel代码提示及补全工具，发现网上的文章都是通过barryvdh/laravel-ide-helper这个包生成的，我就自己配置了一下 ，感觉舒服了不少。但是还是有一个问题，就是每个项目里都得引用一下这个包，然后通过php artisan去生成提示文件，虽然可以通过.gitignore去让提交的时候忽">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20191021200932.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://shiwenyuan.github.io/post/ck8lrif3x000ebla0tdbbr3bf.html">
+  
+    <link rel="alternate" href="/atom.xml" title="shiwenyuan&#39;blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/shiwenyuan" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">阿远</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">phper</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/shiwenyuan" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/composer/">composer</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/laravel/">laravel</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/laravel/编程ide/">编程ide</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/php/">php</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/php/laravel/">laravel</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码片段/">代码片段</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码规范/">代码规范</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统工具/">系统工具</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/系统工具/mac/">mac</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/编程ide/">编程ide</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/composer/">composer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/laravel/">laravel</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码片段/">代码片段</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码规范/">代码规范</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/系统工具/">系统工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程ide/">编程ide</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/composer/" style="font-size: 13px;">composer</a> <a href="/tags/git/" style="font-size: 13px;">git</a> <a href="/tags/laravel/" style="font-size: 13.5px;">laravel</a> <a href="/tags/nginx/" style="font-size: 13.5px;">nginx</a> <a href="/tags/php/" style="font-size: 14px;">php</a> <a href="/tags/代码片段/" style="font-size: 13px;">代码片段</a> <a href="/tags/代码规范/" style="font-size: 13.5px;">代码规范</a> <a href="/tags/系统工具/" style="font-size: 13px;">系统工具</a> <a href="/tags/编程ide/" style="font-size: 13.5px;">编程ide</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/git/">git</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck8lrif3z000fbla0vgdkzxac.html" class="title">git merge与rebase</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-12-11T08:48:54.000Z" itemprop="datePublished">2019-12-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/laravel/">laravel</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/laravel/编程ide/">编程ide</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck8lrif3x000ebla0tdbbr3bf.html" class="title">Phpstorm开启Laravel代码提示</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-21T11:32:14.000Z" itemprop="datePublished">2019-10-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/php/">php</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/php/laravel/">laravel</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck8lrif2x0000bla0wgysckc5.html" class="title">Laravelapi自定义response格式</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-09T03:35:47.000Z" itemprop="datePublished">2019-10-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/代码片段/">代码片段</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck8lrif3h0008bla0jv4xe4fr.html" class="title">Php-将变量输出成array结构</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-11T11:26:15.000Z" itemprop="datePublished">2019-09-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/nginx/">nginx</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck8lrif3e0006bla0uis5fl42.html" class="title">Nginx配置移动端和电脑端自动双向跳转</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-04T08:49:04.000Z" itemprop="datePublished">2019-09-04</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Phpstorm开启Laravel代码提示" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Phpstorm开启Laravel代码提示
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/post/ck8lrif3x000ebla0tdbbr3bf.html" class="article-date">
+	  <time datetime="2019-10-21T11:32:14.000Z" itemprop="datePublished">2019-10-21</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/laravel/">laravel</a>►<a class="article-category-link" href="/categories/laravel/编程ide/">编程ide</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/laravel/">laravel</a>, <a class="article-tag-link" href="/tags/编程ide/">编程ide</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/post/ck8lrif3x000ebla0tdbbr3bf.html#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 736(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 3(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天在写项目的时候，感觉没有代码提示特别不爽，而且也容易出错，耗时耗力。遂找了一波关于laravel代码提示及补全工具，发现网上的文章都是通过<a href="https://github.com/barryvdh/laravel-ide-helper#automatic-phpdocs-for-models" target="_blank" rel="noopener">barryvdh/laravel-ide-helper</a>这个包生成的，我就自己配置了一下 ，感觉舒服了不少。但是还是有一个问题，就是每个项目里都得引用一下这个包，然后通过<code>php artisan</code>去生成提示文件，虽然可以通过<code>.gitignore</code>去让提交的时候忽略掉提示文件，但是每个项目都要这么走一遭，感觉比较鸡肋，所以就研究了一下<code>Phpstorm</code>的ide配置方法，发现可行，遂分享给大家。</p>
+<h1 id="生成ide-helper文件"><a href="#生成ide-helper文件" class="headerlink" title="生成ide_helper文件"></a>生成ide_helper文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">➜  test_demo composer require barryvdh/laravel-ide-helper</span><br><span class="line"></span><br><span class="line">Using version ^2.6 for barryvdh/laravel-ide-helper</span><br><span class="line">./composer.json has been updated</span><br><span class="line">Loading composer repositories with package information</span><br><span class="line">Updating dependencies (including require-dev)</span><br><span class="line">Package operations: 14 installs, 0 updates, 0 removals</span><br><span class="line">  - Installing doctrine/event-manager (v1.0.0): Downloading (100%)         </span><br><span class="line">  - Installing doctrine/cache (v1.8.0): Downloading (100%)         </span><br><span class="line">  - Installing doctrine/dbal (v2.9.2): Downloading (100%)         </span><br><span class="line">  - Installing composer/xdebug-handler (1.3.3): Downloading (100%)         </span><br><span class="line">  - Installing composer/spdx-licenses (1.5.2): Downloading (100%)         </span><br><span class="line">  - Installing symfony/filesystem (v4.3.5): Downloading (100%)         </span><br><span class="line">  - Installing justinrainbow/json-schema (5.2.9): Downloading (100%)         </span><br><span class="line">  - Installing seld/phar-utils (1.0.1): Downloading (100%)         </span><br><span class="line">  - Installing seld/jsonlint (1.7.1): Downloading (100%)         </span><br><span class="line">  - Installing composer/semver (1.5.0): Downloading (100%)         </span><br><span class="line">  - Installing composer/ca-bundle (1.2.4): Downloading (100%)         </span><br><span class="line">  - Installing composer/composer (1.9.0): Downloading (100%)         </span><br><span class="line">  - Installing barryvdh/reflection-docblock (v2.0.6): Downloading (100%)         </span><br><span class="line">  - Installing barryvdh/laravel-ide-helper (v2.6.5): Downloading (100%)         </span><br><span class="line">doctrine/cache suggests installing alcaeus/mongo-php-adapter (Required to use legacy MongoDB driver)</span><br><span class="line">barryvdh/reflection-docblock suggests installing dflydev/markdown (~1.0)</span><br><span class="line">Writing lock file</span><br><span class="line">Generating optimized autoload files</span><br><span class="line">&gt; Illuminate\Foundation\ComposerScripts::postAutoloadDump</span><br><span class="line">&gt; @php artisan package:discover --ansi</span><br><span class="line">Discovered Package: barryvdh/laravel-ide-helper</span><br><span class="line">Discovered Package: facade/ignition</span><br><span class="line">Discovered Package: fideloper/proxy</span><br><span class="line">Discovered Package: laravel/tinker</span><br><span class="line">Discovered Package: nesbot/carbon</span><br><span class="line">Discovered Package: nunomaduro/collision</span><br><span class="line">Package manifest generated successfully.</span><br></pre></td></tr></table></figure>
+
+<p>修改<code>config/app.php</code>中的<code>providers</code>增加<code>Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">'providers'</span> =&gt; [</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * Laravel Framework Service Providers...</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        Illuminate\Auth\AuthServiceProvider::class,</span><br><span class="line">        Illuminate\Broadcasting\BroadcastServiceProvider::class,</span><br><span class="line">        Illuminate\Bus\BusServiceProvider::class,</span><br><span class="line">        Illuminate\Cache\CacheServiceProvider::class,</span><br><span class="line">        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,</span><br><span class="line">        Illuminate\Cookie\CookieServiceProvider::class,</span><br><span class="line">        Illuminate\Database\DatabaseServiceProvider::class,</span><br><span class="line">        Illuminate\Encryption\EncryptionServiceProvider::class,</span><br><span class="line">        Illuminate\Filesystem\FilesystemServiceProvider::class,</span><br><span class="line">        Illuminate\Foundation\Providers\FoundationServiceProvider::class,</span><br><span class="line">        Illuminate\Hashing\HashServiceProvider::class,</span><br><span class="line">        Illuminate\Mail\MailServiceProvider::class,</span><br><span class="line">        Illuminate\Notifications\NotificationServiceProvider::class,</span><br><span class="line">        Illuminate\Pagination\PaginationServiceProvider::class,</span><br><span class="line">        Illuminate\Pipeline\PipelineServiceProvider::class,</span><br><span class="line">        Illuminate\Queue\QueueServiceProvider::class,</span><br><span class="line">        Illuminate\Redis\RedisServiceProvider::class,</span><br><span class="line">        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,</span><br><span class="line">        Illuminate\Session\SessionServiceProvider::class,</span><br><span class="line">        Illuminate\Translation\TranslationServiceProvider::class,</span><br><span class="line">        Illuminate\Validation\ValidationServiceProvider::class,</span><br><span class="line">        Illuminate\View\ViewServiceProvider::class,</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * Package Service Providers...</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * Application Service Providers...</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        App\Providers\AppServiceProvider::class,</span><br><span class="line">        ...</span><br><span class="line">        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class</span><br><span class="line">    ],</span><br></pre></td></tr></table></figure>
+
+<p><code>php artisan vendor:publish</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  test_demo php artisan vendor:publish --provider=&quot;Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider&quot; --tag=config</span><br><span class="line">Copied File [/vendor/barryvdh/laravel-ide-helper/config/ide-helper.php] To [/config/ide-helper.php]</span><br><span class="line">Publishing complete.</span><br></pre></td></tr></table></figure>
+
+<p><code>php artisan ide-helper:generate</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  test_demo php artisan ide-helper:generate</span><br><span class="line">A new helper file was written to _ide_helper.php</span><br></pre></td></tr></table></figure>
+
+<p>此时生成的<code>_ide_helper.php</code>在项目根目录下面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">➜  test_demo tree -L 1</span><br><span class="line">.</span><br><span class="line">├── _ide_helper.php</span><br><span class="line">├── app</span><br><span class="line">├── artisan</span><br><span class="line">├── bootstrap</span><br><span class="line">├── composer.json</span><br><span class="line">├── composer.lock</span><br><span class="line">├── config</span><br><span class="line">├── database</span><br><span class="line">├── package.json</span><br><span class="line">├── phpunit.xml</span><br><span class="line">├── public</span><br><span class="line">├── resources</span><br><span class="line">├── routes</span><br><span class="line">├── server.php</span><br><span class="line">├── storage</span><br><span class="line">├── tests</span><br><span class="line">├── vendor</span><br><span class="line">├── webpack.mix.js</span><br><span class="line">└── yarn.lock</span><br></pre></td></tr></table></figure>
+
+<p>至此，<code>_ide_helper.php</code>生成完成</p>
+<h1 id="PhpStorm集成-ide-helper-php"><a href="#PhpStorm集成-ide-helper-php" class="headerlink" title="PhpStorm集成_ide_helper.php"></a>PhpStorm集成_ide_helper.php</h1><p><code>_ide_helper.php</code>找一个地方放着</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ mkdir PhpstormHelper</span><br><span class="line">➜  ~ mv test/test_demo/_ide_helper.php PhpstormHelper/laravel_ide_helper.php</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/shiwenyuan/pic/master/20191021200932.png" alt><br><img src="https://raw.githubusercontent.com/shiwenyuan/pic/master/20191021201134.png" alt><br><img src="https://raw.githubusercontent.com/shiwenyuan/pic/master/20191021201256.png" alt></p>
+<p>修改后<br><img src="https://raw.githubusercontent.com/shiwenyuan/pic/master/20191021201539.png" alt></p>
+<p><strong>重点</strong></p>
+<p><code>model提示需要在class上方加注释,如下</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="title">App</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Contracts</span>\<span class="title">Auth</span>\<span class="title">MustVerifyEmail</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Foundation</span>\<span class="title">Auth</span>\<span class="title">User</span> <span class="title">as</span> <span class="title">Authenticatable</span>;</span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Notifications</span>\<span class="title">Notifiable</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * App\User</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@mixin</span> \Eloquent</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">Authenticatable</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>注册的别名函数不用加，可以直接使用</code><br><img src="https://raw.githubusercontent.com/shiwenyuan/pic/master/20191021225349.png" alt></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://shiwenyuan.github.io/post/ck8lrif3x000ebla0tdbbr3bf.html" title="Phpstorm开启Laravel代码提示" target="_blank" rel="external">http://shiwenyuan.github.io/post/ck8lrif3x000ebla0tdbbr3bf.html</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/shiwenyuan" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/shiwenyuan" target="_blank"><span class="text-dark">阿远</span><small class="ml-1x">phper</small></a></h3>
+        <div>多思考，多总结，避免虚度光阴</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/post/ck8lrif3z000fbla0vgdkzxac.html" title="git merge与rebase"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/post/ck8lrif2x0000bla0wgysckc5.html" title="Laravelapi自定义response格式"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/shiwenyuan" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2020 阿远
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '306b25d9a02928618153',
+    clientSecret: '3014d44d16dc429ec6d0c91ca13783eab237fbb0',
+    repo: 'shiwenyuan.github.io',
+    owner: 'shiwenyuan',
+    admin: ['shiwenyuan'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>
