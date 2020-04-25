@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>PhpStorm集成PlantUML | shiwenyuan&#39;s blog</title>
+  <meta name="description" content="前言工作到现在一直在一味的去学习、去工作、去coding，从而忽略了对自己对技能的总结。近来工作比较清闲，所以就准备把自己的作为程序员的技能栈好好梳理一下，就先从设计模式开始了！！！ 设计模式相关文章内容构想 该设计模式的应用场景 该设计模式的uml图 该设计模式的代码实现   相关代码届时会放到github提到了uml、市面上可以画uml图的工具有很多，诸如starUML、plantuml… 但">
+<meta name="keywords" content="编程ide">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PhpStorm集成PlantUML">
+<meta property="og:url" content="http://shiwenyuan.github.io/post/ck8tru6es0002t8a0u92j8n6p.html">
+<meta property="og:site_name" content="shiwenyuan&#39;blog">
+<meta property="og:description" content="前言工作到现在一直在一味的去学习、去工作、去coding，从而忽略了对自己对技能的总结。近来工作比较清闲，所以就准备把自己的作为程序员的技能栈好好梳理一下，就先从设计模式开始了！！！ 设计模式相关文章内容构想 该设计模式的应用场景 该设计模式的uml图 该设计模式的代码实现   相关代码届时会放到github提到了uml、市面上可以画uml图的工具有很多，诸如starUML、plantuml… 但">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25f87d03204?w=1082&h=706&f=jpeg&s=93001">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25f80e86fdd?w=726&h=630&f=jpeg&s=55632">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25f898ae57d?w=1918&h=1076&f=jpeg&s=111217">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25f891de3a4?w=1109&h=824&f=jpeg&s=258365">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25f817bf733?w=1910&h=500&f=jpeg&s=124540">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25fae9ec8cc?w=1025&h=698&f=jpeg&s=46198">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25fd1dea595?w=1920&h=1080&f=jpeg&s=105157">
+<meta property="og:updated_time" content="2019-09-10T08:56:43.735Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PhpStorm集成PlantUML">
+<meta name="twitter:description" content="前言工作到现在一直在一味的去学习、去工作、去coding，从而忽略了对自己对技能的总结。近来工作比较清闲，所以就准备把自己的作为程序员的技能栈好好梳理一下，就先从设计模式开始了！！！ 设计模式相关文章内容构想 该设计模式的应用场景 该设计模式的uml图 该设计模式的代码实现   相关代码届时会放到github提到了uml、市面上可以画uml图的工具有很多，诸如starUML、plantuml… 但">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25f87d03204?w=1082&h=706&f=jpeg&s=93001">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://shiwenyuan.github.io/post/ck8tru6es0002t8a0u92j8n6p.html">
+  
+    <link rel="alternate" href="/atom.xml" title="shiwenyuan&#39;blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/shiwenyuan" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">阿远</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">phper</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/shiwenyuan" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/composer/">composer</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/laravel/">laravel</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/laravel/编程ide/">编程ide</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/php/">php</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/php/laravel/">laravel</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码片段/">代码片段</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码规范/">代码规范</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统工具/">系统工具</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/系统工具/mac/">mac</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/编程ide/">编程ide</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/composer/">composer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/laravel/">laravel</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码片段/">代码片段</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码规范/">代码规范</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/系统工具/">系统工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程ide/">编程ide</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/composer/" style="font-size: 13px;">composer</a> <a href="/tags/git/" style="font-size: 13px;">git</a> <a href="/tags/laravel/" style="font-size: 13.5px;">laravel</a> <a href="/tags/nginx/" style="font-size: 13.5px;">nginx</a> <a href="/tags/php/" style="font-size: 14px;">php</a> <a href="/tags/代码片段/" style="font-size: 13px;">代码片段</a> <a href="/tags/代码规范/" style="font-size: 13.5px;">代码规范</a> <a href="/tags/系统工具/" style="font-size: 13px;">系统工具</a> <a href="/tags/编程ide/" style="font-size: 13.5px;">编程ide</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/git/">git</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck8tru6g50019t8a0199rrful.html" class="title">git merge与rebase</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-12-11T08:48:54.000Z" itemprop="datePublished">2019-12-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/laravel/">laravel</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/laravel/编程ide/">编程ide</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck8tru6f3000bt8a0k5gm3u6s.html" class="title">Phpstorm开启Laravel代码提示</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-21T11:32:14.000Z" itemprop="datePublished">2019-10-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/php/">php</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/php/laravel/">laravel</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck8tru6gc001ct8a0bz8xakj5.html" class="title">Laravelapi自定义response格式</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-09T03:35:47.000Z" itemprop="datePublished">2019-10-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/代码片段/">代码片段</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck8tru6eg0000t8a0n4d9210w.html" class="title">Php-将变量输出成array结构</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-11T11:26:15.000Z" itemprop="datePublished">2019-09-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/nginx/">nginx</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck8tru6ex0005t8a0mt9itr1k.html" class="title">Nginx配置移动端和电脑端自动双向跳转</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-09-04T08:49:04.000Z" itemprop="datePublished">2019-09-04</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-PhpStorm集成PlantUML" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      PhpStorm集成PlantUML
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/post/ck8tru6es0002t8a0u92j8n6p.html" class="article-date">
+	  <time datetime="2019-08-23T08:48:36.000Z" itemprop="datePublished">2019-08-23</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/编程ide/">编程ide</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/编程ide/">编程ide</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/post/ck8tru6es0002t8a0u92j8n6p.html#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 381(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>工作到现在一直在一味的去学习、去工作、去coding，从而忽略了对自己对技能的总结。近来工作比较清闲，所以就准备把自己的作为程序员的技能栈好好梳理一下，就先从设计模式开始了！！！</p>
+<h1 id="设计模式相关文章内容构想"><a href="#设计模式相关文章内容构想" class="headerlink" title="设计模式相关文章内容构想"></a>设计模式相关文章内容构想</h1><ul>
+<li><code>该设计模式的应用场景</code></li>
+<li><code>该设计模式的uml图</code></li>
+<li><code>该设计模式的代码实现</code></li>
+</ul>
+<blockquote>
+<p>相关代码届时会放到<a href="https://github.com/shiwenyuan/designPatterns" target="_blank" rel="noopener">github</a><br>提到了uml、市面上可以画uml图的工具有很多，诸如starUML、<a href="http://www.plantuml.com" target="_blank" rel="noopener">plantuml</a>… 但是我还是更喜欢在PhpStorm里面去操作</p>
+</blockquote>
+<h1 id="phpstrom插件下载"><a href="#phpstrom插件下载" class="headerlink" title="phpstrom插件下载"></a>phpstrom插件下载</h1><p>PhpStrom-&gt;Perferences-&gt;Plugins-&gt;搜索PlantUML-&gt;install(位置是在下图的Restart PhpStorm，此处我是install了之后，显示让我从启动的，哈哈哈哈哈)<br><img src="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25f87d03204?w=1082&h=706&f=jpeg&s=93001" alt><br>下载成功之后点击上图位置的Restart PhpStorm，重新打开之后点击创建文件，这时就会出现uml相关文件的创建<br><img src="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25f80e86fdd?w=726&h=630&f=jpeg&s=55632" alt></p>
+<h2 id="创建文件"><a href="#创建文件" class="headerlink" title="创建文件"></a>创建文件</h2><p>创建uml class，这时发现右侧的显示时一段error提示，大致意思就是需要装一个graphviz软件<br><img src="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25f898ae57d?w=1918&h=1076&f=jpeg&s=111217" alt></p>
+<h2 id="安装graphviz"><a href="#安装graphviz" class="headerlink" title="安装graphviz"></a>安装graphviz</h2><p>我是本机是<code>mac</code>所以我用<a href="https://brew.sh/" target="_blank" rel="noopener">brew</a>,<code>windows</code>用户需自己找一下exe文件安装，此处不一一赘述<br><img src="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25f891de3a4?w=1109&h=824&f=jpeg&s=258365" alt><br>安装成功后找到安装包可执行文件位置配置Phpstrom<br><img src="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25f817bf733?w=1910&h=500&f=jpeg&s=124540" alt><br>此处我的安装包可执行文件位置就是<code>/usr/local/bin/dot</code></p>
+<h2 id="配置phpstrom"><a href="#配置phpstrom" class="headerlink" title="配置phpstrom"></a>配置phpstrom</h2><p><img src="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25fae9ec8cc?w=1025&h=698&f=jpeg&s=46198" alt><br>回到原uml文件点击刷新、大功告成<br><img src="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25fd1dea595?w=1920&h=1080&f=jpeg&s=105157" alt></p>
+<h2 id="相关文档"><a href="#相关文档" class="headerlink" title="相关文档"></a>相关文档</h2><p><a href="http://plantuml.com/zh/class-diagram" target="_blank" rel="noopener">plantuml语法</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://shiwenyuan.github.io/post/ck8tru6es0002t8a0u92j8n6p.html" title="PhpStorm集成PlantUML" target="_blank" rel="external">http://shiwenyuan.github.io/post/ck8tru6es0002t8a0u92j8n6p.html</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/shiwenyuan" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/shiwenyuan" target="_blank"><span class="text-dark">阿远</span><small class="ml-1x">phper</small></a></h3>
+        <div>多思考，多总结，避免虚度光阴</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/post/ck8tru6f5000ct8a0489jtat9.html" title="每个 PHPer 都应当掌握的注释标记"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/post/ck8tru6hs001qt8a0zes9dusz.html" title="PHP-代码整洁之道"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/shiwenyuan" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2020 阿远
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '306b25d9a02928618153',
+    clientSecret: '3014d44d16dc429ec6d0c91ca13783eab237fbb0',
+    repo: 'shiwenyuan.github.io',
+    owner: 'shiwenyuan',
+    admin: ['shiwenyuan'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>
