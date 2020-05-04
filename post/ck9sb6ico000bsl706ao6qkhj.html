@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>mac下源码编译php7.4 | shiwenyuan&#39;s blog</title>
+  <meta name="description" content="MAC OS X 编译安装PHP7.4源码包下载地址https://www.php.net/distributions/php-7.4.5.tar.xz 下载到本地后解压到一个临时文件夹内,此处没有硬性要求。我一般都是自己新建tmp文件夹,方便存放。(ps:日后如果需要源码安装扩展的话可以直接去源码包的ext目录找到对应扩展内容) 解压后的源码包如下123456789101112131415161">
+<meta name="keywords" content="php,mac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mac下源码编译php7.4">
+<meta property="og:url" content="http://shiwenyuan.github.io/post/ck9sb6ico000bsl706ao6qkhj.html">
+<meta property="og:site_name" content="shiwenyuan&#39;blog">
+<meta property="og:description" content="MAC OS X 编译安装PHP7.4源码包下载地址https://www.php.net/distributions/php-7.4.5.tar.xz 下载到本地后解压到一个临时文件夹内,此处没有硬性要求。我一般都是自己新建tmp文件夹,方便存放。(ps:日后如果需要源码安装扩展的话可以直接去源码包的ext目录找到对应扩展内容) 解压后的源码包如下123456789101112131415161">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2020/05/04/dSB8KmrgjyifZEn.png">
+<meta property="og:image" content="https://i.loli.net/2020/05/04/8ieSD65qchutHPQ.png">
+<meta property="og:updated_time" content="2020-05-04T10:01:39.445Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mac下源码编译php7.4">
+<meta name="twitter:description" content="MAC OS X 编译安装PHP7.4源码包下载地址https://www.php.net/distributions/php-7.4.5.tar.xz 下载到本地后解压到一个临时文件夹内,此处没有硬性要求。我一般都是自己新建tmp文件夹,方便存放。(ps:日后如果需要源码安装扩展的话可以直接去源码包的ext目录找到对应扩展内容) 解压后的源码包如下123456789101112131415161">
+<meta name="twitter:image" content="https://i.loli.net/2020/05/04/dSB8KmrgjyifZEn.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://shiwenyuan.github.io/post/ck9sb6ico000bsl706ao6qkhj.html">
+  
+    <link rel="alternate" href="/atom.xml" title="shiwenyuan&#39;blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/shiwenyuan" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">阿远</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">phper</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/shiwenyuan" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/composer/">composer</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/php/">php</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码片段/">代码片段</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码规范/">代码规范</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/">杂谈</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统工具/">系统工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/编程ide/">编程ide</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/composer/">composer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/laravel/">laravel</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码片段/">代码片段</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码规范/">代码规范</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂谈/">杂谈</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/理财/">理财</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/系统工具/">系统工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程ide/">编程ide</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/composer/" style="font-size: 13px;">composer</a> <a href="/tags/git/" style="font-size: 13px;">git</a> <a href="/tags/laravel/" style="font-size: 13.5px;">laravel</a> <a href="/tags/mac/" style="font-size: 13px;">mac</a> <a href="/tags/nginx/" style="font-size: 13.5px;">nginx</a> <a href="/tags/php/" style="font-size: 14px;">php</a> <a href="/tags/代码片段/" style="font-size: 13px;">代码片段</a> <a href="/tags/代码规范/" style="font-size: 13.5px;">代码规范</a> <a href="/tags/杂谈/" style="font-size: 13px;">杂谈</a> <a href="/tags/理财/" style="font-size: 13px;">理财</a> <a href="/tags/系统工具/" style="font-size: 13px;">系统工具</a> <a href="/tags/编程ide/" style="font-size: 13.5px;">编程ide</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/php/">php</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck9sb6ico000bsl706ao6qkhj.html" class="title">mac下源码编译php7.4</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-04T07:00:18.000Z" itemprop="datePublished">2020-05-04</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/杂谈/">杂谈</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck9sb6id00011sl70z03i8ihm.html" class="title">你以为买进了原油期货，其实你从未走出银行</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-22T15:01:38.000Z" itemprop="datePublished">2020-04-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/git/">git</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck9sb6icu000ksl70y93ktex3.html" class="title">git merge与rebase</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-12-11T08:48:54.000Z" itemprop="datePublished">2019-12-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/编程ide/">编程ide</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck9sb6icr000fsl706mg6appw.html" class="title">Phpstorm开启Laravel代码提示</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-21T11:32:14.000Z" itemprop="datePublished">2019-10-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/php/">php</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ck9sb6icj0005sl705z4qj26s.html" class="title">Laravelapi自定义response格式</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-10-09T03:35:47.000Z" itemprop="datePublished">2019-10-09</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-mac下源码编译php7-4" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      mac下源码编译php7.4
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/post/ck9sb6ico000bsl706ao6qkhj.html" class="article-date">
+	  <time datetime="2020-05-04T07:00:18.000Z" itemprop="datePublished">2020-05-04</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/php/">php</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/mac/">mac</a>, <a class="article-tag-link" href="/tags/php/">php</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/post/ck9sb6ico000bsl706ao6qkhj.html#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 11(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="MAC-OS-X-编译安装PHP7-4"><a href="#MAC-OS-X-编译安装PHP7-4" class="headerlink" title="MAC OS X 编译安装PHP7.4"></a>MAC OS X 编译安装PHP7.4</h1><h2 id="源码包下载地址"><a href="#源码包下载地址" class="headerlink" title="源码包下载地址"></a>源码包下载地址</h2><p><a href="https://www.php.net/distributions/php-7.4.5.tar.xz" target="_blank" rel="noopener">https://www.php.net/distributions/php-7.4.5.tar.xz</a></p>
+<p>下载到本地后解压到一个临时文件夹内,此处没有硬性要求。我一般都是自己新建tmp文件夹,方便存放。(ps:<strong>日后如果需要源码安装扩展的话可以直接去源码包的ext目录找到对应扩展内容</strong>)</p>
+<h2 id="解压后的源码包如下"><a href="#解压后的源码包如下" class="headerlink" title="解压后的源码包如下"></a>解压后的源码包如下</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">➜  php-7.4.5 tree -L 1</span><br><span class="line">.</span><br><span class="line">├── CODING_STANDARDS.md</span><br><span class="line">├── CONTRIBUTING.md</span><br><span class="line">├── EXTENSIONS</span><br><span class="line">├── LICENSE</span><br><span class="line">├── NEWS</span><br><span class="line">├── README.REDIST.BINS</span><br><span class="line">├── README.md</span><br><span class="line">├── TSRM</span><br><span class="line">├── UPGRADING</span><br><span class="line">├── UPGRADING.INTERNALS</span><br><span class="line">├── Zend</span><br><span class="line">├── appveyor</span><br><span class="line">├── azure</span><br><span class="line">├── azure-pipelines.yml</span><br><span class="line">├── build</span><br><span class="line">├── buildconf</span><br><span class="line">├── buildconf.bat</span><br><span class="line">├── configure</span><br><span class="line">├── configure.ac</span><br><span class="line">├── docs</span><br><span class="line">├── ext</span><br><span class="line">├── main</span><br><span class="line">├── pear</span><br><span class="line">├── php.ini-development</span><br><span class="line">├── php.ini-production</span><br><span class="line">├── run-tests.php</span><br><span class="line">├── sapi</span><br><span class="line">├── scripts</span><br><span class="line">├── tests</span><br><span class="line">├── travis</span><br><span class="line">└── win32</span><br><span class="line"></span><br><span class="line">14 directories, 17 files</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="编译源码"><a href="#编译源码" class="headerlink" title="编译源码"></a>编译源码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">➜  php-7.4.5 ./configure --prefix=/Users/shiwenyuan/php \</span><br><span class="line">    --with-mcrypt \</span><br><span class="line">    --with-mhash \</span><br><span class="line">    --with-mysqli=shared,mysqlnd \</span><br><span class="line">    --with-pdo-mysql=shared,mysqlnd \</span><br><span class="line">    --with-gd \</span><br><span class="line">    --with-openssl \</span><br><span class="line">    --with-iconv \</span><br><span class="line">    --with-zlib \</span><br><span class="line">    --enable-zip \</span><br><span class="line">    --enable-inline-optimization \</span><br><span class="line">    --disable-debug \</span><br><span class="line">    --disable-rpath \</span><br><span class="line">    --enable-shared \</span><br><span class="line">    --enable-xml \</span><br><span class="line">    --enable-bcmath \</span><br><span class="line">    --enable-shmop \</span><br><span class="line">    --enable-sysvsem \</span><br><span class="line">    --enable-mbregex \</span><br><span class="line">    --enable-mbstring \</span><br><span class="line">    --enable-ftp \</span><br><span class="line">    --enable-gd-native-ttf \</span><br><span class="line">    --enable-pcntl \</span><br><span class="line">    --enable-sockets \</span><br><span class="line">    --with-xmlrpc \</span><br><span class="line">    --enable-soap \</span><br><span class="line">    --without-pear \</span><br><span class="line">    --with-gettext \</span><br><span class="line">    --enable-session \</span><br><span class="line">    --with-curl \</span><br><span class="line">    --with-jpeg-dir \</span><br><span class="line">    --with-freetype-dir \</span><br><span class="line">    --enable-opcache \</span><br><span class="line">    --enable-fpm \</span><br><span class="line">    --without-gdbm \</span><br><span class="line">    --enable-fast-install \</span><br><span class="line">    --disable-fileinfo</span><br></pre></td></tr></table></figure>
+
+<h3 id="编译过程常见问题"><a href="#编译过程常见问题" class="headerlink" title="编译过程常见问题"></a>编译过程常见问题</h3><h4 id="configure-error-Package-requirements-openssl-gt-1-0-1-were-not-met"><a href="#configure-error-Package-requirements-openssl-gt-1-0-1-were-not-met" class="headerlink" title="configure: error: Package requirements (openssl &gt;= 1.0.1) were not met:"></a>configure: error: Package requirements (openssl &gt;= 1.0.1) were not met:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">configure: error: Package requirements (openssl &gt;= 1.0.1) were not met:</span><br><span class="line"></span><br><span class="line">No package &apos;openssl&apos; found</span><br><span class="line"></span><br><span class="line">Consider adjusting the PKG_CONFIG_PATH environment variable if you</span><br><span class="line">installed software in a non-standard prefix.</span><br><span class="line"></span><br><span class="line">Alternatively, you may set the environment variables OPENSSL_CFLAGS</span><br><span class="line">and OPENSSL_LIBS to avoid the need to call pkg-config.</span><br><span class="line">See the pkg-config man page for more details.</span><br></pre></td></tr></table></figure>
+
+<h5 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h5><p>没有找到openssl</p>
+<h5 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h5><p>我的openssl是通过brew安装的</p>
+<h6 id="强制brew-link更新"><a href="#强制brew-link更新" class="headerlink" title="强制brew link更新"></a>强制brew link更新</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Warning: Refusing to link macOS provided/shadowed software: openssl@1.1</span><br><span class="line">If you need to have openssl@1.1 first in your PATH run:</span><br><span class="line">  echo &apos;export PATH=&quot;/usr/local/opt/openssl@1.1/bin:$PATH&quot;&apos; &gt;&gt; ~/.zshrc</span><br><span class="line"></span><br><span class="line">For compilers to find openssl@1.1 you may need to set:</span><br><span class="line">  export LDFLAGS=&quot;-L/usr/local/opt/openssl@1.1/lib&quot;</span><br><span class="line">  export CPPFLAGS=&quot;-I/usr/local/opt/openssl@1.1/include&quot;</span><br><span class="line"></span><br><span class="line">For pkg-config to find openssl@1.1 you may need to set:</span><br><span class="line">  export PKG_CONFIG_PATH=&quot;/usr/local/opt/openssl@1.1/lib/pkgconfig&quot;</span><br></pre></td></tr></table></figure>
+
+<p>上面内容大概就是brew不建议这么操作，但是也给出了解决办法,命令行依次执行上面说明需要添加的环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  openssl echo &apos;export PATH=&quot;/usr/local/opt/openssl@1.1/bin:$PATH&quot;&apos; &gt;&gt; ~/.zshrc</span><br><span class="line">➜  openssl export LDFLAGS=&quot;-L/usr/local/opt/openssl@1.1/lib&quot;</span><br><span class="line">➜  openssl export CPPFLAGS=&quot;-I/usr/local/opt/openssl@1.1/include&quot;</span><br><span class="line">➜  openssl export PKG_CONFIG_PATH=&quot;/usr/local/opt/openssl@1.1/lib/pkgconfig&quot;</span><br><span class="line">➜  openssl source ~/.zshrc</span><br></pre></td></tr></table></figure>
+
+<h6 id="修正对应编译项"><a href="#修正对应编译项" class="headerlink" title="修正对应编译项"></a>修正对应编译项</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--with-openssl=/usr/local/Cellar/openssl@1.1/1.1.1f</span><br></pre></td></tr></table></figure>
+
+<h4 id="configure-error-Cannot-locate-header-file-libintl-h"><a href="#configure-error-Cannot-locate-header-file-libintl-h" class="headerlink" title="configure: error: Cannot locate header file libintl.h"></a>configure: error: Cannot locate header file libintl.h</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">configure: error: Cannot locate header file libintl.h</span><br></pre></td></tr></table></figure>
+
+<h5 id="原因-1"><a href="#原因-1" class="headerlink" title="原因"></a>原因</h5><p>–with-gettext编译报错，没有找到gettext的可执行文件，因为configure文件中gettext的默认path 是 <code>/usr/local</code> <code>/usr</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for i in $PHP_GETTEXT /usr/local /usr ;do</span><br></pre></td></tr></table></figure>
+
+<h5 id="解决方法-1"><a href="#解决方法-1" class="headerlink" title="解决方法"></a>解决方法</h5><h6 id="找到对应可执行程序路径"><a href="#找到对应可执行程序路径" class="headerlink" title="找到对应可执行程序路径"></a>找到对应可执行程序路径</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  php-7.4.5 which gettext</span><br><span class="line">/usr/local/opt/gettext/bin/gettext</span><br></pre></td></tr></table></figure>
+
+<p>如果<strong>which gettext</strong>没有结果则执行安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install gettext</span><br></pre></td></tr></table></figure>
+
+<h6 id="修正对应编译项-1"><a href="#修正对应编译项-1" class="headerlink" title="修正对应编译项"></a>修正对应编译项</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--with-gettext=/usr/local/opt/gettext</span><br></pre></td></tr></table></figure>
+
+<h4 id="configure-error-Please-specify-the-install-prefix-of-iconv-with-–with-iconv"><a href="#configure-error-Please-specify-the-install-prefix-of-iconv-with-–with-iconv" class="headerlink" title="configure: error: Please specify the install prefix of iconv with –with-iconv="></a>configure: error: Please specify the install prefix of iconv with –with-iconv=<dir></dir></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">checking for iconv... no</span><br><span class="line">checking for libiconv... no</span><br><span class="line">configure: error: Please specify the install prefix of iconv with --with-iconv=&lt;DIR&gt;</span><br></pre></td></tr></table></figure>
+
+<h5 id="原因-2"><a href="#原因-2" class="headerlink" title="原因"></a>原因</h5><p>–with-iconv编译报错，没有找到iconv的可执行文件,或者系统中没有libiconv</p>
+<h5 id="解决方法-2"><a href="#解决方法-2" class="headerlink" title="解决方法"></a>解决方法</h5><h6 id="找到对应可执行程序路径-1"><a href="#找到对应可执行程序路径-1" class="headerlink" title="找到对应可执行程序路径"></a>找到对应可执行程序路径</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  php-7.4.5 which iconv</span><br><span class="line">/usr/local/opt/libiconv/bin/iconv</span><br></pre></td></tr></table></figure>
+
+<p>or </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  php-7.4.5 brew install libiconv</span><br><span class="line">➜  php-7.4.5 which iconv</span><br><span class="line">/usr/local/opt/libiconv/bin/iconv</span><br></pre></td></tr></table></figure>
+
+<h6 id="修正对应编译项-2"><a href="#修正对应编译项-2" class="headerlink" title="修正对应编译项"></a>修正对应编译项</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--with-iconv=/usr/local/opt/libiconv/</span><br></pre></td></tr></table></figure>
+
+<h3 id="最终编译语句"><a href="#最终编译语句" class="headerlink" title="最终编译语句"></a>最终编译语句</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">➜  php-7.4.5 ./configure --prefix=/Users/shiwenyuan/php \</span><br><span class="line">    --with-mcrypt \</span><br><span class="line">    --with-mhash \</span><br><span class="line">    --with-mysqli=shared,mysqlnd \</span><br><span class="line">    --with-pdo-mysql=shared,mysqlnd \</span><br><span class="line">    --with-gd \</span><br><span class="line">    --with-iconv=/usr/local/opt/libiconv/ \</span><br><span class="line">    --with-openssl=/usr/local/Cellar/openssl@1.1/1.1.1f\</span><br><span class="line">    --with-zlib \</span><br><span class="line">    --enable-zip \</span><br><span class="line">    --enable-inline-optimization \</span><br><span class="line">    --disable-debug \</span><br><span class="line">    --disable-rpath \</span><br><span class="line">    --enable-shared \</span><br><span class="line">    --enable-xml \</span><br><span class="line">    --enable-bcmath \</span><br><span class="line">    --enable-shmop \</span><br><span class="line">    --enable-sysvsem \</span><br><span class="line">    --enable-mbregex \</span><br><span class="line">    --enable-mbstring \</span><br><span class="line">    --enable-ftp \</span><br><span class="line">    --enable-gd-native-ttf \</span><br><span class="line">    --enable-pcntl \</span><br><span class="line">    --enable-sockets \</span><br><span class="line">    --with-xmlrpc \</span><br><span class="line">    --enable-soap \</span><br><span class="line">    --without-pear \</span><br><span class="line">    --with-gettext=/usr/local/opt/gettext \</span><br><span class="line">    --enable-session \</span><br><span class="line">    --with-curl \</span><br><span class="line">    --with-jpeg-dir \</span><br><span class="line">    --with-freetype-dir \</span><br><span class="line">    --enable-opcache \</span><br><span class="line">    --enable-fpm \</span><br><span class="line">    --without-gdbm \</span><br><span class="line">    --enable-fast-install \</span><br><span class="line">    --disable-fileinfo</span><br></pre></td></tr></table></figure>
+
+<h3 id="编译成功后显示"><a href="#编译成功后显示" class="headerlink" title="编译成功后显示"></a>编译成功后显示</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">Generating files</span><br><span class="line">configure: patching main/php_config.h.in</span><br><span class="line">configure: creating ./config.status</span><br><span class="line">creating main/internal_functions.c</span><br><span class="line">creating main/internal_functions_cli.c</span><br><span class="line">config.status: creating main/build-defs.h</span><br><span class="line">config.status: creating scripts/phpize</span><br><span class="line">config.status: creating scripts/man1/phpize.1</span><br><span class="line">config.status: creating scripts/php-config</span><br><span class="line">config.status: creating scripts/man1/php-config.1</span><br><span class="line">config.status: creating sapi/cli/php.1</span><br><span class="line">config.status: creating sapi/fpm/php-fpm.conf</span><br><span class="line">config.status: creating sapi/fpm/www.conf</span><br><span class="line">config.status: creating sapi/fpm/init.d.php-fpm</span><br><span class="line">config.status: creating sapi/fpm/php-fpm.service</span><br><span class="line">config.status: creating sapi/fpm/php-fpm.8</span><br><span class="line">config.status: creating sapi/fpm/status.html</span><br><span class="line">config.status: creating sapi/phpdbg/phpdbg.1</span><br><span class="line">config.status: creating sapi/cgi/php-cgi.1</span><br><span class="line">config.status: creating ext/phar/phar.1</span><br><span class="line">config.status: creating ext/phar/phar.phar.1</span><br><span class="line">config.status: creating main/php_config.h</span><br><span class="line">config.status: executing default commands</span><br><span class="line"></span><br><span class="line">+--------------------------------------------------------------------+</span><br><span class="line">| License:                                                           |</span><br><span class="line">| This software is subject to the PHP License, available in this     |</span><br><span class="line">| distribution in the file LICENSE. By continuing this installation  |</span><br><span class="line">| process, you are bound by the terms of this license agreement.     |</span><br><span class="line">| If you do not agree with the terms of this license, you must abort |</span><br><span class="line">| the installation process at this point.                            |</span><br><span class="line">+--------------------------------------------------------------------+</span><br><span class="line"></span><br><span class="line">Thank you for using PHP.</span><br></pre></td></tr></table></figure>
+
+<h2 id="make"><a href="#make" class="headerlink" title="make"></a>make</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Generating phar.php</span><br><span class="line">Generating phar.phar</span><br><span class="line">PEAR package PHP_Archive not installed: generated phar will require PHP&apos;s phar extension be enabled.</span><br><span class="line">directorytreeiterator.inc</span><br><span class="line">clicommand.inc</span><br><span class="line">directorygraphiterator.inc</span><br><span class="line">invertedregexiterator.inc</span><br><span class="line">pharcommand.inc</span><br><span class="line">phar.inc</span><br><span class="line"></span><br><span class="line">Build complete.</span><br><span class="line">Don&apos;t forget to run &apos;make test&apos;.</span><br></pre></td></tr></table></figure>
+
+<h2 id="make-install"><a href="#make-install" class="headerlink" title="make install"></a>make install</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">➜  php-7.4.5 make install</span><br><span class="line">Installing shared extensions:     /Users/shiwenyuan/php/lib/php/extensions/no-debug-non-zts-20190902/</span><br><span class="line">Installing PHP CLI binary:        /Users/shiwenyuan/php/bin/</span><br><span class="line">Installing PHP CLI man page:      /Users/shiwenyuan/php/php/man/man1/</span><br><span class="line">Installing PHP FPM binary:        /Users/shiwenyuan/php/sbin/</span><br><span class="line">Installing PHP FPM defconfig:     /Users/shiwenyuan/php/etc/</span><br><span class="line">Installing PHP FPM man page:      /Users/shiwenyuan/php/php/man/man8/</span><br><span class="line">Installing PHP FPM status page:   /Users/shiwenyuan/php/php/php/fpm/</span><br><span class="line">Installing phpdbg binary:         /Users/shiwenyuan/php/bin/</span><br><span class="line">Installing phpdbg man page:       /Users/shiwenyuan/php/php/man/man1/</span><br><span class="line">Installing PHP CGI binary:        /Users/shiwenyuan/php/bin/</span><br><span class="line">Installing PHP CGI man page:      /Users/shiwenyuan/php/php/man/man1/</span><br><span class="line">Installing build environment:     /Users/shiwenyuan/php/lib/php/build/</span><br><span class="line">Installing header files:          /Users/shiwenyuan/php/include/php/</span><br><span class="line">Installing helper programs:       /Users/shiwenyuan/php/bin/</span><br><span class="line">  program: phpize</span><br><span class="line">  program: php-config</span><br><span class="line">Installing man pages:             /Users/shiwenyuan/php/php/man/man1/</span><br><span class="line">  page: phpize.1</span><br><span class="line">  page: php-config.1</span><br><span class="line">/Users/shiwenyuan/tmp/LNMP/php-7.4.5/build/shtool install -c ext/phar/phar.phar /Users/shiwenyuan/php/bin</span><br><span class="line">ln -s -f phar.phar /Users/shiwenyuan/php/bin/phar</span><br><span class="line">Installing PDO headers:           /Users/shiwenyuan/php/include/php/ext/pdo/</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译后指定的php目录"><a href="#编译后指定的php目录" class="headerlink" title="编译后指定的php目录"></a>编译后指定的php目录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">➜  php pwd</span><br><span class="line">/Users/shiwenyuan/php</span><br><span class="line">➜  php tree -L 2</span><br><span class="line">.</span><br><span class="line">├── bin</span><br><span class="line">│   ├── phar -&gt; phar.phar</span><br><span class="line">│   ├── phar.phar</span><br><span class="line">│   ├── php</span><br><span class="line">│   ├── php-cgi</span><br><span class="line">│   ├── php-config</span><br><span class="line">│   ├── phpdbg</span><br><span class="line">│   └── phpize</span><br><span class="line">├── etc</span><br><span class="line">│   ├── php-fpm.conf.default</span><br><span class="line">│   └── php-fpm.d</span><br><span class="line">├── include</span><br><span class="line">│   └── php</span><br><span class="line">├── lib</span><br><span class="line">│   └── php</span><br><span class="line">├── php</span><br><span class="line">│   ├── man</span><br><span class="line">│   └── php</span><br><span class="line">├── sbin</span><br><span class="line">│   └── php-fpm</span><br><span class="line">└── var</span><br><span class="line">    ├── log</span><br><span class="line">    └── run</span><br><span class="line"></span><br><span class="line">14 directories, 9 files</span><br></pre></td></tr></table></figure>
+
+<h3 id="此时需要配置一下ini和php-fpm"><a href="#此时需要配置一下ini和php-fpm" class="headerlink" title="此时需要配置一下ini和php-fpm"></a>此时需要配置一下ini和php-fpm</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">➜  php cp ~/tmp/LNMP/php-7.4.5/php.ini-production ~/php/etc/php.ini</span><br><span class="line">➜  php cd etc/php-fpm.d</span><br><span class="line">➜  php-fpm.d ls</span><br><span class="line">www.conf.default</span><br><span class="line">➜  php-fpm.d cd ..</span><br><span class="line">➜  etc ls</span><br><span class="line">php-fpm.conf.default php-fpm.d            php.ini</span><br><span class="line">➜  etc cp php-fpm.conf.default php-fpm.conf</span><br><span class="line">➜  etc cd php-fpm.d</span><br><span class="line">➜  php-fpm.d ls</span><br><span class="line">www.conf.default</span><br><span class="line">➜  php-fpm.d cp www.conf.default www.conf</span><br><span class="line">➜  php-fpm.d cd ..</span><br><span class="line">➜  etc ls</span><br><span class="line">php-fpm.conf         php-fpm.conf.default php-fpm.d            php.ini</span><br><span class="line">➜  etc vim php-fpm.conf //;pid=run/php-fpm.pid修正为 pid = ~/php/var/run/php-fpm.pid</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><h3 id="创建index-php"><a href="#创建index-php" class="headerlink" title="创建index.php"></a>创建index.php</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">➜  public cat index.php                               </span><br><span class="line">&lt;?php</span><br><span class="line">phpinfo();</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动服务-ps-本地并未安装webserver，所以本次测试使用的是php自带的webserver"><a href="#启动服务-ps-本地并未安装webserver，所以本次测试使用的是php自带的webserver" class="headerlink" title="启动服务(ps:本地并未安装webserver，所以本次测试使用的是php自带的webserver)"></a>启动服务(ps:本地并未安装webserver，所以本次测试使用的是php自带的webserver)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  public ~/php/bin/php -c ~/php/etc/php.ini -S localhost:9001 </span><br><span class="line">[Mon May  4 16:46:01 2020] PHP 7.4.5 Development Server (http://localhost:9001) started</span><br></pre></td></tr></table></figure>
+
+<h3 id="打开浏览器访问"><a href="#打开浏览器访问" class="headerlink" title="打开浏览器访问"></a>打开浏览器访问</h3><p><img src="https://i.loli.net/2020/05/04/dSB8KmrgjyifZEn.png" alt="WechatIMG1.png"></p>
+<h2 id="php扩展安装"><a href="#php扩展安装" class="headerlink" title="php扩展安装"></a>php扩展安装</h2><h3 id="gd"><a href="#gd" class="headerlink" title="gd"></a>gd</h3><p>刚刚gd库安装失败了,现在去源码包中重新安装一边</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  gd pwd</span><br><span class="line">/Users/shiwenyuan/tmp/LNMP/php-7.4.5/ext/gd</span><br></pre></td></tr></table></figure>
+
+<h4 id="phpize"><a href="#phpize" class="headerlink" title="phpize"></a>phpize</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">➜  gd ~/php/bin/phpize</span><br><span class="line">Configuring for:</span><br><span class="line">PHP Api Version:         20190902</span><br><span class="line">Zend Module Api No:      20190902</span><br><span class="line">Zend Extension Api No:   320190902</span><br></pre></td></tr></table></figure>
+
+<p>此步骤编译成功后会生成<code>configure</code>可执行文件</p>
+<h4 id="configure"><a href="#configure" class="headerlink" title="configure"></a>configure</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure --with-php-config=/Users/shiwenyuan/php/bin/php-config</span><br></pre></td></tr></table></figure>
+
+<h5 id="发现错误"><a href="#发现错误" class="headerlink" title="发现错误"></a>发现错误</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">configure: error: Package requirements (libpng) were not met:</span><br><span class="line"></span><br><span class="line">No package &apos;libpng&apos; found</span><br><span class="line"></span><br><span class="line">Consider adjusting the PKG_CONFIG_PATH environment variable if you</span><br><span class="line">installed software in a non-standard prefix.</span><br><span class="line"></span><br><span class="line">Alternatively, you may set the environment variables PNG_CFLAGS</span><br><span class="line">and PNG_LIBS to avoid the need to call pkg-config.</span><br><span class="line">See the pkg-config man page for more details.</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>缺少libpng库</li>
+<li>用<code>brew install libpng</code>安装库后</li>
+<li>重新执行<code>./configure --with-php-config=/Users/shiwenyuan/php/bin/php-config</code></li>
+</ol>
+<p>编译成功后会生成对应的Makefile</p>
+<h4 id="make-amp-amp-make-install"><a href="#make-amp-amp-make-install" class="headerlink" title="make &amp;&amp; make install"></a>make &amp;&amp; make install</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">dsymutil .libs/gd.so || :</span><br><span class="line">creating gd.la</span><br><span class="line">(cd .libs &amp;&amp; rm -f gd.la &amp;&amp; ln -s ../gd.la gd.la)</span><br><span class="line">/bin/sh /Users/shiwenyuan/tmp/LNMP/php-7.4.5/ext/gd/libtool --mode=install cp ./gd.la /Users/shiwenyuan/tmp/LNMP/php-7.4.5/ext/gd/modules</span><br><span class="line">cp ./.libs/gd.so /Users/shiwenyuan/tmp/LNMP/php-7.4.5/ext/gd/modules/gd.so</span><br><span class="line">cp ./.libs/gd.lai /Users/shiwenyuan/tmp/LNMP/php-7.4.5/ext/gd/modules/gd.la</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Libraries have been installed in:</span><br><span class="line">   /Users/shiwenyuan/tmp/LNMP/php-7.4.5/ext/gd/modules</span><br><span class="line"></span><br><span class="line">If you ever happen to want to link against installed libraries</span><br><span class="line">in a given directory, LIBDIR, you must either use libtool, and</span><br><span class="line">specify the full pathname of the library, or use the `-LLIBDIR&apos;</span><br><span class="line">flag during linking and do at least one of the following:</span><br><span class="line">   - add LIBDIR to the `DYLD_LIBRARY_PATH&apos; environment variable</span><br><span class="line">     during execution</span><br><span class="line"></span><br><span class="line">See any operating system documentation about shared libraries for</span><br><span class="line">more information, such as the ld(1) and ld.so(8) manual pages.</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">Build complete.</span><br><span class="line">Don&apos;t forget to run &apos;make test&apos;.</span><br><span class="line"></span><br><span class="line">Installing shared extensions:     /Users/shiwenyuan/php/lib/php/extensions/no-debug-non-zts-20190902/</span><br><span class="line">Installing header files:          /Users/shiwenyuan/php/include/php/</span><br></pre></td></tr></table></figure>
+
+<h4 id="修改php-ini"><a href="#修改php-ini" class="headerlink" title="修改php.ini"></a>修改php.ini</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;extension=\&quot;gd.so\&quot;&quot; &gt;&gt; /Users/shiwenyuan/php/etc/php.ini</span><br></pre></td></tr></table></figure>
+
+<h4 id="重启php服务后访问"><a href="#重启php服务后访问" class="headerlink" title="重启php服务后访问"></a>重启php服务后访问</h4><p><img src="https://i.loli.net/2020/05/04/8ieSD65qchutHPQ.png" alt="image.png"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://shiwenyuan.github.io/post/ck9sb6ico000bsl706ao6qkhj.html" title="mac下源码编译php7.4" target="_blank" rel="external">http://shiwenyuan.github.io/post/ck9sb6ico000bsl706ao6qkhj.html</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/shiwenyuan" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/shiwenyuan" target="_blank"><span class="text-dark">阿远</span><small class="ml-1x">phper</small></a></h3>
+        <div>多思考，多总结，避免虚度光阴</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/post/ck9sb6id00011sl70z03i8ihm.html" title="你以为买进了原油期货，其实你从未走出银行"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/shiwenyuan" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2020 阿远
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '306b25d9a02928618153',
+    clientSecret: '3014d44d16dc429ec6d0c91ca13783eab237fbb0',
+    repo: 'shiwenyuan.github.io',
+    owner: 'shiwenyuan',
+    admin: ['shiwenyuan'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+
+
+
+
+</body>
+</html>
