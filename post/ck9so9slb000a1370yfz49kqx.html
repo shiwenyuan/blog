@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20191021201256.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20191021201539.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/20191021225349.png">
-<meta property="og:updated_time" content="2020-05-04T10:05:00.961Z">
+<meta property="og:updated_time" content="2020-05-05T08:21:06.607Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Phpstorm开启Laravel代码提示">
 <meta name="twitter:description" content="前言今天在写项目的时候，感觉没有代码提示特别不爽，而且也容易出错，耗时耗力。遂找了一波关于laravel代码提示及补全工具，发现网上的文章都是通过barryvdh/laravel-ide-helper这个包生成的，我就自己配置了一下 ，感觉舒服了不少。但是还是有一个问题，就是每个项目里都得引用一下这个包，然后通过php artisan去生成提示文件，虽然可以通过.gitignore去让提交的时候忽">
@@ -47,6 +47,8 @@
   <link rel="stylesheet" href="/css/style.css">
   
   
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
   
   
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
@@ -336,6 +338,15 @@
 
   
   
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成ide-helper文件"><span class="toc-number">2.</span> <span class="toc-text">生成ide_helper文件</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PhpStorm集成-ide-helper-php"><span class="toc-number">3.</span> <span class="toc-text">PhpStorm集成_ide_helper.php</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
   <article id="post-Phpstorm开启Laravel代码提示" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
@@ -476,6 +487,15 @@
     </li>
     
     
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
   </ul>
   
   
@@ -538,6 +558,16 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 <script src="/js/insight.js"></script>
 
 
+    <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        window.location = 'https://www.baidu.com/s?wd=site:shiwenyuan.github.io ' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+
 
 
 
@@ -567,6 +597,35 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
       
 
 
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
 
 
 

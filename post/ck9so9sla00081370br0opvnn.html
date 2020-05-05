@@ -33,7 +33,7 @@
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25f817bf733?w=1910&h=500&f=jpeg&s=124540">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25fae9ec8cc?w=1025&h=698&f=jpeg&s=46198">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/8/23/16cbd25fd1dea595?w=1920&h=1080&f=jpeg&s=105157">
-<meta property="og:updated_time" content="2019-09-10T08:56:43.000Z">
+<meta property="og:updated_time" content="2020-05-05T08:21:06.598Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PhpStorm集成PlantUML">
 <meta name="twitter:description" content="前言工作到现在一直在一味的去学习、去工作、去coding，从而忽略了对自己对技能的总结。近来工作比较清闲，所以就准备把自己的作为程序员的技能栈好好梳理一下，就先从设计模式开始了！！！ 设计模式相关文章内容构想 该设计模式的应用场景 该设计模式的uml图 该设计模式的代码实现   相关代码届时会放到github提到了uml、市面上可以画uml图的工具有很多，诸如starUML、plantuml… 但">
@@ -49,6 +49,8 @@
   <link rel="stylesheet" href="/css/style.css">
   
   
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
   
   
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
@@ -338,6 +340,15 @@
 
   
   
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设计模式相关文章内容构想"><span class="toc-number">2.</span> <span class="toc-text">设计模式相关文章内容构想</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#phpstrom插件下载"><span class="toc-number">3.</span> <span class="toc-text">phpstrom插件下载</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#创建文件"><span class="toc-number">3.1.</span> <span class="toc-text">创建文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装graphviz"><span class="toc-number">3.2.</span> <span class="toc-text">安装graphviz</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置phpstrom"><span class="toc-number">3.3.</span> <span class="toc-text">配置phpstrom</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#相关文档"><span class="toc-number">3.4.</span> <span class="toc-text">相关文档</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
   <article id="post-PhpStorm集成PlantUML" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
@@ -466,6 +477,15 @@
     </li>
     
     
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
   </ul>
   
   
@@ -528,6 +548,16 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 <script src="/js/insight.js"></script>
 
 
+    <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        window.location = 'https://www.baidu.com/s?wd=site:shiwenyuan.github.io ' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+
 
 
 
@@ -557,6 +587,35 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
       
 
 
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
 
 
 

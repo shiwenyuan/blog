@@ -34,7 +34,7 @@
 <meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/var1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/var2.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/shiwenyuan/pic/master/throws.png">
-<meta property="og:updated_time" content="2019-09-10T09:07:23.000Z">
+<meta property="og:updated_time" content="2020-05-05T08:21:06.600Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="每个 PHPer 都应当掌握的注释标记">
 <meta name="twitter:description" content="前言注释标签在代码注释中的作用非常大，好的找注释标签可以让你在编程过程中有更好、更舒适的体验，所以我今天准备整理一下这些标记，通过图文的形式展示出来，一方面是为了自己对这些注释标签有一个汇总整理，另一方面也希望大家能够更好对理解注释标签 每个人都希望写出漂亮的代码，或许你离漂亮的代码，就差一个标签 常用标签   标记 用途 描述    @abstract  抽象类的变量和方法   @access">
@@ -50,6 +50,8 @@
   <link rel="stylesheet" href="/css/style.css">
   
   
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
   
   
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
@@ -339,6 +341,15 @@
 
   
   
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#常用标签"><span class="toc-number">2.</span> <span class="toc-text">常用标签</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#param"><span class="toc-number">3.</span> <span class="toc-text">@param</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#说明"><span class="toc-number">3.1.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码举例"><span class="toc-number">3.2.</span> <span class="toc-text">代码举例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#return"><span class="toc-number">4.</span> <span class="toc-text">@return</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#说明-1"><span class="toc-number">4.1.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码举例-1"><span class="toc-number">4.2.</span> <span class="toc-text">代码举例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#deprecated"><span class="toc-number">5.</span> <span class="toc-text">@deprecated</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#说明-2"><span class="toc-number">5.1.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码举例-2"><span class="toc-number">5.2.</span> <span class="toc-text">代码举例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#see"><span class="toc-number">6.</span> <span class="toc-text">@see</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#说明-3"><span class="toc-number">6.1.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码举例-3"><span class="toc-number">6.2.</span> <span class="toc-text">代码举例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#link"><span class="toc-number">7.</span> <span class="toc-text">@link</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#说明-4"><span class="toc-number">7.1.</span> <span class="toc-text">说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码举例-4"><span class="toc-number">7.2.</span> <span class="toc-text">代码举例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#link-amp-see区别"><span class="toc-number">8.</span> <span class="toc-text">@link&amp;@see区别</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#var"><span class="toc-number">9.</span> <span class="toc-text">@var</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#说明-5"><span class="toc-number">9.1.</span> <span class="toc-text">说明</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#变量列表"><span class="toc-number">10.</span> <span class="toc-text">变量列表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码举例-5"><span class="toc-number">10.1.</span> <span class="toc-text">代码举例</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#throws"><span class="toc-number">11.</span> <span class="toc-text">@throws</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#说明-6"><span class="toc-number">11.1.</span> <span class="toc-text">说明</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
   <article id="post-每个-PHPer-都应当掌握的注释标记" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
@@ -410,7 +421,7 @@
 </tr>
 <tr>
 <td>@author</td>
-<td>张三 <a href="mailto:&#122;&#x68;&#x61;&#110;&#x67;&#x73;&#x61;&#110;&#x40;&#49;&#54;&#x33;&#46;&#99;&#x6f;&#x6d;" target="_blank" rel="noopener">&#122;&#x68;&#x61;&#110;&#x67;&#x73;&#x61;&#110;&#x40;&#49;&#54;&#x33;&#46;&#99;&#x6f;&#x6d;</a></td>
+<td>张三 <a href="mailto:&#122;&#104;&#97;&#110;&#103;&#x73;&#x61;&#110;&#64;&#x31;&#54;&#51;&#46;&#x63;&#x6f;&#109;" target="_blank" rel="noopener">&#122;&#104;&#97;&#110;&#103;&#x73;&#x61;&#110;&#64;&#x31;&#54;&#51;&#46;&#x63;&#x6f;&#109;</a></td>
 <td>文档作者</td>
 </tr>
 <tr>
@@ -693,6 +704,15 @@
     </li>
     
     
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
   </ul>
   
   
@@ -755,6 +775,16 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 <script src="/js/insight.js"></script>
 
 
+    <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        window.location = 'https://www.baidu.com/s?wd=site:shiwenyuan.github.io ' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+
 
 
 
@@ -784,6 +814,35 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
       
 
 
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
 
 
 

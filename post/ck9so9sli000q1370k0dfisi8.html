@@ -27,7 +27,7 @@
 <meta property="og:description" content="网站https网站https化已是大势所趋，个人blog也都可以把https玩儿起来！ Let’s Encrypt123这个免费、自动化、开放的证书签发服务。它由 ISRG（Internet Security Research Group，互联网安全研究小组）提供服务，而 ISRG 是来自于美国加利福尼亚州的一个公益组织。Let&amp;apos;s Encrypt 得到了 Mozilla、Cisco、A">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/8/7/16c6a76d1b74cbf5?w=1240&h=775&f=jpeg&s=32135">
-<meta property="og:updated_time" content="2019-09-10T09:01:47.000Z">
+<meta property="og:updated_time" content="2020-05-05T08:21:06.596Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx配置https">
 <meta name="twitter:description" content="网站https网站https化已是大势所趋，个人blog也都可以把https玩儿起来！ Let’s Encrypt123这个免费、自动化、开放的证书签发服务。它由 ISRG（Internet Security Research Group，互联网安全研究小组）提供服务，而 ISRG 是来自于美国加利福尼亚州的一个公益组织。Let&amp;apos;s Encrypt 得到了 Mozilla、Cisco、A">
@@ -43,6 +43,8 @@
   <link rel="stylesheet" href="/css/style.css">
   
   
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
   
   
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
@@ -332,6 +334,15 @@
 
   
   
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#网站https"><span class="toc-number">1.</span> <span class="toc-text">网站https</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Let’s-Encrypt"><span class="toc-number">2.</span> <span class="toc-text">Let’s Encrypt</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置验证服务"><span class="toc-number">3.</span> <span class="toc-text">配置验证服务</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置前提"><span class="toc-number">4.</span> <span class="toc-text">配置前提</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#通过web访问check域名权限"><span class="toc-number">5.</span> <span class="toc-text">通过web访问check域名权限</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤1（建立目录或者nginx访问规则）"><span class="toc-number">5.1.</span> <span class="toc-text">步骤1（建立目录或者nginx访问规则）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CA认证"><span class="toc-number">6.</span> <span class="toc-text">CA认证</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤二-生成证书"><span class="toc-number">6.1.</span> <span class="toc-text">步骤二 生成证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤三-cp证书到指定位置"><span class="toc-number">6.2.</span> <span class="toc-text">步骤三 cp证书到指定位置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤四-配置nginx"><span class="toc-number">6.3.</span> <span class="toc-text">步骤四 配置nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#步骤五-重启nginx查看"><span class="toc-number">6.4.</span> <span class="toc-text">步骤五 重启nginx查看</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null"><span class="toc-number">6.5.</span> <span class="toc-text"></span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#证书自动更新"><span class="toc-number">7.</span> <span class="toc-text">证书自动更新</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#通过dns配置check权限"><span class="toc-number">8.</span> <span class="toc-text">通过dns配置check权限</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#手动配置"><span class="toc-number">8.1.</span> <span class="toc-text">手动配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤1"><span class="toc-number">8.1.1.</span> <span class="toc-text">步骤1</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#末文"><span class="toc-number">9.</span> <span class="toc-text">末文</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
   <article id="post-nginx配置https" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
@@ -482,6 +493,15 @@
     </li>
     
     
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
   </ul>
   
   
@@ -544,6 +564,16 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 <script src="/js/insight.js"></script>
 
 
+    <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        window.location = 'https://www.baidu.com/s?wd=site:shiwenyuan.github.io ' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+
 
 
 
@@ -573,6 +603,35 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
       
 
 
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
 
 
 

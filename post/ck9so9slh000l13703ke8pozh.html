@@ -28,7 +28,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2020/05/04/dSB8KmrgjyifZEn.png">
 <meta property="og:image" content="https://i.loli.net/2020/05/04/8ieSD65qchutHPQ.png">
-<meta property="og:updated_time" content="2020-05-04T10:01:39.445Z">
+<meta property="og:updated_time" content="2020-05-05T08:21:06.603Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mac下源码编译php7.4">
 <meta name="twitter:description" content="MAC OS X 编译安装PHP7.4源码包下载地址https://www.php.net/distributions/php-7.4.5.tar.xz 下载到本地后解压到一个临时文件夹内,此处没有硬性要求。我一般都是自己新建tmp文件夹,方便存放。(ps:日后如果需要源码安装扩展的话可以直接去源码包的ext目录找到对应扩展内容) 解压后的源码包如下123456789101112131415161">
@@ -44,6 +44,8 @@
   <link rel="stylesheet" href="/css/style.css">
   
   
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
   
   
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
@@ -333,6 +335,15 @@
 
   
   
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MAC-OS-X-编译安装PHP7-4"><span class="toc-number">1.</span> <span class="toc-text">MAC OS X 编译安装PHP7.4</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#源码包下载地址"><span class="toc-number">1.1.</span> <span class="toc-text">源码包下载地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#解压后的源码包如下"><span class="toc-number">1.2.</span> <span class="toc-text">解压后的源码包如下</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-number">1.3.</span> <span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#编译源码"><span class="toc-number">1.3.1.</span> <span class="toc-text">编译源码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编译过程常见问题"><span class="toc-number">1.3.2.</span> <span class="toc-text">编译过程常见问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#configure-error-Package-requirements-openssl-gt-1-0-1-were-not-met"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">configure: error: Package requirements (openssl &gt;= 1.0.1) were not met:</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#原因"><span class="toc-number">1.3.2.1.1.</span> <span class="toc-text">原因</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#解决方法"><span class="toc-number">1.3.2.1.2.</span> <span class="toc-text">解决方法</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#强制brew-link更新"><span class="toc-number">1.3.2.1.2.1.</span> <span class="toc-text">强制brew link更新</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#修正对应编译项"><span class="toc-number">1.3.2.1.2.2.</span> <span class="toc-text">修正对应编译项</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#configure-error-Cannot-locate-header-file-libintl-h"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">configure: error: Cannot locate header file libintl.h</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#原因-1"><span class="toc-number">1.3.2.2.1.</span> <span class="toc-text">原因</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#解决方法-1"><span class="toc-number">1.3.2.2.2.</span> <span class="toc-text">解决方法</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#找到对应可执行程序路径"><span class="toc-number">1.3.2.2.2.1.</span> <span class="toc-text">找到对应可执行程序路径</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#修正对应编译项-1"><span class="toc-number">1.3.2.2.2.2.</span> <span class="toc-text">修正对应编译项</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#configure-error-Please-specify-the-install-prefix-of-iconv-with-–with-iconv"><span class="toc-number">1.3.2.3.</span> <span class="toc-text">configure: error: Please specify the install prefix of iconv with –with-iconv=</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#原因-2"><span class="toc-number">1.3.2.3.1.</span> <span class="toc-text">原因</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#解决方法-2"><span class="toc-number">1.3.2.3.2.</span> <span class="toc-text">解决方法</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#找到对应可执行程序路径-1"><span class="toc-number">1.3.2.3.2.1.</span> <span class="toc-text">找到对应可执行程序路径</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#修正对应编译项-2"><span class="toc-number">1.3.2.3.2.2.</span> <span class="toc-text">修正对应编译项</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最终编译语句"><span class="toc-number">1.3.3.</span> <span class="toc-text">最终编译语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#编译成功后显示"><span class="toc-number">1.3.4.</span> <span class="toc-text">编译成功后显示</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#make"><span class="toc-number">1.4.</span> <span class="toc-text">make</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#make-install"><span class="toc-number">1.5.</span> <span class="toc-text">make install</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编译后指定的php目录"><span class="toc-number">1.6.</span> <span class="toc-text">编译后指定的php目录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#此时需要配置一下ini和php-fpm"><span class="toc-number">1.6.1.</span> <span class="toc-text">此时需要配置一下ini和php-fpm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试"><span class="toc-number">1.7.</span> <span class="toc-text">测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建index-php"><span class="toc-number">1.7.1.</span> <span class="toc-text">创建index.php</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#启动服务-ps-本地并未安装webserver，所以本次测试使用的是php自带的webserver"><span class="toc-number">1.7.2.</span> <span class="toc-text">启动服务(ps:本地并未安装webserver，所以本次测试使用的是php自带的webserver)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#打开浏览器访问"><span class="toc-number">1.7.3.</span> <span class="toc-text">打开浏览器访问</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#php扩展安装"><span class="toc-number">1.8.</span> <span class="toc-text">php扩展安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#gd"><span class="toc-number">1.8.1.</span> <span class="toc-text">gd</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#phpize"><span class="toc-number">1.8.1.1.</span> <span class="toc-text">phpize</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#configure"><span class="toc-number">1.8.1.2.</span> <span class="toc-text">configure</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#发现错误"><span class="toc-number">1.8.1.2.1.</span> <span class="toc-text">发现错误</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#make-amp-amp-make-install"><span class="toc-number">1.8.1.3.</span> <span class="toc-text">make &amp;&amp; make install</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#修改php-ini"><span class="toc-number">1.8.1.4.</span> <span class="toc-text">修改php.ini</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重启php服务后访问"><span class="toc-number">1.8.1.5.</span> <span class="toc-text">重启php服务后访问</span></a></li></ol></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
   <article id="post-mac下源码编译php7-4" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
@@ -520,6 +531,15 @@
     </li>
     
     
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
   </ul>
   
   
@@ -582,6 +602,16 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 <script src="/js/insight.js"></script>
 
 
+    <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        window.location = 'https://www.baidu.com/s?wd=site:shiwenyuan.github.io ' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+
 
 
 
@@ -611,6 +641,35 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
       
 
 
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
 
 
 

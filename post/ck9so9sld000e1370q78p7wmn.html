@@ -26,7 +26,7 @@
 <meta property="og:site_name" content="shiwenyuan&#39;blog">
 <meta property="og:description" content="前言在使用git进行版本管理的项目中，当完成一个特性的开发并将其合并到master分支时，我们有两种方式：git merge 和 git rebase。通常，我们对git merge使用的较多，而对于git rebase使用的较少。下面我们就来讲一讲git merge和git rebase的差别和在实际中的使用。 git pullgit pull是git fetch + git merge FET">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-11T09:03:57.000Z">
+<meta property="og:updated_time" content="2020-05-05T08:21:06.609Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git merge与rebase">
 <meta name="twitter:description" content="前言在使用git进行版本管理的项目中，当完成一个特性的开发并将其合并到master分支时，我们有两种方式：git merge 和 git rebase。通常，我们对git merge使用的较多，而对于git rebase使用的较少。下面我们就来讲一讲git merge和git rebase的差别和在实际中的使用。 git pullgit pull是git fetch + git merge FET">
@@ -41,6 +41,8 @@
   <link rel="stylesheet" href="/css/style.css">
   
   
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
   
   
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
@@ -330,6 +332,15 @@
 
   
   
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#git-pull"><span class="toc-number">2.</span> <span class="toc-text">git pull</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#merge-和-rebase"><span class="toc-number">3.</span> <span class="toc-text">merge 和 rebase</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#其他内容放这里"><span class="toc-number">3.0.1.</span> <span class="toc-text">其他内容放这里</span></a></li></ol></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
   <article id="post-git-merge与rebase" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
@@ -460,6 +471,15 @@
     </li>
     
     
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
   </ul>
   
   
@@ -522,6 +542,16 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 <script src="/js/insight.js"></script>
 
 
+    <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        window.location = 'https://www.baidu.com/s?wd=site:shiwenyuan.github.io ' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+
 
 
 
@@ -551,6 +581,35 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
       
 
 
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
 
 
 

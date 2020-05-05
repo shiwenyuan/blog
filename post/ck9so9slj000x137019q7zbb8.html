@@ -26,7 +26,7 @@
 <meta property="og:site_name" content="shiwenyuan&#39;blog">
 <meta property="og:description" content="为了让我的说法更有说服力，就在网上搜了一下，发现还是有文章跟我表述的观点大抵相同，全文比较长，但表述得比我肯定更为专业更为系统，但不用担心不好理解。特分享出来，对长文章过敏的可以直接拉到底下，进行评论。 文章来源：华夏时报中行原油宝爆仓事件沸沸扬扬，几乎所有人都把它当作投资者买了原油期货爆仓的故事。其实如果搞懂了原油宝的交易原理，就可以明白，爆仓的是中行，而投资者从未直接买进过原油期货。只有搞懂了">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-05-04T10:04:04.766Z">
+<meta property="og:updated_time" content="2020-05-05T08:21:06.621Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="你以为买进了原油期货，其实你从未走出银行">
 <meta name="twitter:description" content="为了让我的说法更有说服力，就在网上搜了一下，发现还是有文章跟我表述的观点大抵相同，全文比较长，但表述得比我肯定更为专业更为系统，但不用担心不好理解。特分享出来，对长文章过敏的可以直接拉到底下，进行评论。 文章来源：华夏时报中行原油宝爆仓事件沸沸扬扬，几乎所有人都把它当作投资者买了原油期货爆仓的故事。其实如果搞懂了原油宝的交易原理，就可以明白，爆仓的是中行，而投资者从未直接买进过原油期货。只有搞懂了">
@@ -41,6 +41,8 @@
   <link rel="stylesheet" href="/css/style.css">
   
   
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
   
   
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
@@ -330,6 +332,15 @@
 
   
   
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#原油宝是代客买卖原油期货"><span class="toc-number">1.</span> <span class="toc-text">原油宝是代客买卖原油期货</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模拟出来的期货交易场景"><span class="toc-number">2.</span> <span class="toc-text">模拟出来的期货交易场景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#汇总买卖后再分配到个人"><span class="toc-number">3.</span> <span class="toc-text">汇总买卖后再分配到个人</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#个人名下并无原油期货仓位"><span class="toc-number">4.</span> <span class="toc-text">个人名下并无原油期货仓位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#没有杠杆的交易不会被强平"><span class="toc-number">5.</span> <span class="toc-text">没有杠杆的交易不会被强平</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模拟期货交易可以做得很像"><span class="toc-number">6.</span> <span class="toc-text">模拟期货交易可以做得很像</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#中行可以挽回大部分损失"><span class="toc-number">7.</span> <span class="toc-text">中行可以挽回大部分损失</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#中行爆仓损失与客户无关"><span class="toc-number">8.</span> <span class="toc-text">中行爆仓损失与客户无关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#以-37-63美元跟客户结算没道理"><span class="toc-number">9.</span> <span class="toc-text">以-37.63美元跟客户结算没道理</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
   <article id="post-你以为买进了原油期货，其实你从未走出银行" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
@@ -470,6 +481,15 @@
     </li>
     
     
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
   </ul>
   
   
@@ -532,6 +552,16 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 <script src="/js/insight.js"></script>
 
 
+    <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        window.location = 'https://www.baidu.com/s?wd=site:shiwenyuan.github.io ' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+
 
 
 
@@ -561,6 +591,35 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
       
 
 
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
 
 
 

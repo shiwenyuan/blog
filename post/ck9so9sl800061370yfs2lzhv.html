@@ -26,7 +26,7 @@
 <meta property="og:site_name" content="shiwenyuan&#39;blog">
 <meta property="og:description" content="前言今天写需求的时候遇到个问题，前端给了我一段json，需要我配置到php项目里面，而我则需要去把它变成array。虽然用的时候可以直接json_decode但是感觉还是会损失一定的性能，而一个个去改的话又觉得很麻烦，所以写了一段下面的代码，可以让json自动转换成array，这样配置的时候可以直接cp输出内容去配置，用起来也比较方便 outPutArray12345678910111213141">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-09-16T02:49:59.000Z">
+<meta property="og:updated_time" content="2020-05-05T08:21:06.605Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Php-将变量输出成array结构">
 <meta name="twitter:description" content="前言今天写需求的时候遇到个问题，前端给了我一段json，需要我配置到php项目里面，而我则需要去把它变成array。虽然用的时候可以直接json_decode但是感觉还是会损失一定的性能，而一个个去改的话又觉得很麻烦，所以写了一段下面的代码，可以让json自动转换成array，这样配置的时候可以直接cp输出内容去配置，用起来也比较方便 outPutArray12345678910111213141">
@@ -41,6 +41,8 @@
   <link rel="stylesheet" href="/css/style.css">
   
   
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
   
   
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
@@ -330,6 +332,15 @@
 
   
   
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#outPutArray"><span class="toc-number">2.</span> <span class="toc-text">outPutArray</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
   <article id="post-Php-将变量输出成array结构" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
@@ -447,6 +458,15 @@
     </li>
     
     
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
   </ul>
   
   
@@ -509,6 +529,16 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 <script src="/js/insight.js"></script>
 
 
+    <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        window.location = 'https://www.baidu.com/s?wd=site:shiwenyuan.github.io ' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+
 
 
 
@@ -538,6 +568,35 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
       
 
 
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
 
 
 

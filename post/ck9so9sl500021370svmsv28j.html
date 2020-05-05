@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb5ec00b5ee6?w=2880&h=1800&f=png&s=299142">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb5ee105304e?w=2880&h=1800&f=png&s=303040">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2019/9/4/16cfcb6a394f8d12?w=2880&h=1800&f=png&s=318660">
-<meta property="og:updated_time" content="2019-09-10T08:55:18.000Z">
+<meta property="og:updated_time" content="2020-05-05T08:21:06.623Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nginx配置移动端和电脑端自动双向跳转">
 <meta name="twitter:description" content="场景   端 域名 描述    pc端 www.phpblog.com.cn 用于pc端访问官网   移动端 m.phpblog.com.cn 用于移动端访问   需求1在移动端访问www.phpblog.com.cn和m.phpblog.com.cn都跳转到m.phpblog.com.cn  实现方案12判断客户端的设备类型要想让网站适配PC和手机设备，首先要能做出准确的判断。HTTP请求的He">
@@ -48,6 +48,8 @@
   <link rel="stylesheet" href="/css/style.css">
   
   
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
   
   
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
@@ -337,6 +339,15 @@
 
   
   
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#场景"><span class="toc-number">1.</span> <span class="toc-text">场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#需求"><span class="toc-number">2.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#实现方案"><span class="toc-number">3.</span> <span class="toc-text">实现方案</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx原始配置"><span class="toc-number">3.1.</span> <span class="toc-text">nginx原始配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pc配置"><span class="toc-number">3.1.1.</span> <span class="toc-text">pc配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移动端配置"><span class="toc-number">3.1.2.</span> <span class="toc-text">移动端配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#m-index-html"><span class="toc-number">3.1.3.</span> <span class="toc-text">m/index.html</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#www-index-html"><span class="toc-number">3.1.4.</span> <span class="toc-text">www/index.html</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx修改后配置"><span class="toc-number">3.2.</span> <span class="toc-text">nginx修改后配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#pc配置-1"><span class="toc-number">3.2.1.</span> <span class="toc-text">pc配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移动端配置-1"><span class="toc-number">3.2.2.</span> <span class="toc-text">移动端配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#原理"><span class="toc-number">3.3.</span> <span class="toc-text">原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#相关文档"><span class="toc-number">4.</span> <span class="toc-text">相关文档</span></a></li></ol>
+    </nav>
+  </div>
+</aside>
+
 <main class="main" role="main">
   <div class="content">
   <article id="post-Nginx配置移动端和电脑端自动双向跳转" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
@@ -500,6 +511,15 @@
     </li>
     
     
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
   </ul>
   
   
@@ -562,6 +582,16 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 <script src="/js/insight.js"></script>
 
 
+    <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        window.location = 'https://www.baidu.com/s?wd=site:shiwenyuan.github.io ' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+
 
 
 
@@ -591,6 +621,35 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
       
 
 
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
 
 
 
