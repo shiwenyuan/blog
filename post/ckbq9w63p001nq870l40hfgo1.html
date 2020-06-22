@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000">
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top">
+  
+  
+  <title>NGINX从入门到精通，学会这些就够了 | shiwenyuan&#39;s blog</title>
+  <meta name="description" content="工作这么多年一直用的都是NGINX，也一直想写总结，不过之前都是在上班，下班后就比较懒了，所以一直搁置着，趁着现在离职了有时间，就想把之前欠下的都补上，也算是对自己近年来工作技能的总结，希望这篇文章能帮助到你。 什么是nginxNginx（发音同“engine X”）是异步框架的网页服务器，也可以用作反向代理、负载平衡器和HTTP缓存。该软件由伊戈尔·赛索耶夫创建并于2004年首次公开发布。20">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NGINX从入门到精通，学会这些就够了">
+<meta property="og:url" content="http://shiwenyuan.github.io/post/ckbq9w63p001nq870l40hfgo1.html">
+<meta property="og:site_name" content="shiwenyuan&#39;blog">
+<meta property="og:description" content="工作这么多年一直用的都是NGINX，也一直想写总结，不过之前都是在上班，下班后就比较懒了，所以一直搁置着，趁着现在离职了有时间，就想把之前欠下的都补上，也算是对自己近年来工作技能的总结，希望这篇文章能帮助到你。 什么是nginxNginx（发音同“engine X”）是异步框架的网页服务器，也可以用作反向代理、负载平衡器和HTTP缓存。该软件由伊戈尔·赛索耶夫创建并于2004年首次公开发布。20">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://swypicgo.oss-cn-beijing.aliyuncs.com/uPic/20200622104645.jpg">
+<meta property="og:image" content="https://swypicgo.oss-cn-beijing.aliyuncs.com/uPic/20200622144019.png">
+<meta property="og:image" content="https://swypicgo.oss-cn-beijing.aliyuncs.com/uPic/20200622140049.jpg">
+<meta property="og:image" content="https://swypicgo.oss-cn-beijing.aliyuncs.com/uPic/20200619155130.png">
+<meta property="og:updated_time" content="2020-06-22T07:35:22.093Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NGINX从入门到精通，学会这些就够了">
+<meta name="twitter:description" content="工作这么多年一直用的都是NGINX，也一直想写总结，不过之前都是在上班，下班后就比较懒了，所以一直搁置着，趁着现在离职了有时间，就想把之前欠下的都补上，也算是对自己近年来工作技能的总结，希望这篇文章能帮助到你。 什么是nginxNginx（发音同“engine X”）是异步框架的网页服务器，也可以用作反向代理、负载平衡器和HTTP缓存。该软件由伊戈尔·赛索耶夫创建并于2004年首次公开发布。20">
+<meta name="twitter:image" content="https://swypicgo.oss-cn-beijing.aliyuncs.com/uPic/20200622104645.jpg">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://shiwenyuan.github.io/post/ckbq9w63p001nq870l40hfgo1.html">
+  
+    <link rel="alternate" href="/atom.xml" title="shiwenyuan&#39;blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+    <link href="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.css" rel="stylesheet">
+  
+  
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.css">
+  
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/shiwenyuan" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">阿远</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">phper</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav menu-highlight">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/shiwenyuan" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>微信搜索[石先生的私房菜]或扫下方二维码关注后获得更多资料</p><image src="https://swypicgo.oss-cn-beijing.aliyuncs.com/uPic/20200622190236.jpg"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/composer/">composer</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/leetcode/">leetcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/nginx/">nginx</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/php/">php</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码片段/">代码片段</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/代码规范/">代码规范</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂谈/">杂谈</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/系统工具/">系统工具</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/编程ide/">编程ide</a><span class="category-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/composer/">composer</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/laravel/">laravel</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/leetcode/">leetcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mac/">mac</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码片段/">代码片段</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/代码规范/">代码规范</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂谈/">杂谈</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/理财/">理财</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/系统工具/">系统工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/编程ide/">编程ide</a><span class="tag-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/composer/" style="font-size: 13px;">composer</a> <a href="/tags/git/" style="font-size: 13px;">git</a> <a href="/tags/laravel/" style="font-size: 13.33px;">laravel</a> <a href="/tags/leetcode/" style="font-size: 13px;">leetcode</a> <a href="/tags/mac/" style="font-size: 13px;">mac</a> <a href="/tags/nginx/" style="font-size: 13.67px;">nginx</a> <a href="/tags/php/" style="font-size: 14px;">php</a> <a href="/tags/代码片段/" style="font-size: 13px;">代码片段</a> <a href="/tags/代码规范/" style="font-size: 13.33px;">代码规范</a> <a href="/tags/杂谈/" style="font-size: 13px;">杂谈</a> <a href="/tags/理财/" style="font-size: 13px;">理财</a> <a href="/tags/系统工具/" style="font-size: 13px;">系统工具</a> <a href="/tags/编程ide/" style="font-size: 13.33px;">编程ide</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">六月 2020</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">十二月 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/leetcode/">leetcode</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ckbq9w636000lq870w64mhpwc.html" class="title">白嫖20道leetcode数据库题目，又是快乐的一天</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-06-22T07:53:44.000Z" itemprop="datePublished">2020-06-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/nginx/">nginx</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ckbq9w63p001nq870l40hfgo1.html" class="title">NGINX从入门到精通，学会这些就够了</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-06-20T07:44:59.000Z" itemprop="datePublished">2020-06-20</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/php/">php</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ckbq9w63t001sq870ofxa7aii.html" class="title">mac下源码编译php7.4</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-05-04T07:00:18.000Z" itemprop="datePublished">2020-05-04</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/杂谈/">杂谈</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ckbq9w63s001qq870jb23ajh1.html" class="title">你以为买进了原油期货，其实你从未走出银行</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2020-04-22T15:01:38.000Z" itemprop="datePublished">2020-04-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/git/">git</a>
+              </p>
+              <p class="item-title">
+                <a href="/post/ckbq9w633000eq870luecpn2t.html" class="title">git merge与rebase</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2019-12-11T08:48:54.000Z" itemprop="datePublished">2019-12-11</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#什么是nginx"><span class="toc-number">1.</span> <span class="toc-text">什么是nginx</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx的应用场景"><span class="toc-number">2.</span> <span class="toc-text">nginx的应用场景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx安装"><span class="toc-number">3.</span> <span class="toc-text">nginx安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx命令行常用命令"><span class="toc-number">4.</span> <span class="toc-text">nginx命令行常用命令</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx配置文件详解"><span class="toc-number">5.</span> <span class="toc-text">nginx配置文件详解</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx与php通信"><span class="toc-number">6.</span> <span class="toc-text">nginx与php通信</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#访问路径"><span class="toc-number">6.1.</span> <span class="toc-text">访问路径</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx与php通信方式"><span class="toc-number">6.2.</span> <span class="toc-text">nginx与php通信方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-socket"><span class="toc-number">6.2.1.</span> <span class="toc-text">tcp-socket</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#unix-socket"><span class="toc-number">6.2.2.</span> <span class="toc-text">unix-socket</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#两者间的区别"><span class="toc-number">6.2.3.</span> <span class="toc-text">两者间的区别</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx配置动静分离"><span class="toc-number">7.</span> <span class="toc-text">nginx配置动静分离</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是动静分离"><span class="toc-number">7.1.</span> <span class="toc-text">什么是动静分离</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动静分离方案"><span class="toc-number">7.2.</span> <span class="toc-text">动静分离方案</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx配置反向代理"><span class="toc-number">8.</span> <span class="toc-text">nginx配置反向代理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx配置负载均衡"><span class="toc-number">9.</span> <span class="toc-text">nginx配置负载均衡</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#常见的负载均衡策略"><span class="toc-number">9.1.</span> <span class="toc-text">常见的负载均衡策略</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#round-robin-轮询：-到应用服务器的请求以round-robin-轮询的方式被分发"><span class="toc-number">9.1.1.</span> <span class="toc-text">round-robin/轮询： 到应用服务器的请求以round-robin/轮询的方式被分发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#least-connected-最少连接：下一个请求将被分派到活动连接数量最少的服务器"><span class="toc-number">9.1.2.</span> <span class="toc-text">least-connected/最少连接：下一个请求将被分派到活动连接数量最少的服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ip-hash-IP散列：-使用hash算法来决定下一个请求要选择哪个服务器-基于客户端IP地址"><span class="toc-number">9.1.3.</span> <span class="toc-text">ip-hash/IP散列： 使用hash算法来决定下一个请求要选择哪个服务器(基于客户端IP地址)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx配置跨域"><span class="toc-number">10.</span> <span class="toc-text">nginx配置跨域</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx配置https"><span class="toc-number">11.</span> <span class="toc-text">nginx配置https</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nginx伪静态"><span class="toc-number">12.</span> <span class="toc-text">nginx伪静态</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#应用场景"><span class="toc-number">12.1.</span> <span class="toc-text">应用场景</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#日常工作中的奇淫技巧"><span class="toc-number">13.</span> <span class="toc-text">日常工作中的奇淫技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#日志切割脚本"><span class="toc-number">13.1.</span> <span class="toc-text">日志切割脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片防盗链"><span class="toc-number">13.2.</span> <span class="toc-text">图片防盗链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#nginx访问控制"><span class="toc-number">13.3.</span> <span class="toc-text">nginx访问控制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#丢弃不受支持的文件扩展名的请求"><span class="toc-number">13.4.</span> <span class="toc-text">丢弃不受支持的文件扩展名的请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后话"><span class="toc-number">13.5.</span> <span class="toc-text">后话</span></a></li></ol></li></ol>
+    </nav>
+  </div>
+</aside>
+
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-NGINX从入门到精通，学会这些就够了" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      NGINX从入门到精通，学会这些就够了
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/post/ckbq9w63p001nq870l40hfgo1.html" class="article-date">
+	  <time datetime="2020-06-20T07:44:59.000Z" itemprop="datePublished">2020-06-20</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/nginx/">nginx</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/nginx/">nginx</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/post/ckbq9w63p001nq870l40hfgo1.html#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 2.5k(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 10(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <p><img src="https://swypicgo.oss-cn-beijing.aliyuncs.com/uPic/20200622104645.jpg" alt="20200622104645"></p>
+<p>工作这么多年一直用的都是<code>NGINX</code>，也一直想写总结，不过之前都是在上班，下班后就比较懒了，所以一直搁置着，趁着现在离职了有时间，就想把之前欠下的都补上，也算是对自己近年来工作技能的总结，希望这篇文章能帮助到你。</p>
+<h1 id="什么是nginx"><a href="#什么是nginx" class="headerlink" title="什么是nginx"></a>什么是nginx</h1><p>Nginx（发音同“engine X”）是异步框架的网页服务器，也可以用作反向代理、负载平衡器和HTTP缓存。该软件由伊戈尔·赛索耶夫创建并于2004年首次公开发布。2011年成立同名公司以提供支持。2019年3月11日，Nginx公司被F5 Networks以6.7亿美元收购。</p>
+<h1 id="nginx的应用场景"><a href="#nginx的应用场景" class="headerlink" title="nginx的应用场景"></a>nginx的应用场景</h1><ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86" target="_blank" rel="noopener">反向代理服务器</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1" target="_blank" rel="noopener">负载均衡服务器</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/Web%E7%BC%93%E5%AD%98" target="_blank" rel="noopener">HTTP缓存服务器</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/Nginx#PHP%E6%95%B4%E5%90%88" target="_blank" rel="noopener">与PHP集成</a><h1 id="nginx安装"><a href="#nginx安装" class="headerlink" title="nginx安装"></a>nginx安装</h1>下载<code>nginx_modules</code>(ps:编译的时候会用到)<br>链接: <a href="https://pan.baidu.com/s/1MjVdVkF4EAjhPfLImRfWMA" target="_blank" rel="noopener">https://pan.baidu.com/s/1MjVdVkF4EAjhPfLImRfWMA</a>  密码: wwgb</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line"></span><br><span class="line">DIR=/Users/shiwenyuan/webserver</span><br><span class="line">mkdir -p $DIR</span><br><span class="line">cd $DIR</span><br><span class="line">mkdir run</span><br><span class="line"></span><br><span class="line">tar -zxvf /Users/shiwenyuan/totalXbox/project/phpstorm/xlegal/devops/opbin/nginx_modules.tgz -C $DIR</span><br><span class="line"></span><br><span class="line">mkdir tmp</span><br><span class="line">cd tmp</span><br><span class="line"></span><br><span class="line">wget http://nginx.org/download/nginx-1.8.1.tar.gz -O nginx-1.8.1.tar.gz</span><br><span class="line"></span><br><span class="line">tar -zxvf nginx-1.8.1.tar.gz</span><br><span class="line"></span><br><span class="line">cd nginx-1.8.1</span><br><span class="line"></span><br><span class="line">./configure \</span><br><span class="line">--with-http_realip_module \</span><br><span class="line">--with-http_stub_status_module \</span><br><span class="line">--with-http_addition_module \</span><br><span class="line">--add-module=$DIR/nginx_modules/echo-nginx-module-master \</span><br><span class="line">--add-module=$DIR/nginx_modules/headers-more-nginx-module-master \</span><br><span class="line">--add-module=$DIR/nginx_modules/memc-nginx-module-master \</span><br><span class="line">--add-module=$DIR/nginx_modules/nginx-http-concat-master \</span><br><span class="line">--add-module=$DIR/nginx_modules/ngx_devel_kit-master \</span><br><span class="line">--add-module=$DIR/nginx_modules/ngx_http_consistent_hash-master \</span><br><span class="line">--add-module=$DIR/nginx_modules/ngx_http_enhanced_memcached_module-master \</span><br><span class="line">--add-module=$DIR/nginx_modules/ngx_http_upstream_ketama_chash-0.6 \</span><br><span class="line">--add-module=$DIR/nginx_modules/srcache-nginx-module-master \</span><br><span class="line">--with-pcre=$DIR/nginx_modules/pcre-8.38 \</span><br><span class="line">--prefix=$DIR</span><br><span class="line">if [[ $? -ne 0 ]];then</span><br><span class="line">	echo &apos;error occured\n&apos;</span><br><span class="line">    exit 1</span><br><span class="line">fi</span><br><span class="line">make &amp;&amp; make install</span><br><span class="line">cd $DIR</span><br><span class="line">/bin/rm -rf tmp</span><br><span class="line">/bin/rm -rf node_modules</span><br><span class="line"></span><br><span class="line">/sbin/nginx -t</span><br></pre></td></tr></table></figure>
+
+<h1 id="nginx命令行常用命令"><a href="#nginx命令行常用命令" class="headerlink" title="nginx命令行常用命令"></a>nginx命令行常用命令</h1><ul>
+<li>nginx  # 启动nginx</li>
+<li>nginx -s reload  # 向主进程发送信号，重新加载配置文件，热重启</li>
+<li>nginx -s reopen     # 重启 Nginx</li>
+<li>nginx -s stop    # 快速关闭</li>
+<li>nginx -s quit    # 等待工作进程处理完成后关闭</li>
+<li>nginx -t         # 查看当前 Nginx 配置是否有错误</li>
+<li>nginx -t -c &lt;配置路径&gt;    # 检查配置是否有问题，如果已经在配置目录，则不需要-c<h1 id="nginx配置文件详解"><a href="#nginx配置文件详解" class="headerlink" title="nginx配置文件详解"></a>nginx配置文件详解</h1>线上应用常常都是一个nginx上面会配置好几个域名，每个域名都会放到一个单独的配置文件里。然后在nginx.conf中引用这些文件，所以可以理解为每次nginx启动的时候都会默认加载nginx.conf，nginx.conf会把相关的server配置都引用进来形成一个大的nginx文件。</li>
+</ul>
+<p><img src="https://swypicgo.oss-cn-beijing.aliyuncs.com/uPic/20200622144019.png" alt="20200622144019"></p>
+<ul>
+<li><strong>main</strong>:全局设置</li>
+<li><strong>events</strong>:配置影响<code>Nginx</code>服务器或与用户的网络连接</li>
+<li><strong>http</strong>:http模块设置</li>
+<li><strong>upstream</strong>:负载均衡设置</li>
+<li><strong>server</strong>:http服务器配置,一个http模块中可以有多个server模块</li>
+<li><strong>location</strong>:url匹配配置,一个server模块中可以包含多个location模块</li>
+</ul>
+<p>一个<code>nginx</code>配置文件的结构就像<code>nginx.conf</code>显示的那样，配置文件的语法规则：</p>
+<ol>
+<li>配置文件由模块组成</li>
+<li>使用<code>#</code>添加注释</li>
+<li>使用<code>$</code>使用变量</li>
+<li>使用<code>include</code>引用多个配置文件</li>
+</ol>
+<h1 id="nginx与php通信"><a href="#nginx与php通信" class="headerlink" title="nginx与php通信"></a>nginx与php通信</h1><h2 id="访问路径"><a href="#访问路径" class="headerlink" title="访问路径"></a>访问路径</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">www.example.com/index.php</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">      Nginx</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">php-fpm监听127.0.0.1:9000地址</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">www.example.com/index.php请求转发到127.0.0.1:9000</span><br><span class="line">        |</span><br><span class="line">        |</span><br><span class="line">nginx的fastcgi模块将http请求映射为fastcgi请求</span><br><span class="line">        |</span><br><span class="line">        | </span><br><span class="line">  php-fpm监听fastcgi请求</span><br><span class="line">        |</span><br><span class="line">        | </span><br><span class="line">php-fpm接收到请求，并通过worker进程处理请求</span><br><span class="line">        |</span><br><span class="line">        | </span><br><span class="line">php-fpm处理完请求，返回给nginx</span><br><span class="line">        |</span><br><span class="line">        |</span><br></pre></td></tr></table></figure>
+
+<h2 id="nginx与php通信方式"><a href="#nginx与php通信方式" class="headerlink" title="nginx与php通信方式"></a>nginx与php通信方式</h2><h3 id="tcp-socket"><a href="#tcp-socket" class="headerlink" title="tcp-socket"></a>tcp-socket</h3><p>tcp socket通信方式，需要在nginx配置文件中填写php-fpm运行的ip地址和端口号，该方式支持跨服务器，即nginx和php-fpm不再统一机器上时。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;</span><br><span class="line">    include fastcgi_params;</span><br><span class="line">    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;;</span><br><span class="line">    fastcgi_pass 127.0.0.1:9000;</span><br><span class="line">    fastcgi_index index.php;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="unix-socket"><a href="#unix-socket" class="headerlink" title="unix-socket"></a>unix-socket</h3><p>unix socket通信方式，需要在nginx配置文件中填写php-fpm运行的pid文件地址。unix socket又叫IPC（inter process communication进程间通信）socket，用于实现统一主机上进程间通信。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;</span><br><span class="line">    include fastcgi_params;</span><br><span class="line">    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;;</span><br><span class="line">    fastcgi_pass unix:/var/run/php5-fpm.sock;</span><br><span class="line">    fastcgi_index index.php;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="两者间的区别"><a href="#两者间的区别" class="headerlink" title="两者间的区别"></a>两者间的区别</h3><p>Unix socket 不需要经过网络协议栈，不需要打包拆包、计算校验和、维护序号和应答等，只是将应用层数据从一个进程拷贝到另一个进程。所以其效率比 tcp socket 的方式要高，可减少不必要的 tcp 开销。不过，unix socket 高并发时不稳定，连接数爆发时，会产生大量的长时缓存，在没有面向连接协议的支撑下，大数据包可能会直接出错不返回异常。而 tcp 这样的面向连接的协议，可以更好的保证通信的正确性和完整性。</p>
+<p>所以，如果面临的是高并发业务，则考虑优先使用更可靠的tcp socket，我们可以通过负载均衡、内核优化等手段来提供效率。</p>
+<h1 id="nginx配置动静分离"><a href="#nginx配置动静分离" class="headerlink" title="nginx配置动静分离"></a>nginx配置动静分离</h1><h2 id="什么是动静分离"><a href="#什么是动静分离" class="headerlink" title="什么是动静分离"></a>什么是动静分离</h2><p>在Web开发中，通常来说，动态资源其实就是指那些后台资源，而静态资源就是指HTML，JavaScript，CSS，img等文件。<br>在使用前后端分离之后，可以很大程度的提升静态资源的访问速度，同时在开过程中也可以让前后端开发并行可以有效的提高开发时间，也可以有些的减少联调时间 。</p>
+<h2 id="动静分离方案"><a href="#动静分离方案" class="headerlink" title="动静分离方案"></a>动静分离方案</h2><ul>
+<li>直接使用不同的域名，把静态资源放在独立的云服务器上，这个种方案也是目前比较推崇的。</li>
+<li>动态请求和静态文件放在一起，通过nginx配置分开</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  location /www/ &#123;</span><br><span class="line">  	root /www/;</span><br><span class="line">    index index.html index.htm;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  location /image/ &#123;</span><br><span class="line">  	root /image/;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="nginx配置反向代理"><a href="#nginx配置反向代理" class="headerlink" title="nginx配置反向代理"></a>nginx配置反向代理</h1><p>反向代理常用与不想把端口暴露出去，直接访问域名处理请求。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen    80;</span><br><span class="line">    server_name www.phpblog.com.cn;</span><br><span class="line">    location /swoole/ &#123;</span><br><span class="line">        proxy_pass http://127.0.0.1:9501;</span><br><span class="line">    &#125;</span><br><span class="line">    location /node/ &#123;</span><br><span class="line">        proxy_pass http://127.0.0.1:9502;</span><br><span class="line">    &#125;</span><br><span class="line">        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="nginx配置负载均衡"><a href="#nginx配置负载均衡" class="headerlink" title="nginx配置负载均衡"></a>nginx配置负载均衡</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">upstream phpServer&#123;</span><br><span class="line">    server 127.0.0.1:9501;</span><br><span class="line">    server 127.0.0.1:9502;</span><br><span class="line">    server 127.0.0.1:9503;</span><br><span class="line">&#125;</span><br><span class="line">server &#123;</span><br><span class="line">    listen    80;</span><br><span class="line">    server_name www.phpblog.com.cn;</span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass http://phpServer;</span><br><span class="line">        proxy_redirect     off;</span><br><span class="line">        proxy_set_header   Host             $host;</span><br><span class="line">        proxy_set_header   X-Real-IP        $remote_addr;</span><br><span class="line">        proxy_next_upstream error timeout invalid_header;</span><br><span class="line">        proxy_max_temp_file_size 0;</span><br><span class="line">        proxy_connect_timeout      90;</span><br><span class="line">        proxy_send_timeout         90;</span><br><span class="line">        proxy_read_timeout         90;</span><br><span class="line">        proxy_buffer_size          4k;</span><br><span class="line">        proxy_buffers              4 32k;</span><br><span class="line">        proxy_busy_buffers_size    64k;</span><br><span class="line">        proxy_temp_file_write_size 64k;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="常见的负载均衡策略"><a href="#常见的负载均衡策略" class="headerlink" title="常见的负载均衡策略"></a>常见的负载均衡策略</h2><h3 id="round-robin-轮询：-到应用服务器的请求以round-robin-轮询的方式被分发"><a href="#round-robin-轮询：-到应用服务器的请求以round-robin-轮询的方式被分发" class="headerlink" title="round-robin/轮询： 到应用服务器的请求以round-robin/轮询的方式被分发"></a>round-robin/轮询： 到应用服务器的请求以round-robin/轮询的方式被分发</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream phpServer&#123;</span><br><span class="line">    server 127.0.0.1:9501 weight=3;</span><br><span class="line">    server 127.0.0.1:9502;</span><br><span class="line">    server 127.0.0.1:9503;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个配置中，每5个新请求将会如下的在应用实例中分派： 3个请求分派去9501,一个去9502,另外一个去9503.</p>
+<h3 id="least-connected-最少连接：下一个请求将被分派到活动连接数量最少的服务器"><a href="#least-connected-最少连接：下一个请求将被分派到活动连接数量最少的服务器" class="headerlink" title="least-connected/最少连接：下一个请求将被分派到活动连接数量最少的服务器"></a>least-connected/最少连接：下一个请求将被分派到活动连接数量最少的服务器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream phpServer&#123;</span><br><span class="line">    least_conn;</span><br><span class="line">    server 127.0.0.1:9501;</span><br><span class="line">    server 127.0.0.1:9502;</span><br><span class="line">    server 127.0.0.1:9503;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当某些请求需要更长时间来完成时，最少连接可以更公平的控制应用实例上的负载。</p>
+<h3 id="ip-hash-IP散列：-使用hash算法来决定下一个请求要选择哪个服务器-基于客户端IP地址"><a href="#ip-hash-IP散列：-使用hash算法来决定下一个请求要选择哪个服务器-基于客户端IP地址" class="headerlink" title="ip-hash/IP散列： 使用hash算法来决定下一个请求要选择哪个服务器(基于客户端IP地址)"></a>ip-hash/IP散列： 使用hash算法来决定下一个请求要选择哪个服务器(基于客户端IP地址)</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">upstream phpServer&#123;</span><br><span class="line">    ip_hash;</span><br><span class="line">    server 127.0.0.1:9501;</span><br><span class="line">    server 127.0.0.1:9502;</span><br><span class="line">    server 127.0.0.1:9503;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将一个客户端绑定给某个特定的应用服务器;</p>
+<h1 id="nginx配置跨域"><a href="#nginx配置跨域" class="headerlink" title="nginx配置跨域"></a>nginx配置跨域</h1><p>由于浏览器同源策略的存在使得一个源中加载来自其它源中资源的行为受到了限制。即会出现跨域请求禁止。<br>所谓同源是指：域名、协议、端口相同。</p>
+<p><img src="https://swypicgo.oss-cn-beijing.aliyuncs.com/uPic/20200622140049.jpg" alt="20200622140049"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">		listen       80;</span><br><span class="line">		server_name  www.phpblog.com.cn;</span><br><span class="line">		root   /Users/shiwenyuan/blog/public;</span><br><span class="line">		index  index.html index.htm index.php;</span><br><span class="line">		location / &#123;</span><br><span class="line">			try_files $uri $uri/ /index.php?$query_string;</span><br><span class="line">		&#125;</span><br><span class="line">        add_header &apos;Access-Control-Allow-Origin&apos; &quot;$http_origin&quot;;</span><br><span class="line">        add_header &apos;Access-Control-Allow-Credentials&apos; &apos;true&apos;;</span><br><span class="line">        add_header &apos;Access-Control-Allow-Methods&apos; &apos;GET, POST, OPTIONS, DELETE, PUT, PATCH&apos;;</span><br><span class="line">        add_header &apos;Access-Control-Allow-Headers&apos; &apos;DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,X-XSRF-TOKEN&apos;;</span><br><span class="line"></span><br><span class="line">		location ~ \.php$ &#123;</span><br><span class="line">			fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">			fastcgi_index  index.php;</span><br><span class="line">			fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;</span><br><span class="line">			include        fastcgi_params;</span><br><span class="line">		&#125;</span><br><span class="line">		error_page  404              /404.html;</span><br><span class="line">		error_page   500 502 503 504  /50x.html;</span><br><span class="line">		location = /50x.html &#123;</span><br><span class="line">		    root   html;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Access-Control-Allow-Origin：允许的域名，只能填 *（通配符）或者单域名。</li>
+<li>Access-Control-Allow-Methods: 允许的方法，多个方法以逗号分隔。</li>
+<li>Access-Control-Allow-Headers: 允许的头部，多个方法以逗号分隔。</li>
+<li>Access-Control-Allow-Credentials: 是否允许发送Cookie。<h1 id="nginx配置https"><a href="#nginx配置https" class="headerlink" title="nginx配置https"></a>nginx配置https</h1>此处可以参考我之前写的一篇文章<br><a href="https://shiwenyuan.github.io/post/ck9so9sli000q1370k0dfisi8.html">nginx配置https证书认证</a><h1 id="nginx伪静态"><a href="#nginx伪静态" class="headerlink" title="nginx伪静态"></a>nginx伪静态</h1><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2></li>
+<li>seo优化</li>
+<li>安全</li>
+<li>流量转发</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">location ^~ /saas &#123;</span><br><span class="line">    root /home/work/php/saas/public;</span><br><span class="line">    index index.php;</span><br><span class="line">    rewrite ^/saas(/[^\?]*)?((\?.*)?)$ /index.php$1$2 last;</span><br><span class="line">    break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="日常工作中的奇淫技巧"><a href="#日常工作中的奇淫技巧" class="headerlink" title="日常工作中的奇淫技巧"></a>日常工作中的奇淫技巧</h1><h2 id="日志切割脚本"><a href="#日志切割脚本" class="headerlink" title="日志切割脚本"></a>日志切割脚本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">#设置你的日志存放的目录</span><br><span class="line">log_files_path=&quot;/mnt/usr/logs/&quot;</span><br><span class="line">#日志以年/月的目录形式存放</span><br><span class="line">log_files_dir=$&#123;log_files_path&#125;&quot;backup/&quot;</span><br><span class="line">#设置需要进行日志分割的日志文件名称，多个以空格隔开</span><br><span class="line">log_files_name=(access.log error.log)</span><br><span class="line">#设置nginx的安装路径</span><br><span class="line">nginx_sbin=&quot;/mnt/usr/sbin/nginx -c /mnt/usr/conf/nginx.conf&quot;</span><br><span class="line">#Set how long you want to save</span><br><span class="line">save_days=10</span><br><span class="line"></span><br><span class="line">############################################</span><br><span class="line">#Please do not modify the following script #</span><br><span class="line">############################################</span><br><span class="line">mkdir -p $log_files_dir</span><br><span class="line"></span><br><span class="line">log_files_num=$&#123;#log_files_name[@]&#125;</span><br><span class="line">#cut nginx log files</span><br><span class="line">for((i=0;i&lt;$log_files_num;i++));do</span><br><span class="line">    mv $&#123;log_files_path&#125;$&#123;log_files_name[i]&#125; $&#123;log_files_dir&#125;$&#123;log_files_name[i]&#125;_$(date -d &quot;yesterday&quot; +&quot;%Y%m%d&quot;)</span><br><span class="line">done</span><br><span class="line">$nginx_sbin -s reload</span><br></pre></td></tr></table></figure>
+
+<h2 id="图片防盗链"><a href="#图片防盗链" class="headerlink" title="图片防盗链"></a>图片防盗链</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen       80;        </span><br><span class="line">  server_name  *.phpblog.com.cn;</span><br><span class="line">  </span><br><span class="line">  # 图片防盗链</span><br><span class="line">  location ~* \.(gif|jpg|jpeg|png|bmp|swf)$ &#123;</span><br><span class="line">    valid_referers none blocked server_names ~\.google\. ~\.baidu\. *.qq.com;</span><br><span class="line">    if ($invalid_referer)&#123;</span><br><span class="line">      return 403;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="nginx访问控制"><a href="#nginx访问控制" class="headerlink" title="nginx访问控制"></a>nginx访问控制</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.php$ &#123;</span><br><span class="line">    allow 127.0.0.1;  #只允许127.0.0.1的访问，其他均拒绝</span><br><span class="line">    deny all;</span><br><span class="line">	fastcgi_pass   127.0.0.1:9000;</span><br><span class="line">	fastcgi_index  index.php;</span><br><span class="line">	fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;</span><br><span class="line">	include        fastcgi_params;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="丢弃不受支持的文件扩展名的请求"><a href="#丢弃不受支持的文件扩展名的请求" class="headerlink" title="丢弃不受支持的文件扩展名的请求"></a>丢弃不受支持的文件扩展名的请求</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">location ~ \.(js|css|sql)$ &#123;</span><br><span class="line">    deny all;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h2><p><strong>创作不易，希望对你有所帮助。</strong><br>如果本篇博客有任何错误，请批评指教，不胜感激!!!</p>
+<blockquote>
+<p>原创不易，转载请注明处。<br>文章将持续更新中，可以通过微信搜索[<code>石先生的私房菜</code>]或者下方二维码关注第一时间阅读和催更，除了博客以外还会定期发送<code>leetcode</code>的<code>php版题解</code>。</p>
+</blockquote>
+<p><img src="https://swypicgo.oss-cn-beijing.aliyuncs.com/uPic/20200619155130.png" alt="20200619155130"></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://shiwenyuan.github.io/post/ckbq9w63p001nq870l40hfgo1.html" title="NGINX从入门到精通，学会这些就够了" target="_blank" rel="external">http://shiwenyuan.github.io/post/ckbq9w63p001nq870l40hfgo1.html</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/shiwenyuan" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/shiwenyuan" target="_blank"><span class="text-dark">阿远</span><small class="ml-1x">phper</small></a></h3>
+        <div>多思考，多总结，避免虚度光阴</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+           
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/post/ckbq9w636000lq870w64mhpwc.html" title="白嫖20道leetcode数据库题目，又是快乐的一天"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/post/ckbq9w63t001sq870ofxa7aii.html" title="mac下源码编译php7.4"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/shiwenyuan" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        &copy; 2020 阿远
+        
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+    <script>
+(function ($) {
+    $('.search-form').on('submit', function (e) {
+        var keyword = $('.search-form-input[name="wd"]').val();
+        window.location = 'https://www.baidu.com/s?wd=site:shiwenyuan.github.io ' + keyword;
+        return false;
+    });
+})(jQuery);
+</script>
+
+
+
+
+   
+
+
+
+
+   
+    
+  <!-- <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css"> -->
+  <script src="//cdn.jsdelivr.net/npm/gitalk@1.4.0/dist/gitalk.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script>
+  <script type="text/javascript">
+  var gitalk = new Gitalk({
+    clientID: '306b25d9a02928618153',
+    clientSecret: '3014d44d16dc429ec6d0c91ca13783eab237fbb0',
+    repo: 'shiwenyuan.github.io',
+    owner: 'shiwenyuan',
+    admin: ['shiwenyuan'],
+    id: md5(location.pathname),
+    distractionFreeMode: true
+  })
+  gitalk.render('comments')
+  </script>
+
+      
+
+
+
+  <script src="//cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.3.5/dist/jquery.fancybox.min.js"></script>
+  <script>
+  //利用 FancyBox 实现点击图片放大
+  $(document).ready(function() {
+    $('article img').not('[hidden]').not('.panel-body img').each(function() {
+      var $image = $(this);
+      var imageCaption = $image.attr('alt');
+      var $imageWrapLink = $image.parent('a');
+      if ($imageWrapLink.length < 1) {
+        var src = this.getAttribute('src');
+        var idx = src.lastIndexOf('?');
+        if (idx != -1) {
+          src = src.substring(0, idx);
+        }
+        $imageWrapLink = $image.wrap('<a href="' + src + '"></a>').parent('a');
+      }
+      $imageWrapLink.attr('data-fancybox', 'images');
+      if (imageCaption) {
+        $imageWrapLink.attr('data-caption', imageCaption);
+      }
+    });
+    $().fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+    });
+  });
+  </script>
+
+
+
+
+
+</body>
+</html>
