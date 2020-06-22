@@ -17,21 +17,21 @@
   <meta http-equiv="window-target" content="_top">
   
   
-  <title>关于我 | shiwenyuan&#39;s blog</title>
-  <meta name="description" content="石文远 PHP高级工程师了解的: 框架:laravel、xdp、gatewayworker、react、scrapy 缓存:redis、mongodb、memcache 数据库:mysql 操作系统:macos、centos webServer:nginx、apache 队列:redis-queue、kafka 搜索引擎:solr、xunsearch 版本控制:git 程序设计:设计模式、模块拆分">
-<meta name="keywords" content="阿远 个人博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于我">
-<meta property="og:url" content="http://shiwenyuan.github.io/about/index.html">
+  <title>Php-将变量输出成array结构 | shiwenyuan&#39;s blog</title>
+  <meta name="description" content="前言今天写需求的时候遇到个问题，前端给了我一段json，需要我配置到php项目里面，而我则需要去把它变成array。虽然用的时候可以直接json_decode但是感觉还是会损失一定的性能，而一个个去改的话又觉得很麻烦，所以写了一段下面的代码，可以让json自动转换成array，这样配置的时候可以直接cp输出内容去配置，用起来也比较方便 outPutArray12345678910111213141">
+<meta name="keywords" content="代码片段">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Php-将变量输出成array结构">
+<meta property="og:url" content="http://shiwenyuan.github.io/post/ckbnc8dpd000ala70sxa02qpj.html">
 <meta property="og:site_name" content="shiwenyuan&#39;blog">
-<meta property="og:description" content="石文远 PHP高级工程师了解的: 框架:laravel、xdp、gatewayworker、react、scrapy 缓存:redis、mongodb、memcache 数据库:mysql 操作系统:macos、centos webServer:nginx、apache 队列:redis-queue、kafka 搜索引擎:solr、xunsearch 版本控制:git 程序设计:设计模式、模块拆分">
+<meta property="og:description" content="前言今天写需求的时候遇到个问题，前端给了我一段json，需要我配置到php项目里面，而我则需要去把它变成array。虽然用的时候可以直接json_decode但是感觉还是会损失一定的性能，而一个个去改的话又觉得很麻烦，所以写了一段下面的代码，可以让json自动转换成array，这样配置的时候可以直接cp输出内容去配置，用起来也比较方便 outPutArray12345678910111213141">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-05-13T07:06:24.865Z">
+<meta property="og:updated_time" content="2020-05-05T08:21:06.605Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于我">
-<meta name="twitter:description" content="石文远 PHP高级工程师了解的: 框架:laravel、xdp、gatewayworker、react、scrapy 缓存:redis、mongodb、memcache 数据库:mysql 操作系统:macos、centos webServer:nginx、apache 队列:redis-queue、kafka 搜索引擎:solr、xunsearch 版本控制:git 程序设计:设计模式、模块拆分">
+<meta name="twitter:title" content="Php-将变量输出成array结构">
+<meta name="twitter:description" content="前言今天写需求的时候遇到个问题，前端给了我一段json，需要我配置到php项目里面，而我则需要去把它变成array。虽然用的时候可以直接json_decode但是感觉还是会损失一定的性能，而一个个去改的话又觉得很麻烦，所以写了一段下面的代码，可以让json自动转换成array，这样配置的时候可以直接cp输出内容去配置，用起来也比较方便 outPutArray12345678910111213141">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://shiwenyuan.github.io/about/index.html">
+  <link rel="canonical" href="http://shiwenyuan.github.io/post/ckbnc8dpd000ala70sxa02qpj.html">
   
     <link rel="alternate" href="/atom.xml" title="shiwenyuan&#39;blog" type="application/atom+xml">
   
@@ -331,127 +331,154 @@
 </aside>
 
   
-  <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  
+<aside class="sidebar sidebar-toc collapse" id="collapseToc" itemscope itemtype="http://schema.org/WPSideBar">
   <div class="slimContent">
-    
-    <div class="widget">
-      <h3 class="widget-title">个人链接</h3>
-      <div class="widget-body">
-        <ul class="link-list lh-2x">
-          
-          <li>
-            <a href="https://learnku.com/blog/ayuana" target="_blank">Laravel-china</a>
-          </li>
-          
-          <li>
-            <a href="https://juejin.im/user/5c46dbb1518825246b0ffa81" target="_blank">掘金</a>
-          </li>
-          
-          <li>
-            <a href="https://www.jianshu.com/u/9baec0bb4710" target="_blank">简书</a>
-          </li>
-          
-        </ul>
-      </div>
-    </div>
-    
-    
-    <div class="widget">
-      <h3 class="widget-title">技能</h3>
-      <div class="widget-body">
-        <ul class="skill-list lh-2x">
-          
-          <li class="clearfix">
-            <span>php</span>
-            <span class="pull-right">★★★★★</span>
-          </li>
-          
-          <li class="clearfix">
-            <span>laravel</span>
-            <span class="pull-right">★★★★☆</span>
-          </li>
-          
-          <li class="clearfix">
-            <span>react</span>
-            <span class="pull-right">★★★☆☆</span>
-          </li>
-          
-          <li class="clearfix">
-            <span>python</span>
-            <span class="pull-right">★★☆☆☆</span>
-          </li>
-          
-        </ul>
-      </div>
-    </div>
-    
-    
-    <div class="widget">
-      <h3 class="widget-title">个人标签</h3>
-      <div class="widget-body">
-        
-        <span class="label label-default mb">后端</span>
-        
-        <span class="label label-default mb">小程序开发</span>
-        
-        <span class="label label-default mb">公众号开发</span>
-        
-        <span class="label label-default mb">爬虫开发</span>
-        
-      </div>
-    </div>
-    
-    
-    
+    <nav id="toc" class="article-toc">
+      <h3 class="toc-title">文章目录</h3>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#outPutArray"><span class="toc-number">2.</span> <span class="toc-text">outPutArray</span></a></li></ol>
+    </nav>
   </div>
 </aside>
+
 <main class="main" role="main">
-  <article class="article archives-about article-type-normal" itemscope="">
-  <header class="article-header">
-    <h1 itemprop="title">关于我</h1>
+  <div class="content">
+  <article id="post-Php-将变量输出成array结构" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
     
-    <p class="text-muted">多思考，多总结，避免虚度光阴</p>
-    
-  </header>
-  <div class="article-body">
-    <h1 id="石文远-PHP高级工程师"><a href="#石文远-PHP高级工程师" class="headerlink" title="石文远 PHP高级工程师"></a>石文远 PHP高级工程师</h1><h2 id="了解的"><a href="#了解的" class="headerlink" title="了解的:"></a>了解的:</h2><ul>
-<li><strong>框架</strong>:<code>laravel</code>、<code>xdp</code>、<code>gatewayworker</code>、<code>react</code>、<code>scrapy</code></li>
-<li><strong>缓存</strong>:<code>redis</code>、<code>mongodb</code>、<code>memcache</code></li>
-<li><strong>数据库</strong>:<code>mysql</code></li>
-<li><strong>操作系统</strong>:<code>macos</code>、<code>centos</code></li>
-<li><strong>webServer</strong>:<code>nginx</code>、<code>apache</code></li>
-<li><strong>队列</strong>:<code>redis-queue</code>、<code>kafka</code></li>
-<li><strong>搜索引擎</strong>:<code>solr</code>、<code>xunsearch</code></li>
-<li><strong>版本控制</strong>:<code>git</code></li>
-<li><strong>程序设计</strong>:<code>设计模式</code>、<code>模块拆分</code></li>
-<li><strong>测试</strong>:<code>phpunit</code>、<code>ab</code>、<code>postman</code></li>
-<li><strong>支付</strong>:<code>微信支付</code>、<code>连连支付</code>、<code>支付宝支付</code></li>
-<li><strong>其他语言</strong>:<code>node</code>、<code>python</code></li>
-<li><strong>其他专业标签</strong>:<code>公众号</code>、<code>小程序</code>、<code>架构设计</code>、<code>消息队列</code>、<code>爬虫</code>、<code>web安全</code>、<code>文档编写</code>、<code>高并发处理</code></li>
-<li><strong>依赖管理工具</strong>:<code>composer</code>、<code>pip</code>、<code>cnpm</code>、<code>yum</code>、<code>pecl</code></li>
-<li><strong>日志监控系统</strong>: <code>elk</code></li>
-</ul>
-<hr>
-<h2 id="不懂的"><a href="#不懂的" class="headerlink" title="不懂的:"></a>不懂的:</h2><ul>
-<li>.. </li>
-<li>…</li>
-<li>….</li>
-<li>…..</li>
-<li>…….</li>
-<li>太多太多了 </li>
-</ul>
-<p><strong>email</strong>: <a href="mailto:&#x73;&#x74;&#x6f;&#110;&#101;&#x77;&#x65;&#x6e;&#x79;&#117;&#x61;&#x6e;&#x40;&#103;&#x6d;&#x61;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;" target="_blank" rel="noopener">&#x73;&#x74;&#x6f;&#110;&#101;&#x77;&#x65;&#x6e;&#x79;&#117;&#x61;&#x6e;&#x40;&#103;&#x6d;&#x61;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;</a></p>
-
-  </div>
-</article>
-
+    <div class="article-header">
+      
+        
   
+    <h1 class="article-title" itemprop="name">
+      Php-将变量输出成array结构
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/post/ckbnc8dpd000ala70sxa02qpj.html" class="article-date">
+	  <time datetime="2019-09-11T11:26:15.000Z" itemprop="datePublished">2019-09-11</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/代码片段/">代码片段</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/代码片段/">代码片段</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/post/ckbnc8dpd000ala70sxa02qpj.html#comments" class="article-comment-link">评论</a></span>
+        
+	
+		<span class="post-wordcount hidden-xs" itemprop="wordCount">字数统计: 363(字)</span>
+	
+	
+		<span class="post-readcount hidden-xs" itemprop="timeRequired">阅读时长: 1(分)</span>
+	
+
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>今天写需求的时候遇到个问题，前端给了我一段json，需要我配置到php项目里面，而我则需要去把它变成array。虽然用的时候可以直接json_decode但是感觉还是会损失一定的性能，而一个个去改的话又觉得很麻烦，所以写了一段下面的代码，可以让json自动转换成array，这样配置的时候可以直接cp输出内容去配置，用起来也比较方便</p>
+<h1 id="outPutArray"><a href="#outPutArray" class="headerlink" title="outPutArray"></a>outPutArray</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by PhpStorm.</span></span><br><span class="line"><span class="comment"> * User: shiwenyuan</span></span><br><span class="line"><span class="comment"> * Date: 2019/9/11 13341007105@163.com</span></span><br><span class="line"><span class="comment"> * Time: 17:33</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Utils</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 把array或json以array字符串的形式输出 等同于var_export</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> $str</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> string</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">outPutArray</span><span class="params">($str)</span>: <span class="title">string</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (is_string($str)) &#123;</span><br><span class="line">            $arr = json_decode($str, <span class="keyword">true</span>);</span><br><span class="line">            <span class="keyword">if</span> (is_null($arr)) &#123;</span><br><span class="line">                $ret_str = <span class="string">''</span>;</span><br><span class="line">                <span class="keyword">if</span> (is_numeric($str)) &#123;</span><br><span class="line">                    $ret_str .= <span class="string">'['</span> .PHP_EOL. $str .PHP_EOL. <span class="string">']'</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    $ret_str .= <span class="string">'['</span> .PHP_EOL. <span class="string">'\''</span>.$str .<span class="string">'\''</span>.PHP_EOL. <span class="string">']'</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> $ret_str;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $arr = $str;</span><br><span class="line">        &#125;</span><br><span class="line">        $str = <span class="string">'['</span> . PHP_EOL;</span><br><span class="line">        <span class="keyword">foreach</span> ($arr <span class="keyword">as</span> $key =&gt; $value) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!is_numeric($key)) &#123;</span><br><span class="line">                $str .= <span class="string">"'&#123;$key&#125;' =&gt; "</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (is_array($value)) &#123;</span><br><span class="line">                $str .= <span class="keyword">self</span>::outPutArray($value);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (is_string($value)) &#123;</span><br><span class="line">                    $str .= <span class="string">"'&#123;$value&#125;',"</span> . PHP_EOL;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    $str .= <span class="string">"&#123;$value&#125;,"</span> . PHP_EOL;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        $str .= <span class="string">'],'</span> . PHP_EOL;</span><br><span class="line">        <span class="keyword">return</span> $str;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> Utils::outPutArray(<span class="string">'shiwenyuan'</span>);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * [</span></span><br><span class="line"><span class="comment"> * 'shiwenyuan'</span></span><br><span class="line"><span class="comment"> * ]</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"><span class="keyword">echo</span> Utils::outPutArray([<span class="string">'name'</span>=&gt;<span class="string">'zhangsan'</span>, <span class="string">'age'</span>=&gt;<span class="number">18</span>, <span class="string">'friend'</span>=&gt;[[<span class="string">'name'</span>=&gt;<span class="string">'lisi'</span>, <span class="string">'age'</span>=&gt;<span class="number">19</span>], [<span class="string">'name'</span>=&gt;<span class="string">'wangwu'</span>, <span class="string">'age'</span>=&gt;<span class="number">20</span>]]]);</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * [</span></span><br><span class="line"><span class="comment"> *'name' =&gt; 'zhangsan',</span></span><br><span class="line"><span class="comment"> * 'age' =&gt; 18,</span></span><br><span class="line"><span class="comment"> * 'friend' =&gt; [</span></span><br><span class="line"><span class="comment"> * [</span></span><br><span class="line"><span class="comment"> * 'name' =&gt; 'lisi',</span></span><br><span class="line"><span class="comment"> * 'age' =&gt; 19,</span></span><br><span class="line"><span class="comment"> * ],</span></span><br><span class="line"><span class="comment"> * [</span></span><br><span class="line"><span class="comment"> * 'name' =&gt; 'wangwu',</span></span><br><span class="line"><span class="comment"> * 'age' =&gt; 20,</span></span><br><span class="line"><span class="comment"> * ],</span></span><br><span class="line"><span class="comment"> * ],</span></span><br><span class="line"><span class="comment"> * ]</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">echo</span> Utils::outPutArray(<span class="string">'&#123;"name":"zhangsan","age":18,"friend":[&#123;"name":"lisi","age":19&#125;,&#123;"name":"wangwu","age":21&#125;]&#125;'</span>);</span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * [</span></span><br><span class="line"><span class="comment"> *'name' =&gt; 'zhangsan',</span></span><br><span class="line"><span class="comment"> * 'age' =&gt; 18,</span></span><br><span class="line"><span class="comment"> * 'friend' =&gt; [</span></span><br><span class="line"><span class="comment"> * [</span></span><br><span class="line"><span class="comment"> * 'name' =&gt; 'lisi',</span></span><br><span class="line"><span class="comment"> * 'age' =&gt; 19,</span></span><br><span class="line"><span class="comment"> * ],</span></span><br><span class="line"><span class="comment"> * [</span></span><br><span class="line"><span class="comment"> * 'name' =&gt; 'wangwu',</span></span><br><span class="line"><span class="comment"> * 'age' =&gt; 20,</span></span><br><span class="line"><span class="comment"> * ],</span></span><br><span class="line"><span class="comment"> * ],</span></span><br><span class="line"><span class="comment"> * ]</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://shiwenyuan.github.io/post/ckbnc8dpd000ala70sxa02qpj.html" title="Php-将变量输出成array结构" target="_blank" rel="external">http://shiwenyuan.github.io/post/ckbnc8dpd000ala70sxa02qpj.html</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/shiwenyuan" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/shiwenyuan" target="_blank"><span class="text-dark">阿远</span><small class="ml-1x">phper</small></a></h3>
+        <div>多思考，多总结，避免虚度光阴</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
   <section id="comments">
   	
            
     
   </section>
 
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/post/ckbnc8dp90004la70hqldkspn.html" title="Laravelapi自定义response格式"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;上一篇</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/post/ckbnc8dp70002la708mnlqq68.html" title="Nginx配置移动端和电脑端自动双向跳转"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+    <li class="toggle-toc">
+      <a class="toggle-btn collapsed" data-toggle="collapse" href="#collapseToc" aria-expanded="false" title="文章目录" role="button">
+        <span>[&nbsp;</span><span>文章目录</span>
+        <i class="text-collapsed icon icon-anchor"></i>
+        <i class="text-in icon icon-close"></i>
+        <span>]</span>
+      </a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
 
 
 </main>
@@ -512,6 +539,10 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 })(jQuery);
 </script>
 
+
+
+
+   
 
 
 
